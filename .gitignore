@@ -1,0 +1,12 @@
+node_modules
+yarn.lock
+
+dist
+dist-cjs 
+dist-es
+
+.env
+.env.origin
+
+.env.production
+

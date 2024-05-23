@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src:
+        local(Roboto),
+        url(/fonts/roboto.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+        U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+/* Change Autocomplete styles */
+input:-webkit-autofill,
+input:-webkit-autofill:active textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-text-fill-color: rgb(30, 30, 30) !important;
+    -webkit-box-shadow: rgb(30, 30, 30) !important;
+    box-shadow: rgb(30, 30, 30) !important;
+    color: rgb(30, 30, 30) !important;
+    font-size: 0.82rem;
+}
+
+/* Normalize */
+
+html,
+body {
+    overflow-x: hidden;
+    zoom: normal;
+}
+
+body {
+    font-size: 1rem;
+    color: #333333;
+    background: #f6f6f6;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    overflow-anchor: none;
+    margin: 0;
+}
+
+input {
+    background-color: transparent;
+}
+input:active,
+input:focus {
+    outline: none;
+}
