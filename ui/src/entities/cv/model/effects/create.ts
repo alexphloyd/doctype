@@ -1,7 +1,7 @@
 import { notifications } from '@mantine/notifications';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { api } from '../../api/main';
+import { api } from '../../api/mod.api';
 import { getMany } from './get-many';
 
 export const create = createAsyncThunk<any, void, { rejectValue: ApiErrorData | undefined }>(

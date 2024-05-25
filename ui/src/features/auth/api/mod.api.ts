@@ -2,7 +2,7 @@ import type { User } from '@prisma/client';
 import { LoginDto, SignUpDto, VerificationDto } from 'core/src/domain/auth/validation';
 import { z } from 'zod';
 
-import { apiClient } from '~/shared/api-client/main';
+import { apiClient } from '~/shared/api-client/mod.api-client';
 
 import type { Tokens } from '../model/types';
 

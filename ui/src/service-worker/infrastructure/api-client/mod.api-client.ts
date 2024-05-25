@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse, type AxiosRequestConfig } from 'axios
 import { type Tokens } from 'core/src/domain/auth/types';
 
 import { ParsedRequest } from '../lib/request.parser';
-import { authService } from '../services/auth/main';
+import { authService } from '../services/auth.service';
 import fetchAdapter from './fetch.adapter';
 
 const REFRESH_TOKENS_API_PATH = 'auth/refresh';

@@ -1,4 +1,4 @@
-import { MainDB } from '../db/main';
+import { MainDB } from '../db/mod.db';
 import { UNEXPECTED_ERROR_MESSAGE } from '../lib/error-message';
 import { prepareErrorResponse } from './prepare-response';
 

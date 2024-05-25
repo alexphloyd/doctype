@@ -1,7 +1,7 @@
 import { type Tokens } from 'core/src/domain/auth/types';
 
-import { MainDB } from '../../db/main';
-import { messageChannel } from '../../message-channel/main';
+import { MainDB } from '../db/mod.db';
+import { messageChannel } from '../message-channel/mod.message-channel';
 
 export const authService = {
     async updateTokens({ access, refresh }: Tokens) {

@@ -1,8 +1,8 @@
 import { CvDto } from 'core/src/domain/cv/validation';
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
 import dayjs from 'dayjs';
-import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/main';
-import { router } from '~/service-worker/infrastructure/router/main';
+import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/mod.network-scheduler';
+import { router } from '~/service-worker/infrastructure/router/mod.router';
 import { prepareResponse } from '~/service-worker/infrastructure/router/prepare-response';
 
 export function registerCvRoutes() {

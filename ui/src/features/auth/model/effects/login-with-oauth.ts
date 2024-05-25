@@ -1,9 +1,9 @@
 import { notifications } from '@mantine/notifications';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { router } from '~/app/router/main';
+import { router } from '~/app/router/mod.router';
 
-import { api } from '../../api/main';
+import { api } from '../../api/mod.api';
 import { actions } from '../model';
 
 export const loginWithOAuth = createAsyncThunk<
@@ -16,9 +16,7 @@ export const loginWithOAuth = createAsyncThunk<
 
     if (query.data) {
         const { user } = query.data;
-
         dispatch(actions.registerSession(user));
-
         router.navigate('/');
     } else {
         notifications.show({

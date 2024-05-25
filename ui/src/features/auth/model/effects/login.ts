@@ -3,9 +3,9 @@ import { HttpStatusCode } from 'axios';
 import { LoginDto } from 'core/src/domain/auth/validation';
 import { z } from 'zod';
 
-import { router } from '~/app/router/main';
+import { router } from '~/app/router/mod.router';
 
-import { api } from '../../api/main';
+import { api } from '../../api/mod.api';
 import { actions } from '../model';
 
 export const login = createAsyncThunk<

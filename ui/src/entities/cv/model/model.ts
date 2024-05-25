@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UNEXPECTED_ERROR } from '~/shared/api-client/main';
+import { UNEXPECTED_ERROR } from '~/shared/api-client/mod.api-client';
 
 import { create } from './effects/create';
 import { getMany } from './effects/get-many';

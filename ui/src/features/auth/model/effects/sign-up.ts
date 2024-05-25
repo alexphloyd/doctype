@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { SignUpDto } from 'core/src/domain/auth/validation';
 import { z } from 'zod';
 
-import { api } from '../../api/main';
+import { api } from '../../api/mod.api';
 import { actions } from '../model';
 
 export const signUp = createAsyncThunk<

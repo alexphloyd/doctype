@@ -2,7 +2,7 @@ import { notifications } from '@mantine/notifications';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { z } from 'zod';
 
-import { api } from '../../api/main';
+import { api } from '../../api/mod.api';
 import { actions } from '../model';
 import { VerificationSchema } from '../schemas';
 

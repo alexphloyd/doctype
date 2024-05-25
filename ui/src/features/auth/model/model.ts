@@ -2,7 +2,7 @@ import { type User } from '@prisma/client';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { messageBuilder } from 'core/src/infrastructure/channel-messaging/messages';
 
-import { UNEXPECTED_ERROR } from '~/shared/api-client/main';
+import { UNEXPECTED_ERROR } from '~/shared/api-client/mod.api-client';
 
 import { defineSession } from './effects/define-session';
 import { login } from './effects/login';

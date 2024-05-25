@@ -1,10 +1,10 @@
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
 
-import { swApiClient } from '../api-client/main';
+import { swApiClient } from '../api-client/mod.api-client';
 import { type AnyPayload } from '../api-client/types';
-import { MainDB } from '../db/main';
+import { MainDB } from '../db/mod.db';
 import { parseRequestInstance } from '../lib/request.parser';
-import { messageChannel } from '../message-channel/main';
+import { messageChannel } from '../message-channel/mod.message-channel';
 
 const storage = {
     get: async () => {
