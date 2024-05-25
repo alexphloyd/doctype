@@ -1,7 +1,6 @@
 import { type User } from '@prisma/client';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-import { tokensService } from '~/features/auth/model/services/tokens.service';
+import { messageBuilder } from 'core/src/infrastructure/channel-messaging/messages';
 
 import { UNEXPECTED_ERROR } from '~/shared/api-client/main';
 
@@ -22,7 +21,7 @@ export const authModel = createSlice({
         },
 
         logout() {
-            tokensService.reset();
+            navigator.serviceWorker.controller?.postMessage(messageBuilder.LOGOUT());
             return initialState;
         },
 

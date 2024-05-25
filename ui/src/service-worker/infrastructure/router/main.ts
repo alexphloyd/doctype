@@ -1,12 +1,10 @@
 import { MainDB } from '../db/main';
+import { UNEXPECTED_ERROR_MESSAGE } from '../lib/error-message';
 import { prepareErrorResponse } from './prepare-response';
 
-const handlers_map = new Map<
-    string /* path */,
-    (ev: FetchEvent, db: MainDB) => Promise<Response>
->();
+const handlers_map = new Map<RoutePath, RouteHandler>();
 
-function has({ url }: { url: string }) {
+function has({ url }: { url: RoutePath }) {
     return handlers_map.has(url);
 }
 
@@ -16,21 +14,27 @@ async function register({
     handler,
 }: {
     baseUrl?: string;
-    path: string;
-    handler: (ev: FetchEvent, db: MainDB) => Promise<Response>;
+    path: RoutePath;
+    handler: RouteHandler;
 }) {
     handlers_map.set(baseUrl + path, handler);
 }
 
 async function serve(ev: FetchEvent) {
-    if (handlers_map.get(ev.request.url)) {
+    if (has({ url: ev.request.url })) {
         const _handle = handlers_map.get(ev.request.url)!;
-        return _handle(ev, await MainDB.getConnection());
+
+        try {
+            return _handle(ev, await MainDB.getConnection());
+        } catch (err: any) {
+            return prepareErrorResponse(UNEXPECTED_ERROR_MESSAGE);
+        }
     } else {
-        return fetch(ev.request).catch((err: any) => {
-            console.warn(err);
-            return prepareErrorResponse('Oops! Something went wrong with this action.');
-        });
+        try {
+            return await fetch(ev.request.clone());
+        } catch (err) {
+            return prepareErrorResponse(UNEXPECTED_ERROR_MESSAGE);
+        }
     }
 }
 
@@ -39,3 +43,6 @@ export const router = {
     register,
     has,
 };
+
+type RouteHandler = (ev: FetchEvent, db: MainDB) => Promise<Response>;
+type RoutePath = string;

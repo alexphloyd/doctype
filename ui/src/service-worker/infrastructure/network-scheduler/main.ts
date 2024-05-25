@@ -1,46 +1,31 @@
-import { type AxiosRequestConfig } from 'axios';
-import { MESSAGES, MessageInfo } from 'core/src/infrastructure/channel-messaging/messages';
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
 
 import { swApiClient } from '../api-client/main';
+import { type AnyPayload } from '../api-client/types';
 import { MainDB } from '../db/main';
-import { _self } from '../self';
-import { AnyPayload } from './types';
+import { parseRequestInstance } from '../lib/request.parser';
+import { messageChannel } from '../message-channel/main';
 
 const storage = {
     get: async () => {
         const db = await MainDB.getConnection();
         return db.networkSchedulerRequest.toArray();
     },
-    add: async (req: AxiosRequestConfig) => {
+    add: async ({ req, payload }: { req: Request; payload?: AnyPayload }) => {
         const db = await MainDB.getConnection();
-        db.networkSchedulerRequest
-            .add({
-                id: generateId(),
-                config: req,
-            })
-            .then(() => {
-                console.log('Request added to Network Scheduler Queue');
-            });
+        db.networkSchedulerRequest.add({
+            id: generateId(),
+            req: parseRequestInstance(req, payload),
+        });
     },
 };
 
 export const networkScheduler = {
     post: ({ req, payload }: { req: Request; payload: AnyPayload }) => {
-        const headers = Object.fromEntries(req.headers.entries());
-        const config = {
-            headers,
-            url: req.url,
-            data: payload,
-            method: req.method,
-        };
-
         if (navigator.onLine) {
-            swApiClient.query(config).then(async ({ data, error }) => {
-                console.log('Network Scheduler Request: ', data, error);
-            });
+            swApiClient.query({ parsedRequest: parseRequestInstance(req, payload) });
         } else {
-            storage.add(config);
+            storage.add({ req, payload });
         }
     },
     execute: async () => {
@@ -50,14 +35,13 @@ export const networkScheduler = {
 
             const queue = await storage.get();
 
-            for (const req of queue) {
-                const { data, error } = await swApiClient.query<any>({
-                    ...req.config,
+            for (const { req, id } of queue) {
+                const response = await swApiClient.query<any>({
+                    parsedRequest: req,
                 });
-                console.log('Network Scheduler Request: ', data, error);
 
-                if (!error && data?.ok) {
-                    reqsToBeDeleted.push(req.id);
+                if (response?.data?.o && !response.error) {
+                    reqsToBeDeleted.push(id);
                 }
             }
 
@@ -66,12 +50,8 @@ export const networkScheduler = {
     },
 };
 
-_self.addEventListener('message', ({ data }) => {
-    if (data.type === MESSAGES.NETWORK_STATE_CHANGED) {
-        const info = data.info as MessageInfo<'NETWORK_STATE_CHANGED'>;
-
-        if (info.state === 'online') {
-            networkScheduler.execute();
-        }
+messageChannel.on('NETWORK_STATE_CHANGED', (info) => {
+    if (info.state === 'online') {
+        networkScheduler.execute();
     }
 });

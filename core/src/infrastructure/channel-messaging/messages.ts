@@ -3,6 +3,8 @@ import { User } from '@prisma/client';
 export const MESSAGES = {
     NETWORK_STATE_CHANGED: 'NETWORK_STATE_CHANGED',
     CLAIM_UNATTACHED_CVS_WITH_USER_ID: 'CLAIM_UNATTACHED_CVS_WITH_USER_ID',
+
+    LOGOUT: 'LOGOUT',
 } as const;
 
 export const messageBuilder = {
@@ -22,11 +24,17 @@ export const messageBuilder = {
             },
         };
     },
+    LOGOUT: () => {
+        return {
+            type: 'LOGOUT',
+            info: null,
+        };
+    },
 } satisfies Record<
     keyof typeof MESSAGES,
     (args: any) => {
         type: keyof typeof MESSAGES;
-        info: object;
+        info: object | null;
     }
 >;
 

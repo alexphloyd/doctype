@@ -3,8 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { router } from '~/app/router/main';
 
-import { tokensService } from '~/features/auth/model/services/tokens.service';
-
 import { api } from '../../api/main';
 import { actions } from '../model';
 
@@ -17,9 +15,8 @@ export const loginWithOAuth = createAsyncThunk<
     const query = await api.loginWithOAuth({ oauthToken: preparedToken });
 
     if (query.data) {
-        const { tokens, user } = query.data;
+        const { user } = query.data;
 
-        tokensService.set(tokens);
         dispatch(actions.registerSession(user));
 
         router.navigate('/');

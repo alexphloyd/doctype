@@ -19,6 +19,7 @@ export default defineConfig({
                 main: resolve(__dirname, 'index.html'),
                 zod: 'zod',
                 dayjs: 'dayjs',
+                axios: 'axios',
             },
 
             output: {
@@ -50,7 +51,12 @@ export default defineConfig({
                         const swChunk = manifest['src/service-worker/main.ts']?.file ?? '';
                         const chunkUrls = [] as string[];
                         Object.values(manifest).forEach((chunk: any) => {
-                            if (chunk.name === 'zod' || chunk.name === 'dayjs') {
+                            if (
+                                chunk.name === 'zod' ||
+                                chunk.name === 'dayjs' ||
+                                chunk.name === 'axios' ||
+                                chunk.name === 'messages'
+                            ) {
                                 chunkUrls.push('/' + (chunk as any).file);
                             }
 

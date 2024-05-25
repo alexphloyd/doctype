@@ -5,8 +5,6 @@ import { z } from 'zod';
 
 import { router } from '~/app/router/main';
 
-import { tokensService } from '~/features/auth/model/services/tokens.service';
-
 import { api } from '../../api/main';
 import { actions } from '../model';
 
@@ -24,7 +22,6 @@ export const login = createAsyncThunk<
     const isSessionDefined = !!data?.user;
 
     if (isSessionDefined) {
-        tokensService.set(data.tokens);
         dispatch(actions.registerSession(data.user));
     }
 

@@ -1,6 +1,7 @@
-import { type AxiosRequestConfig } from 'axios';
 import { type Cv } from 'core/src/domain/cv/types/main';
 import Dexie from 'dexie';
+
+import { type ParsedRequest } from '../lib/request.parser';
 
 export class MainDB extends Dexie {
     private static self?: MainDB;
@@ -17,7 +18,7 @@ export class MainDB extends Dexie {
 
     cv!: Dexie.Table<Cv, string>;
 
-    networkSchedulerRequest!: Dexie.Table<{ id: string; config: AxiosRequestConfig }, string>;
+    networkSchedulerRequest!: Dexie.Table<{ id: string; req: ParsedRequest }, string>;
     authTokens!: Dexie.Table<{ id: string; access: string; refresh: string }, string>;
 
     private constructor() {
@@ -25,8 +26,8 @@ export class MainDB extends Dexie {
 
         this.version(1).stores({
             cv: '&id, userId, creationDate, title',
-            networkSchedulerRequest: '&id, config',
-            authTokens: '$id, access, refresh',
+            networkSchedulerRequest: '&id, req',
+            authTokens: '&id, access, refresh',
         });
     }
 }

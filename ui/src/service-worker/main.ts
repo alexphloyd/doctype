@@ -1,3 +1,4 @@
+import { registerAuthRoutes } from './domain/auth/routes';
 import { registerCvRoutes } from './domain/cv/routes';
 import { precacheAndServeAssets } from './infrastructure/cache/precache';
 import { router } from './infrastructure/router/main';
@@ -6,6 +7,7 @@ import { _self } from './infrastructure/self';
 precacheAndServeAssets();
 
 registerCvRoutes();
+registerAuthRoutes();
 
 _self.addEventListener('activate', (event) => {
     event.waitUntil(_self.clients.claim());
