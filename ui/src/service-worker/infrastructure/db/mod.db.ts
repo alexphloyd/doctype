@@ -1,4 +1,4 @@
-import { type Cv } from 'core/src/domain/cv/types/main';
+import { type Cv } from 'core/src/domain/cv/types';
 import Dexie from 'dexie';
 
 import { type ParsedRequest } from '../lib/request.parser';

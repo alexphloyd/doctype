@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { type Cv } from 'core/src/domain/cv/types/main';
+import { type Cv } from 'core/src/domain/cv/types';
 
 import { api } from '../../api/mod.api';
 

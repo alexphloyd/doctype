@@ -1,4 +1,4 @@
-import { type Cv } from 'core/src/domain/cv/types/main';
+import { type Cv } from 'core/src/domain/cv/types';
 
 export interface ModelState {
     list: Cv[];
