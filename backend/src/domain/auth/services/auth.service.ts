@@ -131,13 +131,17 @@ export class AuthService {
     async refresh(req: Request) {
         const token = extractRefreshTokenFromHeader(req);
         if (!token) {
-            throw new HttpException('Invalid token', HttpStatusCode.Locked);
+            throw new HttpException(
+                'Token is not defined',
+                HttpStatusCode.Locked
+            );
         }
 
-        const verified_token = await this.jwtService.verifyAsync(token);
-        if (!verified_token) {
-            throw new HttpException('Invalid token', HttpStatusCode.Locked);
-        }
+        const verified_token = await this.jwtService
+            .verifyAsync(token)
+            .catch(() => {
+                throw new HttpException('Invalid token', HttpStatusCode.Locked);
+            });
 
         const { sub, role } = verified_token;
         const access = this.jwtService.sign({ sub, role }, { expiresIn: '5s' });

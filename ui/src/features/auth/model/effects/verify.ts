@@ -9,7 +9,7 @@ import { VerificationSchema } from '../schemas';
 export const verify = createAsyncThunk<
     void,
     z.infer<typeof VerificationSchema>,
-    { rejectValue: ApiErrorData | undefined }
+    { rejectValue: Partial<ApiErrorData> | undefined }
 >('auth/verify', async (args, { getState, rejectWithValue, dispatch }) => {
     const processCredentials = (getState() as AppState).auth.processes.signIn.credentials;
 

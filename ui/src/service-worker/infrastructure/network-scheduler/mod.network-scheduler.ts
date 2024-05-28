@@ -1,4 +1,5 @@
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
+import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 
 import { swApiClient } from '../api-client/mod.api-client';
 import { type AnyPayload } from '../api-client/types';
@@ -23,7 +24,9 @@ const storage = {
 export const networkScheduler = {
     post: ({ req, payload }: { req: Request; payload: AnyPayload }) => {
         if (navigator.onLine) {
-            swApiClient.query({ parsedRequest: parseRequestInstance(req, payload) });
+            swApiClient.query({
+                parsedRequest: parseRequestInstance(req, payload),
+            });
         } else {
             storage.add({ req, payload });
         }
@@ -32,7 +35,6 @@ export const networkScheduler = {
         if (navigator.onLine) {
             const db = await MainDB.getConnection();
             const reqsToBeDeleted = [];
-
             const queue = await storage.get();
 
             for (const { req, id } of queue) {
@@ -40,18 +42,16 @@ export const networkScheduler = {
                     parsedRequest: req,
                 });
 
-                if (response?.data?.o && !response.error) {
+                if (response?.data?.ok && !response.error) {
                     reqsToBeDeleted.push(id);
                 }
             }
 
-            db.networkSchedulerRequest.bulkDelete(reqsToBeDeleted);
+            db.networkSchedulerRequest.bulkDelete(reqsToBeDeleted).catch(() => {});
         }
     },
 };
 
-messageChannel.on('NETWORK_STATE_CHANGED', (info) => {
-    if (info.state === 'online') {
-        networkScheduler.execute();
-    }
+messageChannel.on(NETWORK_MESSAGES.ONLINE, () => {
+    networkScheduler.execute();
 });

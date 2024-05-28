@@ -22,18 +22,18 @@ export const apiClient = {
         }
 
         await serviceWorkerState.activated;
-
-        await executeQuery();
+        await executeQuery().catch(() => {});
 
         return {
             data: _res.data,
-            error: _res.error?.response,
-            networkError: _res.error?.response ? undefined : _res.error,
+            error: _res.error?.code === 'ERR_NETWORK' ? NETWORK_ERROR : _res.error?.response,
         };
     },
 };
 
-export const UNEXPECTED_ERROR: ApiErrorData = {
-    message: "Sorry, we've faced an unexpected error",
-    statusCode: 500,
+const NETWORK_ERROR = {
+    data: {
+        message: 'Network is required for this action',
+    },
+    status: 'ERR_NETWORK',
 };

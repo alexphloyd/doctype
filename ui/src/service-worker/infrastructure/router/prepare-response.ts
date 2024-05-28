@@ -1,3 +1,5 @@
+import { type AxiosError } from 'axios';
+
 export function prepareResponse(responseData: any): Response {
     return new Response(JSON.stringify(responseData), {
         headers: {
@@ -6,12 +8,13 @@ export function prepareResponse(responseData: any): Response {
     });
 }
 
-export function prepareErrorResponse<D>(errorMessage: D): Response {
-    return new Response(JSON.stringify({ ok: false, message: errorMessage }), {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        status: 409,
-        statusText: 'ServiceWorkerError',
+export function prepareErrorResponse(error?: Partial<AxiosError>): Response {
+    const errorData = JSON.stringify(error?.response?.data) || null;
+    const headers = new Headers((error?.response?.headers as any) ?? {});
+
+    return new Response(errorData, {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        headers,
     });
 }

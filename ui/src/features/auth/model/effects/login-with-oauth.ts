@@ -9,7 +9,7 @@ import { actions } from '../model';
 export const loginWithOAuth = createAsyncThunk<
     void,
     { oauthToken: string | undefined; type: string },
-    { rejectValue: ApiErrorData | undefined }
+    { rejectValue: Partial<ApiErrorData> | undefined }
 >('auth/login-with-oauth', async (args, { dispatch, rejectWithValue }) => {
     const preparedToken = `${args.type} ${args.oauthToken}`;
     const query = await api.loginWithOAuth({ oauthToken: preparedToken });

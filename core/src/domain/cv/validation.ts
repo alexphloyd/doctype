@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const CvDto = z.object({
     id: z.string(),
-    userId: z.string().nullish(),
+    userId: z.number().nullish(),
     creationDate: z.string(),
     title: z.string(),
 });

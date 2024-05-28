@@ -8,7 +8,7 @@ import { actions } from '../model';
 export const signUp = createAsyncThunk<
     void,
     z.infer<typeof SignUpDto>,
-    { rejectValue: ApiErrorData | undefined }
+    { rejectValue: Partial<ApiErrorData> | undefined }
 >('auth/sign-up', async (args, { dispatch, rejectWithValue }) => {
     const query = await api.signUp({ data: args });
 

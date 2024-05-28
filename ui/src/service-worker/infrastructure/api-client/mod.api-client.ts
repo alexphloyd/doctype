@@ -28,7 +28,7 @@ instance.interceptors.request.use(async (config) => {
 });
 
 export const swApiClient = {
-    async query<R>({ parsedRequest: parsedRequest }: { parsedRequest: ParsedRequest }) {
+    async query<R>({ parsedRequest }: { parsedRequest: ParsedRequest }) {
         let _res: AxiosResponse<R> | undefined;
         let _error: AxiosError | undefined;
 
@@ -50,23 +50,26 @@ export const swApiClient = {
                 [401, 403].includes(_error.response.status)
             ) {
                 const storedTokens = await authService.getTokens();
-                const updatedTokens = await instance
-                    .request({
-                        url: REFRESH_TOKENS_API_PATH,
-                        method: 'GET',
-                        headers: {
-                            refresh: storedTokens?.refresh,
-                        },
-                    })
-                    .then((res) => res.data as Tokens);
+                if (storedTokens?.refresh) {
+                    const updatedTokens = await instance
+                        .request({
+                            url: REFRESH_TOKENS_API_PATH,
+                            method: 'GET',
+                            headers: {
+                                refresh: storedTokens?.refresh,
+                            },
+                        })
+                        .then((res) => res.data as Tokens)
+                        .catch(() => undefined);
 
-                if (updatedTokens) {
-                    await authService.updateTokens(updatedTokens);
-                    await executeQuery({
-                        headers: {
-                            Authorization: `Bearer ${updatedTokens.access}`,
-                        },
-                    });
+                    if (updatedTokens) {
+                        await authService.updateTokens(updatedTokens);
+                        await executeQuery({
+                            headers: {
+                                Authorization: `Bearer ${updatedTokens.access}`,
+                            },
+                        });
+                    }
                 }
             }
         }

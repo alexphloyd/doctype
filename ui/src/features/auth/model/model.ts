@@ -1,8 +1,6 @@
 import { type User } from '@prisma/client';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { messageBuilder } from 'core/src/infrastructure/channel-messaging/messages';
-
-import { UNEXPECTED_ERROR } from '~/shared/api-client/mod.api-client';
+import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 
 import { defineSession } from './effects/define-session';
 import { login } from './effects/login';
@@ -21,7 +19,7 @@ export const authModel = createSlice({
         },
 
         logout() {
-            navigator.serviceWorker.controller?.postMessage(messageBuilder.LOGOUT());
+            navigator.serviceWorker.controller?.postMessage(AUTH_MESSAGES.LOGOUT);
             return initialState;
         },
 
@@ -59,7 +57,7 @@ export const authModel = createSlice({
         });
         builder.addCase(login.rejected, (state, { payload, meta }) => {
             state.effects.login.status = meta.requestStatus;
-            state.effects.login.error = payload || UNEXPECTED_ERROR;
+            state.effects.login.error = payload;
         });
 
         builder.addCase(signUp.pending, (state, { meta }) => {
@@ -71,7 +69,7 @@ export const authModel = createSlice({
         });
         builder.addCase(signUp.rejected, (state, { payload, meta }) => {
             state.effects.signUp.status = meta.requestStatus;
-            state.effects.signUp.error = payload || UNEXPECTED_ERROR;
+            state.effects.signUp.error = payload;
         });
 
         builder.addCase(verify.pending, (state, { meta }) => {
@@ -83,7 +81,7 @@ export const authModel = createSlice({
         });
         builder.addCase(verify.rejected, (state, { payload, meta }) => {
             state.effects.verify.status = meta.requestStatus;
-            state.effects.verify.error = payload || UNEXPECTED_ERROR;
+            state.effects.verify.error = payload;
         });
 
         builder.addCase(loginWithOAuth.pending, (state, { meta }) => {
@@ -97,7 +95,7 @@ export const authModel = createSlice({
         });
         builder.addCase(loginWithOAuth.rejected, (state, { payload, meta }) => {
             state.effects.loginWithOAuth.status = meta.requestStatus;
-            state.effects.loginWithOAuth.error = payload || UNEXPECTED_ERROR;
+            state.effects.loginWithOAuth.error = payload;
         });
     },
 });

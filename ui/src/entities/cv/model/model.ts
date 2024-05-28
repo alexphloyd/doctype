@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UNEXPECTED_ERROR } from '~/shared/api-client/mod.api-client';
-
 import { create } from './effects/create';
 import { getMany } from './effects/get-many';
 import { initialState } from './initial-state';
@@ -23,7 +21,7 @@ export const cvModel = createSlice({
         });
         builder.addCase(getMany.rejected, (state, { payload, meta }) => {
             state.effects.getMany.status = meta.requestStatus;
-            state.effects.getMany.error = payload || UNEXPECTED_ERROR;
+            state.effects.getMany.error = payload;
 
             state.effects.getMany.firstExecution = false;
         });
@@ -37,7 +35,7 @@ export const cvModel = createSlice({
         });
         builder.addCase(create.rejected, (state, { payload, meta }) => {
             state.effects.create.status = meta.requestStatus;
-            state.effects.create.error = payload || UNEXPECTED_ERROR;
+            state.effects.create.error = payload;
         });
     },
 });
