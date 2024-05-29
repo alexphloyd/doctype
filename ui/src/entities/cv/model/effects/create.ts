@@ -9,20 +9,20 @@ export const create = createAsyncThunk<
     void,
     { rejectValue: Partial<ApiErrorData> | undefined }
 >('cv/create', async (_, { dispatch, rejectWithValue }) => {
-    const createOneQuery = await api.create({
+    const query = await api.create({
         data: { title: 'Drafted CV', userId: undefined },
     });
 
-    if (createOneQuery.data) {
+    if (query.data?.ok) {
         dispatch(getLocallyStored());
-        return createOneQuery.data;
+        return query.data;
     } else {
         notifications.show({
             title: 'Failed',
-            message: 'Sorry, document is not created.',
+            message: 'Oops, cv is not created.',
             color: 'red',
             autoClose: 3000,
         });
-        return rejectWithValue(createOneQuery.error?.data);
+        return rejectWithValue(query.error?.data);
     }
 });

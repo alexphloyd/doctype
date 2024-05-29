@@ -4,7 +4,7 @@ import { type Cv } from 'core/src/domain/cv/types';
 import { api } from '../../api/mod.api';
 
 export const getLocallyStored = createAsyncThunk<
-    { list: Cv[] },
+    { ok: boolean; items: Cv[] },
     void,
     { rejectValue: Partial<ApiErrorData> | undefined }
 >('cv/get', async (_, { rejectWithValue }) => {

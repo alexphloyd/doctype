@@ -26,10 +26,9 @@ export function parseRequestInstance(req: Request, payload?: AnyPayload) {
     return { ...parsedReq, headers, payload };
 }
 
-export type ParsedRequest = Omit<
-    Request,
-    'arrayBuffer' | 'clone' | 'json' | 'blob' | 'text' | 'body' | 'headers'
+export type ParsedRequest = Partial<
+    Omit<Request, 'arrayBuffer' | 'clone' | 'json' | 'blob' | 'text' | 'body' | 'headers'>
 > & {
-    headers: AxiosHeaders;
+    headers?: AxiosHeaders;
     payload?: AnyPayload;
 };

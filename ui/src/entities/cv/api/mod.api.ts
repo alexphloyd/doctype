@@ -4,7 +4,7 @@ import { apiClient } from '~/shared/api-client/mod.api-client';
 
 export const api = {
     async create({ data }: { data: OmitStrict<Cv, 'creationDate' | 'id'> }) {
-        return apiClient.query<{ ok: boolean; createCvId: string }>({
+        return apiClient.query<{ ok: boolean }>({
             url: 'cv/create',
             method: 'POST',
             data,
@@ -12,8 +12,15 @@ export const api = {
     },
 
     async getLocallyStored() {
-        return apiClient.query<{ list: Cv[] }>({
+        return apiClient.query<{ ok: boolean; items: Cv[] }>({
             url: 'cv/getLocallyStored',
+            method: 'GET',
+        });
+    },
+
+    async getRemotelyStored() {
+        return apiClient.query<{ ok: boolean; items: Cv[] }>({
+            url: 'cv/getRemotelyStored',
             method: 'GET',
         });
     },

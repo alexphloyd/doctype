@@ -2,6 +2,8 @@ import { type Cv } from 'core/src/domain/cv/types';
 import { MainDB } from '~/service-worker/infrastructure/db/mod.db';
 import { authService } from '~/service-worker/infrastructure/services/auth.service';
 
+import { couldApi } from './cloud.api';
+
 export async function claimUnattachedCvsWithUserId() {
     const failedClaims = [] as Array<{ cvId: Cv['id'] }>;
 
@@ -18,6 +20,14 @@ export async function claimUnattachedCvsWithUserId() {
                     await db.cv
                         .update(cv.id, {
                             userId: session.current.id,
+                        })
+                        .then(() => {
+                            couldApi.create({
+                                payload: {
+                                    ...cv,
+                                    userId: session.current.id,
+                                },
+                            });
                         })
                         .catch(() => {
                             failedClaims.push({ cvId: cv.id });

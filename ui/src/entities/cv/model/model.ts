@@ -13,7 +13,7 @@ export const cvModel = createSlice({
             state.effects.getLocallyStored.status = meta.requestStatus;
         });
         builder.addCase(getLocallyStored.fulfilled, (state, { payload, meta }) => {
-            state.list = payload.list;
+            state.list = payload.items;
             state.effects.getLocallyStored.status = meta.requestStatus;
             state.effects.getLocallyStored.error = undefined;
 

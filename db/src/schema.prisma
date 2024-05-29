@@ -15,7 +15,7 @@ enum Role {
   ADMIN
 }
 model User {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   email    String @unique
   password String
@@ -24,13 +24,26 @@ model User {
   verified Boolean @default(false)
 
   verificationCode VerificationCode?
+
+  cvs Cv[]
 }
 
 model VerificationCode {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   user  User   @relation(fields: [email], references: [email])
   email String @unique
 
   code String
+}
+
+
+model Cv {
+  id String  @id 
+
+  user  User   @relation(fields: [userId], references: [id])
+  userId String
+
+  title String
+  creationDate String
 }
