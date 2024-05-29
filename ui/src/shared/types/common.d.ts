@@ -10,7 +10,7 @@ declare type EffectStatus = 'idle' | 'pending' | 'fulfilled' | 'rejected';
 
 declare type EffectState = {
     status: EffectStatus;
-    error?: ApiErrorData;
+    error?: Partial<ApiErrorData>;
     firstExecution: boolean;
 };
 

@@ -11,9 +11,9 @@ export const api = {
         });
     },
 
-    async getMany() {
-        return apiClient.query<{ ok: boolean; list: Cv[] }>({
-            url: 'cv/getMany',
+    async getLocallyStored() {
+        return apiClient.query<{ list: Cv[] }>({
+            url: 'cv/getLocallyStored',
             method: 'GET',
         });
     },

@@ -19,10 +19,8 @@ async function register({
 }
 
 async function serve(ev: FetchEvent) {
-    if (has({ url: ev.request.url })) {
-        const _handle = handlers_map.get(ev.request.url)!;
-        return _handle(ev, await MainDB.getConnection());
-    }
+    const _handle = handlers_map.get(ev.request.url)!;
+    return _handle(ev, await MainDB.getConnection());
 }
 
 export const router = {

@@ -1,5 +1,5 @@
-import { getMany } from './effects/get-many';
+import { getLocallyStored } from './effects/get-locally-stored';
 
 export function initiate(dispatch: Dispatch) {
-    dispatch(getMany());
+    dispatch(getLocallyStored());
 }

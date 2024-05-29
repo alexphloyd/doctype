@@ -4,6 +4,6 @@ export interface ModelState {
     list: Cv[];
     effects: {
         create: EffectState;
-        getMany: EffectState;
+        getLocallyStored: EffectState;
     };
 }

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { create } from './effects/create';
-import { getMany } from './effects/get-many';
+import { getLocallyStored } from './effects/get-locally-stored';
 import { initialState } from './initial-state';
 
 export const cvModel = createSlice({
@@ -9,21 +9,21 @@ export const cvModel = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getMany.pending, (state, { meta }) => {
-            state.effects.getMany.status = meta.requestStatus;
+        builder.addCase(getLocallyStored.pending, (state, { meta }) => {
+            state.effects.getLocallyStored.status = meta.requestStatus;
         });
-        builder.addCase(getMany.fulfilled, (state, { payload, meta }) => {
+        builder.addCase(getLocallyStored.fulfilled, (state, { payload, meta }) => {
             state.list = payload.list;
-            state.effects.getMany.status = meta.requestStatus;
-            state.effects.getMany.error = undefined;
+            state.effects.getLocallyStored.status = meta.requestStatus;
+            state.effects.getLocallyStored.error = undefined;
 
-            state.effects.getMany.firstExecution = false;
+            state.effects.getLocallyStored.firstExecution = false;
         });
-        builder.addCase(getMany.rejected, (state, { payload, meta }) => {
-            state.effects.getMany.status = meta.requestStatus;
-            state.effects.getMany.error = payload;
+        builder.addCase(getLocallyStored.rejected, (state, { payload, meta }) => {
+            state.effects.getLocallyStored.status = meta.requestStatus;
+            state.effects.getLocallyStored.error = payload;
 
-            state.effects.getMany.firstExecution = false;
+            state.effects.getLocallyStored.firstExecution = false;
         });
 
         builder.addCase(create.pending, (state, { meta }) => {

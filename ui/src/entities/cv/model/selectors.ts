@@ -5,13 +5,13 @@ export const useCvs = () => {
 };
 
 export const useGetManyEffectState = () => {
-    return useSelector((state: AppState) => state.cv.effects.getMany);
+    return useSelector((state: AppState) => state.cv.effects.getLocallyStored);
 };
 
 export const useModelLoading = () => {
     return useSelector(
         (state: AppState) =>
-            state.cv.effects.getMany.firstExecution &&
-            state.cv.effects.getMany.status === 'pending'
+            state.cv.effects.getLocallyStored.firstExecution &&
+            state.cv.effects.getLocallyStored.status === 'pending'
     );
 };

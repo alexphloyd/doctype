@@ -3,14 +3,14 @@ import { type Cv } from 'core/src/domain/cv/types';
 
 import { api } from '../../api/mod.api';
 
-export const getMany = createAsyncThunk<
-    { ok: boolean; list: Cv[] },
+export const getLocallyStored = createAsyncThunk<
+    { list: Cv[] },
     void,
-    { rejectValue: ApiErrorData | undefined }
+    { rejectValue: Partial<ApiErrorData> | undefined }
 >('cv/get', async (_, { rejectWithValue }) => {
-    const query = await api.getMany();
+    const query = await api.getLocallyStored();
 
-    if (query.data?.ok) {
+    if (query.data) {
         return query.data;
     } else {
         return rejectWithValue(query.error?.data);
