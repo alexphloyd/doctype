@@ -1,4 +1,6 @@
+import { notifications } from '@mantine/notifications';
 import { createSlice } from '@reduxjs/toolkit';
+import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 
 import { create } from './effects/create';
 import { getLocallyStored } from './effects/get-locally-stored';
@@ -38,6 +40,16 @@ export const cvModel = createSlice({
             state.effects.create.error = payload;
         });
     },
+});
+
+navigator.serviceWorker.addEventListener('message', (ev) => {
+    if (ev.data === NETWORK_MESSAGES.CLOUD_STORAGE_SYNCED) {
+        notifications.show({
+            title: 'Cloud Storage',
+            message: 'Your progress successfully saved to cloud.',
+            color: 'lime',
+        });
+    }
 });
 
 export const actions = cvModel.actions;

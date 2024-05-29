@@ -8,4 +8,9 @@ export const messageChannel = {
             }
         });
     },
+    post: (message: string) => {
+        _self.clients
+            .matchAll()
+            .then((all) => all.map((client) => client.postMessage(message)));
+    },
 };

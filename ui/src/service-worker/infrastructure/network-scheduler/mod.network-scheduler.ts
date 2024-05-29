@@ -32,22 +32,29 @@ export const networkScheduler = {
         }
     },
     execute: async () => {
+        console.log('execute');
         if (navigator.onLine) {
             const db = await MainDB.getConnection();
             const reqsToBeDeleted = [];
             const queue = await storage.get();
 
-            for (const { req, id } of queue) {
-                const response = await swApiClient.query<any>({
-                    parsedRequest: req,
-                });
+            if (queue.length) {
+                for (const { req, id } of queue) {
+                    const response = await swApiClient.query<any>({
+                        parsedRequest: req,
+                    });
 
-                if (response?.data?.ok && !response.error) {
-                    reqsToBeDeleted.push(id);
+                    if (response?.data?.ok && !response.error) {
+                        reqsToBeDeleted.push(id);
+                    }
                 }
-            }
 
-            db.networkSchedulerRequest.bulkDelete(reqsToBeDeleted).catch(() => {});
+                if (queue.length === reqsToBeDeleted.length) {
+                    messageChannel.post(NETWORK_MESSAGES.CLOUD_STORAGE_SYNCED);
+                }
+
+                db.networkSchedulerRequest.bulkDelete(reqsToBeDeleted).catch(() => {});
+            }
         }
     },
 };
