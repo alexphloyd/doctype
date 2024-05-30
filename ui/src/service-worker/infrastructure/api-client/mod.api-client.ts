@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse, type AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 import { type Tokens } from 'core/src/domain/auth/types';
 
 import { ParsedRequest } from '../lib/request.parser';
@@ -27,56 +27,69 @@ instance.interceptors.request.use(async (config) => {
     return config;
 });
 
+let refreshQueryPromise: Promise<null> | null = null;
+function refreshTokens() {
+    refreshQueryPromise = new Promise((resolve) => {
+        (async () => {
+            const storedTokens = await authService.getTokens();
+            if (storedTokens?.refresh) {
+                const refreshed = await instance
+                    .request<Tokens>({
+                        url: REFRESH_TOKENS_API_PATH,
+                        method: 'GET',
+                        headers: {
+                            refresh: storedTokens?.refresh,
+                        },
+                    })
+                    .then(({ data }) => data)
+                    .catch(() => undefined);
+
+                refreshed && (await authService.updateTokens(refreshed));
+                resolve(null);
+            }
+        })();
+    });
+}
+
 export const swApiClient = {
     async query<R>({ parsedRequest }: { parsedRequest: ParsedRequest }) {
-        let _res: AxiosResponse<R> | undefined;
-        let _error: AxiosError | undefined;
+        let _res: ApiClientResponse<R> = {
+            data: undefined,
+            error: undefined,
+        };
 
         async function executeQuery(override?: AxiosRequestConfig) {
             await instance
                 .request<R>({ ...parsedRequest, data: parsedRequest.payload, ...override })
-                .then((res) => (_res = res))
-                .catch((err) => (_error = err));
+                .then((res) => (_res = { error: undefined, data: res.data }))
+                .catch((err) => (_res = { data: undefined, error: err }));
         }
 
-        await executeQuery();
+        await refreshQueryPromise;
+        await executeQuery().catch(() => {});
 
-        if (_error) {
-            const originalRequest = _error.config;
+        if (_res?.error?.response && [401, 403].includes(_res.error.response.status)) {
+            console.log('before involve', refreshQueryPromise);
+            refreshTokens();
+            console.log('after involve', refreshQueryPromise);
 
-            if (
-                originalRequest &&
-                _error.response &&
-                [401, 403].includes(_error.response.status)
-            ) {
-                const storedTokens = await authService.getTokens();
-                if (storedTokens?.refresh) {
-                    const updatedTokens = await instance
-                        .request({
-                            url: REFRESH_TOKENS_API_PATH,
-                            method: 'GET',
-                            headers: {
-                                refresh: storedTokens?.refresh,
-                            },
-                        })
-                        .then((res) => res.data as Tokens)
-                        .catch(() => undefined);
+            await refreshQueryPromise;
+            console.log('awaited', refreshQueryPromise);
 
-                    if (updatedTokens) {
-                        await authService.updateTokens(updatedTokens);
-                        await executeQuery({
-                            headers: {
-                                Authorization: `Bearer ${updatedTokens.access}`,
-                            },
-                        });
-                    }
-                }
-            }
+            await executeQuery().catch(() => {});
         }
 
         return {
             data: _res?.data,
-            error: _error,
+            error: _res.error?.code === 'ERR_NETWORK' ? NETWORK_ERROR : _res.error?.response,
         };
     },
+};
+
+const NETWORK_ERROR = {
+    data: {
+        message: 'Network is required for this action',
+    },
+    status: 0,
+    statusText: 'ERR_NETWORK',
 };

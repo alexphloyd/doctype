@@ -21,7 +21,7 @@ export const verify = createAsyncThunk<
         notifications.show({
             title: 'Account Created',
             message: 'Please the use login tab to continue',
-            autoClose: 5000,
+            autoClose: 6000,
         });
 
         dispatch(actions.changeSignInProcessTab('log-in'));

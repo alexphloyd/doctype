@@ -22,7 +22,7 @@ export const loginWithOAuth = createAsyncThunk<
             title: 'OAuth Sign-In Failed',
             message: 'Unfortunately, we cannot proceed with the sign-in now',
             color: 'red',
-            autoClose: 3000,
+            autoClose: 6000,
         });
         return rejectWithValue(query.error?.data);
     }

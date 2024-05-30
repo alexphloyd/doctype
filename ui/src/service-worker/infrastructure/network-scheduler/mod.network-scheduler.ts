@@ -44,7 +44,7 @@ export const networkScheduler = {
                         parsedRequest: req,
                     });
 
-                    if (!response.error) {
+                    if (!response?.error) {
                         succeed.push(id);
                     }
                 }

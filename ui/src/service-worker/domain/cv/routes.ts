@@ -45,7 +45,7 @@ export function registerCvRoutes() {
             try {
                 const cvs = await db.cv.toArray();
                 const sorted = cvs?.sort((a, b) => {
-                    return dayjs(b.creationDate).diff(dayjs(a.creationDate));
+                    return dayjs(a.creationDate).diff(dayjs(b.creationDate));
                 });
 
                 return prepareResponse({
@@ -94,7 +94,7 @@ export function registerCvRoutes() {
                 });
 
                 const merged = (await db.cv.toArray()).sort((a, b) => {
-                    return dayjs(b.creationDate).diff(dayjs(a.creationDate));
+                    return dayjs(a.creationDate).diff(dayjs(b.creationDate));
                 });
 
                 return prepareResponse({

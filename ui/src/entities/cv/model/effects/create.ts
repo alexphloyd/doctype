@@ -1,5 +1,6 @@
 import { notifications } from '@mantine/notifications';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
 
 import { api } from '../../api/mod.api';
 import { getLocallyStored } from './get-locally-stored';
@@ -10,7 +11,9 @@ export const create = createAsyncThunk<
     { rejectValue: Partial<ApiErrorData> | undefined }
 >('cv/create', async (_, { dispatch, rejectWithValue }) => {
     const query = await api.create({
-        data: { title: 'Drafted CV', userId: undefined },
+        data: {
+            title: 'Draft CV' + '-' + dayjs().format('ss').toString(),
+        },
     });
 
     if (query.data?.ok) {
@@ -21,7 +24,7 @@ export const create = createAsyncThunk<
             title: 'Failed',
             message: 'Oops, cv is not created.',
             color: 'red',
-            autoClose: 3000,
+            autoClose: 6000,
         });
         return rejectWithValue(query.error?.data);
     }

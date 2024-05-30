@@ -67,6 +67,7 @@ const HomeToolbar = () => {
     return (
         <section hidden={!show}>
             <ToolbarActionButton
+                debounce
                 onClick={_createCv}
                 content={<Icon name="write" className="w-[1.09rem] h-[1.09rem] text-accent" />}
             />

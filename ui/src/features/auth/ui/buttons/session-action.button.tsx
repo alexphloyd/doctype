@@ -1,4 +1,5 @@
 import { Avatar } from '@mantine/core';
+import { m } from 'framer-motion';
 
 import { useAppDispatch } from '~/app/store/hooks';
 
@@ -36,12 +37,25 @@ export const AuthActionsButton = () => {
 
     if (session) {
         return (
-            <Avatar
-                styles={{ root: { cursor: 'pointer', marginBottom: '-5px' } }}
-                src={'/avatar-placeholder.png'}
-                size={'md'}
-                onClick={handleLogout}
-            />
+            <m.div
+                initial={{
+                    opacity: 0,
+                }}
+                animate={{
+                    opacity: 1,
+                }}
+                transition={{
+                    duration: 0.2,
+                    ease: 'easeIn',
+                }}
+            >
+                <Avatar
+                    styles={{ root: { cursor: 'pointer', marginBottom: '-5px' } }}
+                    src={'/avatar-placeholder.png'}
+                    size={'md'}
+                    onClick={handleLogout}
+                />
+            </m.div>
         );
     }
 };

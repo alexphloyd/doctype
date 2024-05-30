@@ -44,7 +44,7 @@ export const cvModel = createSlice({
                     title: 'Cloud Storage',
                     message: `You've received few updates from cloud!`,
                     color: 'lime',
-                    autoClose: 5000,
+                    autoClose: 12000,
                 });
             }
 
@@ -89,7 +89,7 @@ navigator.serviceWorker.addEventListener('message', (ev) => {
             title: 'Cloud Storage',
             message: 'Your progress successfully saved to cloud.',
             color: 'green',
-            autoClose: 3000,
+            autoClose: 12000,
         });
     }
 });
