@@ -7,6 +7,10 @@ export const initialState: ModelState = {
             status: 'idle',
             firstExecution: true,
         },
+        getWithRemotelyStored: {
+            status: 'idle',
+            firstExecution: true,
+        },
         create: {
             status: 'idle',
             firstExecution: true,

@@ -15,14 +15,14 @@ export const loginWithOAuth = createAsyncThunk<
     const query = await api.loginWithOAuth({ oauthToken: preparedToken });
 
     if (query.data) {
-        const { user } = query.data;
-        dispatch(actions.registerSession(user));
+        dispatch(actions.registerSession(query.data.user));
         router.navigate('/');
     } else {
         notifications.show({
             title: 'OAuth Sign-In Failed',
             message: 'Unfortunately, we cannot proceed with the sign-in now',
             color: 'red',
+            autoClose: 3000,
         });
         return rejectWithValue(query.error?.data);
     }

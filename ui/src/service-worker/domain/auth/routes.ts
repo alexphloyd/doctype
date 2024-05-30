@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { type Tokens } from 'core/src/domain/auth/types';
 import { swApiClient } from '~/service-worker/infrastructure/api-client/mod.api-client';
 import { parseRequestInstance } from '~/service-worker/infrastructure/lib/request.parser';
+import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/mod.network-scheduler';
 import { router } from '~/service-worker/infrastructure/router/mod.router';
 import {
     prepareErrorResponse,
@@ -21,6 +22,7 @@ async function loginHandler(ev: FetchEvent) {
     if (query.data) {
         await authService.updateTokens(query.data.tokens);
         await authService.updateSession({ user: query.data.user });
+        networkScheduler.execute();
 
         return prepareResponse(query.data);
     } else {

@@ -22,7 +22,7 @@ function showCloudStorageNotification() {
         notifications.show({
             title: 'Could Storage',
             message: 'Sign In to keep your progress safe!',
-            autoClose: 3000,
+            autoClose: 5000,
         });
     }, 3500);
 }

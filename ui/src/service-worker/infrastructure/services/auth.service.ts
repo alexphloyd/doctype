@@ -1,11 +1,10 @@
 import { User } from '@prisma/client';
 import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 import { type Tokens } from 'core/src/domain/auth/types';
-import { claimUnattachedCvsWithUserId } from '~/service-worker/domain/cv/model';
+import { saveUnclaimedCvsToCloud } from '~/service-worker/domain/cv/model';
 
 import { MainDB } from '../db/mod.db';
 import { messageChannel } from '../message-channel/mod.message-channel';
-import { networkScheduler } from '../network-scheduler/mod.network-scheduler';
 
 export const authService = {
     async updateTokens({ access, refresh }: Tokens) {
@@ -22,8 +21,6 @@ export const authService = {
                     refresh,
                 });
             }
-
-            networkScheduler.execute();
         } catch {}
     },
     async getTokens() {
@@ -49,7 +46,7 @@ export const authService = {
                 });
             }
 
-            claimUnattachedCvsWithUserId();
+            saveUnclaimedCvsToCloud();
         } catch {}
     },
     async getSession() {

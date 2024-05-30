@@ -1,5 +1,5 @@
-import { v1 as timestampBasedId } from 'uuid';
+import { v4 } from 'uuid';
 
 export function generateId() {
-    return timestampBasedId();
+    return v4();
 }

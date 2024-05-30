@@ -5,5 +5,6 @@ export interface ModelState {
     effects: {
         create: EffectState;
         getLocallyStored: EffectState;
+        getWithRemotelyStored: EffectState;
     };
 }

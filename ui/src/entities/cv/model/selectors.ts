@@ -7,11 +7,3 @@ export const useCvs = () => {
 export const useGetManyEffectState = () => {
     return useSelector((state: AppState) => state.cv.effects.getLocallyStored);
 };
-
-export const useModelLoading = () => {
-    return useSelector(
-        (state: AppState) =>
-            state.cv.effects.getLocallyStored.firstExecution &&
-            state.cv.effects.getLocallyStored.status === 'pending'
-    );
-};

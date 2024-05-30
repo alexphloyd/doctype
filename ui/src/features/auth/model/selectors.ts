@@ -1,13 +1,5 @@
 import { useSelector } from 'react-redux';
 
-export const useModelLoading = () => {
-    return useSelector(
-        (state: AppState) =>
-            state.auth.effects.defineSession.firstExecution &&
-            state.auth.effects.defineSession.status === 'pending'
-    );
-};
-
 export const useSignInProcessStep = () => {
     return useSelector((state: AppState) => state.auth.processes.signIn.step);
 };

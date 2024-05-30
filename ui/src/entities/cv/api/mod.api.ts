@@ -18,9 +18,9 @@ export const api = {
         });
     },
 
-    async getRemotelyStored() {
-        return apiClient.query<{ ok: boolean; items: Cv[] }>({
-            url: 'cv/getRemotelyStored',
+    async getWithRemotelyStored() {
+        return apiClient.query<{ ok: boolean; items: Cv[]; updated: boolean }>({
+            url: 'cv/getWithRemotelyStored',
             method: 'GET',
         });
     },

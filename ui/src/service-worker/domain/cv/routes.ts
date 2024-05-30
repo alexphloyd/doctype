@@ -17,20 +17,20 @@ export function registerCvRoutes() {
         path: 'cv/create',
         handler: async (ev, db) => {
             const body = await ev.request.json();
-            const parsedPayload = CvSchema.pick({ title: true }).parse(body);
+            const parsedBody = CvSchema.pick({ title: true }).parse(body);
 
             const session = await authService.getSession();
 
-            const created = await db.cv.add({
-                ...parsedPayload,
-
+            const payload = {
+                ...parsedBody,
                 id: generateId(),
                 creationDate: dayjs().toString(),
                 userId: session?.current.id,
-            });
+            };
+            const created = await db.cv.add(payload);
 
-            if (session) {
-                networkScheduler.post({ req: ev.request, payload: parsedPayload });
+            if (payload.userId) {
+                networkScheduler.post({ req: ev.request, payload });
             }
 
             return prepareResponse({
@@ -59,16 +59,52 @@ export function registerCvRoutes() {
     });
 
     router.register({
-        path: 'cv/getRemotelyStored',
-        handler: async () => {
+        path: 'cv/getWithRemotelyStored',
+        handler: async (_ev, db) => {
+            const authorizationData = await authService.getTokens();
+            if (!navigator.onLine || !authorizationData) {
+                return prepareResponse({
+                    ok: false,
+                });
+            }
+
             const query = await couldApi.getRemotelyStored();
 
-            console.log(query, 'cvs in cloud query');
+            if (query.data?.ok) {
+                let updated = false;
+                const local = await db.cv.toArray();
+                const receivedRemotely = query.data.items;
 
-            return prepareResponse({
-                ok: query.data?.ok,
-                items: query.data?.items,
-            });
+                receivedRemotely.forEach(async (remoteCv) => {
+                    const same = local.find((localCv) => localCv.id === remoteCv.id);
+                    if (same) {
+                        const isNewer = dayjs(remoteCv.creationDate).isAfter(same.creationDate);
+                        if (isNewer) {
+                            await db.cv
+                                .update(same.id, remoteCv)
+                                .then(() => (updated = true))
+                                .catch(() => {});
+                        }
+                    } else {
+                        await db.cv
+                            .add(remoteCv)
+                            .then(() => (updated = true))
+                            .catch(() => {});
+                    }
+                });
+
+                const merged = (await db.cv.toArray()).sort((a, b) => {
+                    return dayjs(b.creationDate).diff(dayjs(a.creationDate));
+                });
+
+                return prepareResponse({
+                    ok: true,
+                    items: merged,
+                    updated,
+                });
+            } else {
+                return prepareErrorResponse(new AxiosError());
+            }
         },
     });
 }

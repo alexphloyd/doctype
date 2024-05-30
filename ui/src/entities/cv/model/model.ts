@@ -2,8 +2,14 @@ import { notifications } from '@mantine/notifications';
 import { createSlice } from '@reduxjs/toolkit';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 
+import { store } from '~/app/store/app-store';
+import { on } from '~/app/store/middleware';
+
+import { authModel } from '~/features/auth/model/model';
+
 import { create } from './effects/create';
 import { getLocallyStored } from './effects/get-locally-stored';
+import { getWithRemotelyStored } from './effects/get-with-remotely-stored';
 import { initialState } from './initial-state';
 
 export const cvModel = createSlice({
@@ -28,6 +34,32 @@ export const cvModel = createSlice({
             state.effects.getLocallyStored.firstExecution = false;
         });
 
+        builder.addCase(getWithRemotelyStored.pending, (state, { meta }) => {
+            state.effects.getWithRemotelyStored.status = meta.requestStatus;
+        });
+        builder.addCase(getWithRemotelyStored.fulfilled, (state, { payload, meta }) => {
+            if (payload.ok && payload.updated) {
+                state.list = payload.items;
+                notifications.show({
+                    title: 'Cloud Storage',
+                    message: `You've received few updates from cloud!`,
+                    color: 'lime',
+                    autoClose: 5000,
+                });
+            }
+
+            state.effects.getWithRemotelyStored.status = meta.requestStatus;
+            state.effects.getWithRemotelyStored.error = undefined;
+
+            state.effects.getWithRemotelyStored.firstExecution = false;
+        });
+        builder.addCase(getWithRemotelyStored.rejected, (state, { payload, meta }) => {
+            state.effects.getWithRemotelyStored.status = meta.requestStatus;
+            state.effects.getWithRemotelyStored.error = payload;
+
+            state.effects.getWithRemotelyStored.firstExecution = false;
+        });
+
         builder.addCase(create.pending, (state, { meta }) => {
             state.effects.create.status = meta.requestStatus;
         });
@@ -42,14 +74,22 @@ export const cvModel = createSlice({
     },
 });
 
+on({
+    actionCreator: authModel.actions.registerSession,
+    effect({ payload: session }) {
+        if (session.verified) {
+            store.dispatch(getWithRemotelyStored());
+        }
+    },
+});
+
 navigator.serviceWorker.addEventListener('message', (ev) => {
-    if (ev.data === NETWORK_MESSAGES.CLOUD_STORAGE_SYNCED) {
+    if (ev.data === NETWORK_MESSAGES.SAVED_TO_CLOUD) {
         notifications.show({
             title: 'Cloud Storage',
             message: 'Your progress successfully saved to cloud.',
-            color: 'lime',
+            color: 'green',
+            autoClose: 3000,
         });
     }
 });
-
-export const actions = cvModel.actions;

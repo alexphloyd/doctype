@@ -7,7 +7,7 @@ export const getLocallyStored = createAsyncThunk<
     { ok: boolean; items: Cv[] },
     void,
     { rejectValue: Partial<ApiErrorData> | undefined }
->('cv/get', async (_, { rejectWithValue }) => {
+>('cv/getLocallyStored', async (_, { rejectWithValue }) => {
     const query = await api.getLocallyStored();
 
     if (query.data) {
