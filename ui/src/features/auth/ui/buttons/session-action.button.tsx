@@ -2,6 +2,7 @@ import { Avatar } from '@mantine/core';
 
 import { useAppDispatch } from '~/app/store/hooks';
 
+import { useNetworkState } from '~/shared/lib/use-network-state';
 import { NavigationButton } from '~/shared/ui/buttons/navigation';
 import { Icon } from '~/shared/ui/icon';
 
@@ -10,13 +11,15 @@ import { useSession } from '../../model/selectors';
 
 export const AuthActionsButton = () => {
     const dispatch = useAppDispatch();
+
+    const network = useNetworkState();
     const session = useSession();
 
     const handleLogout = () => {
         dispatch(actions.logout());
     };
 
-    if (!session) {
+    if (!session && network.online) {
         return (
             <NavigationButton
                 className="px-[9.5px] py-[7px] "

@@ -37,7 +37,7 @@ export const networkScheduler = {
 
             const queue = await storage.get();
             const succeed = [];
-            console.log('execute for', queue);
+
             if (queue.length) {
                 for (const { req, id } of queue) {
                     const response = await swApiClient.query<any>({

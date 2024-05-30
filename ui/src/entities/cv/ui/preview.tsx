@@ -8,7 +8,7 @@ export const Preview = (props: Cv) => {
 
             <h4 className="text-sm">{props.title}</h4>
             <span className="text-[0.72rem] text-fontSecondary">
-                {dayjs(props.creationDate).format('D MMMM h:m A').toString()}
+                {dayjs(props.creationDate).format('D MMMM h:mm A').toString()}
             </span>
         </div>
     );
