@@ -4,7 +4,7 @@ import { MainDB } from '~/service-worker/infrastructure/db/mod.db';
 import { messageChannel } from '~/service-worker/infrastructure/message-channel/mod.message-channel';
 import { authService } from '~/service-worker/infrastructure/services/auth.service';
 
-import { couldApi } from './cloud.api';
+import { cloudApi } from './cloud.api';
 
 export async function saveUnclaimedCvsToCloud() {
     const failedClaims = [] as Array<{ cvId: Cv['id'] }>;
@@ -29,7 +29,7 @@ export async function saveUnclaimedCvsToCloud() {
                             failedClaims.push({ cvId: cv.id });
                         });
 
-                    await couldApi
+                    await cloudApi
                         .create({
                             payload: {
                                 ...cv,

@@ -17,7 +17,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async (config) => {
     config.headers['Content-Type'] = 'application/json';
-
     const tokens = await authService.getTokens();
 
     if (tokens?.access) {
@@ -27,10 +26,15 @@ instance.interceptors.request.use(async (config) => {
     return config;
 });
 
-let refreshQueryPromise: Promise<null> | null = null;
+let refreshQueryPromise: Promise<void> | null = null;
 function refreshTokens() {
-    refreshQueryPromise = new Promise((resolve) => {
-        (async () => {
+    const queryPending = Boolean(refreshQueryPromise);
+    if (queryPending) {
+        return refreshQueryPromise;
+    }
+
+    refreshQueryPromise = new Promise<void>((resolve) => {
+        const task = async () => {
             const storedTokens = await authService.getTokens();
             if (storedTokens?.refresh) {
                 const refreshed = await instance
@@ -44,11 +48,17 @@ function refreshTokens() {
                     .then(({ data }) => data)
                     .catch(() => undefined);
 
-                refreshed && (await authService.updateTokens(refreshed));
-                resolve(null);
+                if (refreshed) {
+                    await authService.updateTokens(refreshed);
+                }
             }
-        })();
+            refreshQueryPromise = null;
+            resolve();
+        };
+        task();
     });
+
+    return refreshQueryPromise;
 }
 
 export const swApiClient = {
@@ -66,17 +76,11 @@ export const swApiClient = {
         }
 
         await refreshQueryPromise;
-        await executeQuery().catch(() => {});
+        await executeQuery();
 
         if (_res?.error?.response && [401, 403].includes(_res.error.response.status)) {
-            console.log('before involve', refreshQueryPromise);
-            refreshTokens();
-            console.log('after involve', refreshQueryPromise);
-
-            await refreshQueryPromise;
-            console.log('awaited', refreshQueryPromise);
-
-            await executeQuery().catch(() => {});
+            await refreshTokens();
+            await executeQuery();
         }
 
         return {

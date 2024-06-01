@@ -3,7 +3,7 @@ import { CvStrictSchema } from 'core/src/domain/cv/validation';
 import { z } from 'zod';
 import { swApiClient } from '~/service-worker/infrastructure/api-client/mod.api-client';
 
-export const couldApi = {
+export const cloudApi = {
     async getRemotelyStored() {
         return swApiClient.query<{ ok: boolean; items: Cv[] }>({
             parsedRequest: {

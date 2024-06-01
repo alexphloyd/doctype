@@ -10,7 +10,7 @@ import {
 } from '~/service-worker/infrastructure/router/prepare-response';
 import { authService } from '~/service-worker/infrastructure/services/auth.service';
 
-import { couldApi } from './cloud.api';
+import { cloudApi } from './cloud.api';
 
 export function registerCvRoutes() {
     router.register({
@@ -68,7 +68,7 @@ export function registerCvRoutes() {
                 });
             }
 
-            const query = await couldApi.getRemotelyStored();
+            const query = await cloudApi.getRemotelyStored();
 
             if (query.data?.ok) {
                 let updated = false;
