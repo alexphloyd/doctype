@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 import { type Tokens } from 'core/src/domain/auth/types';
 
 import { ParsedRequest } from '../lib/request.parser';
@@ -46,7 +46,13 @@ function refreshTokens() {
                         },
                     })
                     .then(({ data }) => data)
-                    .catch(() => undefined);
+                    .catch(async (error) => {
+                        const status = (error as AxiosError).response?.status;
+                        if (status === 423) {
+                            await authService.removeSession();
+                            await authService.removeTokens();
+                        }
+                    });
 
                 if (refreshed) {
                     await authService.updateTokens(refreshed);
