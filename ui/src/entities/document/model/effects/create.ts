@@ -9,10 +9,10 @@ export const create = createAsyncThunk<
     any,
     void,
     { rejectValue: Partial<ApiErrorData> | undefined }
->('cv/create', async (_, { dispatch, rejectWithValue }) => {
+>('document/create', async (_, { dispatch, rejectWithValue }) => {
     const query = await api.create({
         data: {
-            title: 'Draft CV' + '-' + dayjs().format('ss').toString(),
+            title: 'Draft Document' + '-' + dayjs().format('ss').toString(),
         },
     });
 
@@ -22,7 +22,7 @@ export const create = createAsyncThunk<
     } else {
         notifications.show({
             title: 'Failed',
-            message: 'Oops, cv is not created.',
+            message: 'Oops, document is not created.',
             color: 'red',
             autoClose: 6000,
         });

@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-export type Cv = {
+export type Document = {
     id: string;
     userId?: User['id'] | null | undefined;
 

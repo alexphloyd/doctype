@@ -1,12 +1,12 @@
 import { registerAuthRoutes } from './domain/auth/routes';
-import { registerCvRoutes } from './domain/cv/routes';
+import { registerDocumentRoutes } from './domain/document/routes';
 import { precacheAndServeAssets } from './infrastructure/cache/precache';
 import { router } from './infrastructure/router/mod.router';
 import { _self } from './infrastructure/self';
 
 precacheAndServeAssets();
 
-registerCvRoutes();
+registerDocumentRoutes();
 registerAuthRoutes();
 
 _self.addEventListener('activate', (event) => {

@@ -5,7 +5,7 @@ import { useAppDispatch } from '~/app/store/hooks';
 
 import { AuthActionsButton } from '~/features/auth/ui/buttons/session-action.button';
 
-import { create as createCv } from '~/entities/cv/model/effects/create';
+import { create as createDocument } from '~/entities/document/model/effects/create';
 
 import { NavigationButton } from '~/shared/ui/buttons/navigation';
 import { ToolbarActionButton } from '~/shared/ui/buttons/toolbar-action';
@@ -60,15 +60,15 @@ const HomeToolbar = () => {
 
     const dispatch = useAppDispatch();
 
-    const _createCv = () => {
-        dispatch(createCv());
+    const _createDocument = () => {
+        dispatch(createDocument());
     };
 
     return (
         <section hidden={!show}>
             <ToolbarActionButton
                 debounce
-                onClick={_createCv}
+                onClick={_createDocument}
                 content={<Icon name="write" className="w-[1.09rem] h-[1.09rem] text-accent" />}
             />
         </section>

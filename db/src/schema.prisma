@@ -25,7 +25,7 @@ model User {
 
   verificationCode VerificationCode?
 
-  cvs Cv[]
+  documents Document[]
 }
 
 model VerificationCode {
@@ -38,7 +38,7 @@ model VerificationCode {
 }
 
 
-model Cv {
+model Document {
   id String  @id 
 
   user  User   @relation(fields: [userId], references: [id])

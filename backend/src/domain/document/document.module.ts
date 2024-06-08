@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { CvController } from './cv.controller';
+import { DocumentController } from './document.controller';
 import { AuthModule } from '../auth/auth.module';
 import { DBService } from '~/infrastructure/db/db.service';
 
 @Module({
     imports: [AuthModule],
-    controllers: [CvController],
+    controllers: [DocumentController],
     providers: [DBService],
 })
-export class CvModule {}
+export class DocumentModule {}

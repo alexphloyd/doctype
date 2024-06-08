@@ -1,22 +1,22 @@
-import { type Cv } from 'core/src/domain/cv/types';
-import { CvStrictSchema } from 'core/src/domain/cv/validation';
+import { type Document } from 'core/src/domain/document/types';
+import { DocumentStrictSchema } from 'core/src/domain/document/validation';
 import { z } from 'zod';
 import { swApiClient } from '~/service-worker/infrastructure/api-client/mod.api-client';
 
 export const cloudApi = {
     async getRemotelyStored() {
-        return swApiClient.query<{ ok: boolean; items: Cv[] }>({
+        return swApiClient.query<{ ok: boolean; items: Document[] }>({
             parsedRequest: {
-                url: 'cv/get',
+                url: 'document/get',
                 method: 'GET',
             },
         });
     },
 
-    async create({ payload }: { payload: z.infer<typeof CvStrictSchema> }) {
+    async create({ payload }: { payload: z.infer<typeof DocumentStrictSchema> }) {
         return swApiClient.query<{ ok: boolean }>({
             parsedRequest: {
-                url: 'cv/create',
+                url: 'document/create',
                 method: 'POST',
                 payload,
             },

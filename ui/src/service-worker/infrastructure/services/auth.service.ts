@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 import { type Tokens } from 'core/src/domain/auth/types';
-import { saveUnclaimedCvsToCloud } from '~/service-worker/domain/cv/model';
+import { saveUnclaimedDocumentsToCloud } from '~/service-worker/domain/document/model';
 
 import { MainDB } from '../db/mod.db';
 import { messageChannel } from '../message-channel/mod.message-channel';
@@ -46,7 +46,7 @@ export const authService = {
                 });
             }
 
-            saveUnclaimedCvsToCloud();
+            saveUnclaimedDocumentsToCloud();
         } catch {}
     },
     async getSession() {

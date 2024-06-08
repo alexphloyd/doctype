@@ -1,7 +1,7 @@
-import { type Cv } from 'core/src/domain/cv/types';
+import { type Document } from 'core/src/domain/document/types';
 
 export interface ModelState {
-    list: Cv[];
+    list: Document[];
     effects: {
         create: EffectState;
         getLocallyStored: EffectState;

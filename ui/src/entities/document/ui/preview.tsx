@@ -1,7 +1,7 @@
-import { type Cv } from 'core/src/domain/cv/types';
+import { type Document } from 'core/src/domain/document/types';
 import dayjs from 'dayjs';
 
-export const Preview = (props: Cv) => {
+export const Preview = (props: Document) => {
     return (
         <div className="flex flex-col items-center justify-center">
             <section className="mb-[5px] bg-white/70 flex items-center justify-center min-w-[10.5rem] min-h-[10.5rem] rounded-md shadow-sm cursor-pointer" />

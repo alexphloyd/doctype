@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { CvSchema } from 'core/src/domain/cv/validation';
+import { DocumentSchema } from 'core/src/domain/document/validation';
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
 import dayjs from 'dayjs';
 import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/mod.network-scheduler';
@@ -12,12 +12,12 @@ import { authService } from '~/service-worker/infrastructure/services/auth.servi
 
 import { cloudApi } from './cloud.api';
 
-export function registerCvRoutes() {
+export function registerDocumentRoutes() {
     router.register({
-        path: 'cv/create',
+        path: 'document/create',
         handler: async (ev, db) => {
             const body = await ev.request.json();
-            const parsedBody = CvSchema.pick({ title: true }).parse(body);
+            const parsedBody = DocumentSchema.pick({ title: true }).parse(body);
 
             const session = await authService.getSession();
 
@@ -27,7 +27,7 @@ export function registerCvRoutes() {
                 creationDate: dayjs().toString(),
                 userId: session?.current.id,
             };
-            const created = await db.cv.add(payload);
+            const created = await db.document.add(payload);
 
             if (payload.userId) {
                 networkScheduler.post({ req: ev.request, payload });
@@ -40,11 +40,11 @@ export function registerCvRoutes() {
     });
 
     router.register({
-        path: 'cv/getLocallyStored',
+        path: 'document/getLocallyStored',
         handler: async (_ev, db) => {
             try {
-                const cvs = await db.cv.toArray();
-                const sorted = cvs?.sort((a, b) => {
+                const docs = await db.document.toArray();
+                const sorted = docs?.sort((a, b) => {
                     return dayjs(a.creationDate).diff(dayjs(b.creationDate));
                 });
 
@@ -59,7 +59,7 @@ export function registerCvRoutes() {
     });
 
     router.register({
-        path: 'cv/getWithRemotelyStored',
+        path: 'document/getWithRemotelyStored',
         handler: async (_ev, db) => {
             const authorizationData = await authService.getTokens();
             if (!navigator.onLine || !authorizationData) {
@@ -72,28 +72,30 @@ export function registerCvRoutes() {
 
             if (query.data?.ok) {
                 let updated = false;
-                const local = await db.cv.toArray();
+                const local = await db.document.toArray();
                 const receivedRemotely = query.data.items;
 
-                receivedRemotely.forEach(async (remoteCv) => {
-                    const same = local.find((localCv) => localCv.id === remoteCv.id);
+                receivedRemotely.forEach(async (remoteDoc) => {
+                    const same = local.find((localDoc) => localDoc.id === remoteDoc.id);
                     if (same) {
-                        const isNewer = dayjs(remoteCv.creationDate).isAfter(same.creationDate);
+                        const isNewer = dayjs(remoteDoc.creationDate).isAfter(
+                            same.creationDate
+                        );
                         if (isNewer) {
-                            await db.cv
-                                .update(same.id, remoteCv)
+                            await db.document
+                                .update(same.id, remoteDoc)
                                 .then(() => (updated = true))
                                 .catch(() => {});
                         }
                     } else {
-                        await db.cv
-                            .add(remoteCv)
+                        await db.document
+                            .add(remoteDoc)
                             .then(() => (updated = true))
                             .catch(() => {});
                     }
                 });
 
-                const merged = (await db.cv.toArray()).sort((a, b) => {
+                const merged = (await db.document.toArray()).sort((a, b) => {
                     return dayjs(a.creationDate).diff(dayjs(b.creationDate));
                 });
 

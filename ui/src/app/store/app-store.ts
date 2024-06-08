@@ -3,7 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { initiate as initiateAuthModel } from '~/features/auth/model/initiate';
 
-import { initiate as initiateCvModel } from '~/entities/cv/model/initiate';
+import { initiate as initiateDocumentModel } from '~/entities/document/model/initiate';
 
 import { listener } from './middleware';
 import { reducer } from './reducer';
@@ -29,4 +29,4 @@ export const createStore = () => {
     return extendedStore;
 };
 
-export const store = createStore().and(initiateAuthModel).and(initiateCvModel).store;
+export const store = createStore().and(initiateAuthModel).and(initiateDocumentModel).store;

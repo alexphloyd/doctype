@@ -12,8 +12,8 @@ import { getLocallyStored } from './effects/get-locally-stored';
 import { getWithRemotelyStored } from './effects/get-with-remotely-stored';
 import { initialState } from './initial-state';
 
-export const cvModel = createSlice({
-    name: 'cv',
+export const documentModel = createSlice({
+    name: 'document',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

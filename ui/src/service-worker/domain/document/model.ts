@@ -1,4 +1,4 @@
-import { type Cv } from 'core/src/domain/cv/types';
+import { type Document } from 'core/src/domain/document/types';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 import { MainDB } from '~/service-worker/infrastructure/db/mod.db';
 import { messageChannel } from '~/service-worker/infrastructure/message-channel/mod.message-channel';
@@ -6,8 +6,8 @@ import { authService } from '~/service-worker/infrastructure/services/auth.servi
 
 import { cloudApi } from './cloud.api';
 
-export async function saveUnclaimedCvsToCloud() {
-    const failedClaims = [] as Array<{ cvId: Cv['id'] }>;
+export async function saveUnclaimedDocumentsToCloud() {
+    const failedClaims = [] as Array<{ docId: Document['id'] }>;
 
     try {
         let updated = false;
@@ -16,23 +16,23 @@ export async function saveUnclaimedCvsToCloud() {
         if (session?.current.id) {
             const db = await MainDB.getConnection();
 
-            const cvs = await db.cv.toArray();
-            if (cvs?.length) {
-                const unclaimed = cvs.filter(({ userId }) => !userId);
+            const docs = await db.document.toArray();
+            if (docs?.length) {
+                const unclaimed = docs.filter(({ userId }) => !userId);
 
-                for (const cv of unclaimed) {
-                    await db.cv
-                        .update(cv.id, {
+                for (const doc of unclaimed) {
+                    await db.document
+                        .update(doc.id, {
                             userId: session.current.id,
                         })
                         .catch(() => {
-                            failedClaims.push({ cvId: cv.id });
+                            failedClaims.push({ docId: doc.id });
                         });
 
                     await cloudApi
                         .create({
                             payload: {
-                                ...cv,
+                                ...doc,
                                 userId: session.current.id,
                             },
                         })
