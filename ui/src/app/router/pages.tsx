@@ -1,17 +1,15 @@
-import { About } from '~/pages/about';
-import { AccessDenied } from '~/pages/access-denied';
-import { App } from '~/pages/app';
+import { AccessDenied } from '~/pages/auth/access-denied';
+import { Settings } from '~/pages/auth/settings';
+import { SignIn } from '~/pages/auth/sign-in';
 import { Editor } from '~/pages/editor';
-import { Settings } from '~/pages/settings';
-import { SignIn } from '~/pages/sign-in';
+import { Home } from '~/pages/home';
 
 import { withGuard } from './with-guard';
 
 export const Pages = {
-    App,
+    Home,
     SignIn,
     AccessDenied,
-    About,
     Editor,
     Settings: withGuard(Settings, ['USER']),
 };

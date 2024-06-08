@@ -10,14 +10,13 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Pages.App />,
+                element: <Pages.Home />,
             },
             {
                 path: '/editor/:id',
                 element: <Pages.Editor />,
             },
 
-            /* Auth */
             {
                 path: '/sign-in',
                 element: <Pages.SignIn />,
