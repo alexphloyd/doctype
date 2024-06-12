@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { type Document } from 'core/src/domain/document/types';
 import { DocumentSchema } from 'core/src/domain/document/validation';
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
 import dayjs from 'dayjs';
@@ -17,14 +18,14 @@ export function registerDocumentRoutes() {
         path: 'document/create',
         handler: async (ev, db) => {
             const body = await ev.request.json();
-            const parsedBody = DocumentSchema.pick({ title: true }).parse(body);
+            const parsedBody = DocumentSchema.pick({ name: true }).parse(body);
 
             const session = await authService.getSession();
 
             const payload = {
                 ...parsedBody,
                 id: generateId(),
-                creationDate: dayjs().toString(),
+                lastUpdatedTime: dayjs().toString(),
                 userId: session?.current.id,
             };
             const created = await db.document.add(payload);
@@ -40,12 +41,41 @@ export function registerDocumentRoutes() {
     });
 
     router.register({
+        path: 'document/rename',
+        handler: async (ev, db) => {
+            const body = await ev.request.json();
+            const parsedBody = DocumentSchema.pick({ name: true, id: true }).parse(body);
+
+            const session = await authService.getSession();
+
+            const renamed = await db.document
+                .update(parsedBody.id, {
+                    name: parsedBody.name,
+                })
+                .catch(() => undefined);
+
+            if (session?.id) {
+                const cloudReqPayload = {
+                    id: parsedBody.id,
+                    name: parsedBody.name,
+                } satisfies Pick<Document, 'id' | 'name'>;
+
+                networkScheduler.post({ req: ev.request, payload: cloudReqPayload });
+            }
+
+            return prepareResponse({
+                ok: Boolean(renamed),
+            });
+        },
+    });
+
+    router.register({
         path: 'document/getLocallyStored',
         handler: async (_ev, db) => {
             try {
                 const docs = await db.document.toArray();
                 const sorted = docs?.sort((a, b) => {
-                    return dayjs(a.creationDate).diff(dayjs(b.creationDate));
+                    return dayjs(a.lastUpdatedTime).diff(dayjs(b.lastUpdatedTime));
                 });
 
                 return prepareResponse({
@@ -78,8 +108,8 @@ export function registerDocumentRoutes() {
                 receivedRemotely.forEach(async (remoteDoc) => {
                     const same = local.find((localDoc) => localDoc.id === remoteDoc.id);
                     if (same) {
-                        const isNewer = dayjs(remoteDoc.creationDate).isAfter(
-                            same.creationDate
+                        const isNewer = dayjs(remoteDoc.lastUpdatedTime).isAfter(
+                            same.lastUpdatedTime
                         );
                         if (isNewer) {
                             await db.document
@@ -96,7 +126,7 @@ export function registerDocumentRoutes() {
                 });
 
                 const merged = (await db.document.toArray()).sort((a, b) => {
-                    return dayjs(a.creationDate).diff(dayjs(b.creationDate));
+                    return dayjs(a.lastUpdatedTime).diff(dayjs(b.lastUpdatedTime));
                 });
 
                 return prepareResponse({

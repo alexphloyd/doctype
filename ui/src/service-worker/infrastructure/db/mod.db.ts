@@ -28,7 +28,7 @@ export class MainDB extends Dexie {
         super('main_db');
 
         this.version(1).stores({
-            document: '&id, userId, creationDate, title',
+            document: '&id, userId, lastUpdatedTime, name',
 
             networkSchedulerRequest: '&id, req',
             authTokens: '&id, access, refresh',

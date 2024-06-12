@@ -42,4 +42,34 @@ export class DocumentController {
             items,
         };
     }
+
+    @Post('rename')
+    @UseGuards(RoleGuard)
+    @Roles('USER')
+    @UsePipes(
+        new ZodValidationPipe(
+            DocumentStrictSchema.pick({
+                id: true,
+                name: true,
+            })
+        )
+    )
+    async rename(
+        @Body()
+        body: Pick<z.infer<typeof DocumentStrictSchema>, 'id' | 'name'>
+    ) {
+        await this.db.document.update({
+            where: {
+                id: body.id,
+            },
+            data: {
+                name: body.name,
+            },
+        });
+
+        return {
+            ok: true,
+            message: 'Document successfully renamed',
+        };
+    }
 }

@@ -2,6 +2,9 @@ import { type ModelState } from './types';
 
 export const initialState: ModelState = {
     list: [],
+    processes: {
+        renaming: undefined,
+    },
     effects: {
         getLocallyStored: {
             status: 'idle',

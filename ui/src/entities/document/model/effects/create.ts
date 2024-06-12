@@ -12,7 +12,7 @@ export const create = createAsyncThunk<
 >('document/create', async (_, { dispatch, rejectWithValue }) => {
     const query = await api.create({
         data: {
-            title: 'Draft Document' + '-' + dayjs().format('ss').toString(),
+            name: 'Document' + '-' + dayjs().format('ss').toString(),
         },
     });
 

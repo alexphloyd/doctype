@@ -13,7 +13,8 @@
         "^~/features/(.*)$",
         "^~/entities/(.*)$",
         "^~/shared/(.*)$",
-        "^[./]"
+        "^[./]",
+        "^/(.css)$"
     ],
     "importOrderSeparation": true
 }

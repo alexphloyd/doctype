@@ -4,7 +4,7 @@ export type Document = {
     id: string;
     userId?: User['id'] | null | undefined;
 
-    creationDate: string;
+    lastUpdatedTime: string;
 
-    title: string;
+    name: string;
 };

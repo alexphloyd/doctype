@@ -25,8 +25,8 @@ CREATE TABLE "VerificationCode" (
 CREATE TABLE "Document" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "creationDate" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "lastUpdatedTime" TEXT NOT NULL,
 
     CONSTRAINT "Document_pkey" PRIMARY KEY ("id")
 );

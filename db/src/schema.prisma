@@ -44,6 +44,6 @@ model Document {
   user  User   @relation(fields: [userId], references: [id])
   userId String
 
-  title String
-  creationDate String
+  name String
+  lastUpdatedTime String
 }

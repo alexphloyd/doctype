@@ -13,7 +13,7 @@
     "dependencies": {
         "@hookform/resolvers": "^3.3.4",
         "@mantine/core": "^7.8.1",
-        "@mantine/hooks": "^7.8.1",
+        "@mantine/hooks": "^7.10.1",
         "@mantine/notifications": "^7.8.1",
         "@react-oauth/google": "^0.12.1",
         "@reduxjs/toolkit": "^2.1.0",

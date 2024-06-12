@@ -2,6 +2,10 @@ import { type User } from '@prisma/client';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 
+import { on } from '~/app/store/middleware';
+
+import { getWithRemotelyStored } from '~/entities/document/model/effects/get-with-remotely-stored';
+
 import { defineSession } from './effects/define-session';
 import { login } from './effects/login';
 import { loginWithOAuth } from './effects/login-with-oauth';
@@ -101,3 +105,12 @@ export const authModel = createSlice({
 });
 
 export const actions = authModel.actions;
+
+on({
+    actionCreator: actions.registerSession,
+    effect({ payload: session }, { dispatch }) {
+        if (session.verified) {
+            dispatch(getWithRemotelyStored());
+        }
+    },
+});

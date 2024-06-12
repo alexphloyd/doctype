@@ -3,9 +3,17 @@ import { type Document } from 'core/src/domain/document/types';
 import { apiClient } from '~/shared/api-client/mod.api-client';
 
 export const api = {
-    async create({ data }: { data: OmitStrict<Document, 'creationDate' | 'id'> }) {
+    async create({ data }: { data: OmitStrict<Document, 'lastUpdatedTime' | 'id'> }) {
         return apiClient.query<{ ok: boolean }>({
             url: 'document/create',
+            method: 'POST',
+            data,
+        });
+    },
+
+    async rename({ data }: { data: Pick<Document, 'name' | 'id'> }) {
+        return apiClient.query<{ ok: boolean }>({
+            url: 'document/rename',
             method: 'POST',
             data,
         });

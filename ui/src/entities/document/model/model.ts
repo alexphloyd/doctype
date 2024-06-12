@@ -1,12 +1,9 @@
 import { notifications } from '@mantine/notifications';
-import { createSlice } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { type Document } from 'core/src/domain/document/types';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 
-import { store } from '~/app/store/app-store';
-import { on } from '~/app/store/middleware';
-
-import { authModel } from '~/features/auth/model/model';
-
+import { applyRename } from './effects/apply-rename';
 import { create } from './effects/create';
 import { getLocallyStored } from './effects/get-locally-stored';
 import { getWithRemotelyStored } from './effects/get-with-remotely-stored';
@@ -15,7 +12,26 @@ import { initialState } from './initial-state';
 export const documentModel = createSlice({
     name: 'document',
     initialState,
-    reducers: {},
+    reducers: {
+        startRenamingProcess(state, action: PayloadAction<Document>) {
+            const doc = action.payload;
+
+            state.processes.renaming = {
+                docId: doc.id,
+                initial: doc.name,
+                input: doc.name,
+            };
+        },
+        updateRenamingProcess(state, action: PayloadAction<Pick<Document, 'name'>>) {
+            const currentData = state.processes.renaming;
+            if (currentData) {
+                state.processes.renaming = {
+                    ...currentData,
+                    input: action.payload.name,
+                };
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getLocallyStored.pending, (state, { meta }) => {
             state.effects.getLocallyStored.status = meta.requestStatus;
@@ -71,15 +87,13 @@ export const documentModel = createSlice({
             state.effects.create.status = meta.requestStatus;
             state.effects.create.error = payload;
         });
-    },
-});
 
-on({
-    actionCreator: authModel.actions.registerSession,
-    effect({ payload: session }) {
-        if (session.verified) {
-            store.dispatch(getWithRemotelyStored());
-        }
+        builder.addCase(applyRename.fulfilled, (state) => {
+            state.processes.renaming = undefined;
+        });
+        builder.addCase(applyRename.rejected, (state) => {
+            state.processes.renaming = undefined;
+        });
     },
 });
 
@@ -93,3 +107,5 @@ navigator.serviceWorker.addEventListener('message', (ev) => {
         });
     }
 });
+
+export const { startRenamingProcess, updateRenamingProcess } = documentModel.actions;
