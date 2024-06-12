@@ -7,6 +7,7 @@ import { AuthActionsButton } from '~/features/auth/ui/buttons/session-action.but
 
 import { create as createDocument } from '~/entities/document/model/effects/create';
 
+import { AppLoader } from '~/shared/ui/app-loader/ui';
 import { NavigationButton } from '~/shared/ui/buttons/navigation';
 import { ToolbarActionButton } from '~/shared/ui/buttons/toolbar-action';
 import { Icon } from '~/shared/ui/icon';
@@ -47,7 +48,8 @@ export const AppMenu = () => {
                 <EditorToolbar />
             </section>
 
-            <section>
+            <section className="flex flex-col items-center justify-center">
+                <AppLoader className="mb-[0.3rem]" />
                 <AuthActionsButton />
             </section>
         </header>

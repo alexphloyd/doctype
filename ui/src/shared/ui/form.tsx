@@ -5,8 +5,8 @@ import { FormProvider, useForm, type UseFormProps } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { z, type ZodType } from 'zod';
 
+import { BaseLoader } from './base-loader';
 import { PrimaryButton } from './buttons/primary';
-import { Loader } from './preloader';
 
 export const FORM_ERROR = 'FORM_ERROR';
 
@@ -66,7 +66,7 @@ function FormElement<S extends ZodType<any, any>>(
                             htmlType="submit"
                             className="mt-2 w-full py-[10px] mb-2"
                             content={
-                                isLoading ? <Loader color="white" size="sm" /> : submitText
+                                isLoading ? <BaseLoader color="white" size="md" /> : submitText
                             }
                         />
 

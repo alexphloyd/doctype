@@ -3,6 +3,10 @@ import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { type Document } from 'core/src/domain/document/types';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 
+import { on } from '~/app/store/middleware';
+
+import { queryFinished, queryStarted } from '~/shared/ui/app-loader/model';
+
 import { applyRename } from './effects/apply-rename';
 import { create } from './effects/create';
 import { getLocallyStored } from './effects/get-locally-stored';
@@ -109,3 +113,24 @@ navigator.serviceWorker.addEventListener('message', (ev) => {
 });
 
 export const { startRenamingProcess, updateRenamingProcess } = documentModel.actions;
+
+on({
+    actionCreator: getWithRemotelyStored.pending,
+    effect: (action, { dispatch }) => {
+        dispatch(queryStarted(action.meta.requestId));
+    },
+});
+
+on({
+    actionCreator: getWithRemotelyStored.rejected,
+    effect: (action, { dispatch }) => {
+        dispatch(queryFinished(action.meta.requestId));
+    },
+});
+
+on({
+    actionCreator: getWithRemotelyStored.fulfilled,
+    effect: (action, { dispatch }) => {
+        dispatch(queryFinished(action.meta.requestId));
+    },
+});

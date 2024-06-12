@@ -1,7 +1,7 @@
 import { VariantProps, cva } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
-export const Loader = ({
+export const BaseLoader = ({
     size,
     color,
     className,
@@ -14,17 +14,18 @@ const styles = cva(
     {
         variants: {
             color: {
-                blue: ['text-accent'],
+                blue: ['text-accent/85'],
                 white: ['text-zinc-200'],
             },
             size: {
-                sm: ['h-4 w-4 border-[2px]'],
-                md: ['h-7 w-7 border-[2px]'],
+                sm: ['h-[0.9rem] w-[0.9rem] border-[1.7px]'],
+                md: ['h-4 w-4 border-[2px]'],
+                lg: ['h-7 w-7 border-[2px]'],
             },
         },
         defaultVariants: {
             color: 'blue',
-            size: 'sm',
+            size: 'md',
         },
     }
 );

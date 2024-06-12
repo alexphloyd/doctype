@@ -28,7 +28,7 @@ export const AuthActionsButton = () => {
                 content={
                     <Icon
                         name="login"
-                        className="w-[1.19rem] h-[1.19rem] text-accent -ml-[2px]"
+                        className="w-[1.19rem] h-[1.19rem] text-accent -ml-[0.5px]"
                     />
                 }
             />
