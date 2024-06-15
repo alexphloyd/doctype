@@ -16,6 +16,6 @@ export const signUp = createAsyncThunk<
         dispatch(actions.updateSignInProcessCredentials(query.data.createdUser));
         dispatch(actions.changeSignInProcessStep('verification'));
     } else {
-        return rejectWithValue(query.error?.data);
+        return rejectWithValue(query.error?.response?.data);
     }
 });

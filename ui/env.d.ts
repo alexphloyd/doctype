@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {

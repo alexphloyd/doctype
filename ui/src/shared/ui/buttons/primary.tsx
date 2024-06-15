@@ -39,7 +39,7 @@ const styles = cva(
         variants: {
             type: {
                 default: ['bg-accent text-white'],
-                transparent: ['bg-backgroundPrimaryDarker text-accent'],
+                transparent: ['bg-backgroundPrimaryDarker/95 text-accent'],
             },
             size: {
                 md: ['px-3 h-[34px] text-base'],

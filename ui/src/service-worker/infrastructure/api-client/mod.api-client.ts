@@ -91,15 +91,7 @@ export const swApiClient = {
 
         return {
             data: _res?.data,
-            error: _res.error?.code === 'ERR_NETWORK' ? NETWORK_ERROR : _res.error?.response,
+            error: _res?.error,
         };
     },
-};
-
-const NETWORK_ERROR = {
-    data: {
-        message: 'Network is required for this action',
-    },
-    status: 0,
-    statusText: 'ERR_NETWORK',
 };

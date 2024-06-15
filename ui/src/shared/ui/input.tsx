@@ -1,4 +1,5 @@
-import { forwardRef } from 'react';
+import { TextInput } from '@mantine/core';
+import { type ReactNode, forwardRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -8,11 +9,12 @@ interface Props {
     placeholder?: string;
     disabled?: boolean;
     className?: string;
+    leftSection?: ReactNode;
     type?: 'text' | 'password' | 'email' | 'number';
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(
-    ({ name, disabled, label, className, placeholder, type }, ref) => {
+    ({ name, disabled, label, className, placeholder, type, leftSection }, ref) => {
         const {
             control,
             formState: { errors },
@@ -29,12 +31,16 @@ export const Input = forwardRef<HTMLInputElement, Props>(
                         className={twMerge(className, 'flex flex-col gap-1 items-start w-full')}
                     >
                         <Label error={error} />
-                        <input
+                        <TextInput
                             ref={ref}
                             disabled={disabled}
                             placeholder={placeholder || label}
                             type={type}
-                            className="w-full rounded-[6px] border border-borderPrimary p-3 text-sm font-medium"
+                            size="md"
+                            leftSection={leftSection}
+                            classNames={{
+                                root: 'w-full',
+                            }}
                             onChange={(event) => onChange(event.target.value)}
                         />
                     </main>

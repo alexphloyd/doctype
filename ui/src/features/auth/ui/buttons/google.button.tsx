@@ -1,14 +1,13 @@
+import { Button } from '@mantine/core';
 import { useGoogleLogin } from '@react-oauth/google';
-import { twMerge } from 'tailwind-merge';
 
 import { useAppDispatch } from '~/app/store/hooks';
 
-import { PrimaryButton } from '~/shared/ui/buttons/primary';
 import { Icon } from '~/shared/ui/icon';
 
 import { loginWithOAuth } from '../../model/effects/login-with-oauth';
 
-export const GoogleButton = ({ className }: { className?: string }) => {
+export const GoogleButton = () => {
     const dispatch = useAppDispatch();
 
     const login = useGoogleLogin({
@@ -23,16 +22,15 @@ export const GoogleButton = ({ className }: { className?: string }) => {
     });
 
     return (
-        <PrimaryButton
-            type="transparent"
+        <Button
+            variant="white"
+            classNames={{ root: 'hover:bg-gray-100/40 bg-gray-100/40 px-4' }}
+            size="md"
             onClick={() => login()}
-            className={twMerge('w-full h-[37px]', className)}
-            content={
-                <div className="flex items-center justify-center">
-                    <Icon name="google" className="w-4 h-4 mr-3" />
-                    <span>Continue with Google</span>
-                </div>
-            }
-        />
+        >
+            <div className="flex items-center justify-center">
+                <Icon name="google" className="w-5 h-5" />
+            </div>
+        </Button>
     );
 };

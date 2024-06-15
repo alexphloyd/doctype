@@ -41,7 +41,7 @@ export class AuthService {
 
         if (!user)
             throw new HttpException(
-                'Invalid credentials',
+                'Invalid email or password. Please try again!',
                 HttpStatusCode.Conflict
             );
 
@@ -52,7 +52,7 @@ export class AuthService {
 
         if (!isPasswordMatch) {
             throw new HttpException(
-                'Invalid credentials',
+                'Invalid email or password. Please try again!',
                 HttpStatusCode.Conflict
             );
         }

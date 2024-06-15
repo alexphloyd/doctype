@@ -15,6 +15,8 @@ import {
     useSignUpEffectState,
     useVerifyEffectState,
 } from '../../model/selectors';
+import { GithubButton } from '../buttons/github.button';
+import { GoogleButton } from '../buttons/google.button';
 
 export const SignUp = () => {
     const dispatch = useAppDispatch();
@@ -67,10 +69,17 @@ function SignUpForm({
             schema={SignUpSchema}
             errorMessage={error}
             isLoading={isLoading}
-            submitText="Sign Up"
+            submitText="Register"
             className="w-full"
+            leftSubmitSlot={
+                <section className="flex items-center justify-center gap-x-4">
+                    <GoogleButton />
+                    <GithubButton />
+                </section>
+            }
         >
             <Input name="email" type="email" label="Email" />
+
             <Input name="password" type="password" label="Password" />
             <Input name="confirm" type="password" label="Confirm a password" />
         </Form>

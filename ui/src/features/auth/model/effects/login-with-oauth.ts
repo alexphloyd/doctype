@@ -24,6 +24,6 @@ export const loginWithOAuth = createAsyncThunk<
             color: 'red',
             autoClose: 6000,
         });
-        return rejectWithValue(query.error?.data);
+        return rejectWithValue(query.error?.response?.data);
     }
 });

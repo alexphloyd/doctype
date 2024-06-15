@@ -1,15 +1,19 @@
-import { MantineProvider, TextInput, createTheme } from '@mantine/core';
+import { Button, MantineProvider, TextInput, createTheme } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { type ReactNode } from 'react';
 
 const theme = createTheme({
     fontFamily: 'Roboto',
-    white: '#f5f5f5',
     fontSizes: { sm: '0.87rem', md: '0.94rem' },
     components: {
         TextInput: TextInput.extend({
             classNames: {
-                input: 'text-fontPrimary',
+                input: 'text-fontPrimary border-borderDark focus:border-accent',
+            },
+        }),
+        Button: Button.extend({
+            classNames: {
+                label: 'font-[500]',
             },
         }),
     },

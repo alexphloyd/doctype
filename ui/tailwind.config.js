@@ -8,22 +8,20 @@ module.exports = {
         extend: {
             colors: {
                 accent: '#007AFF',
-                danger: '#FF3B30',
+                danger: '#E03131',
 
-                backgroundActive: '#1A6DFF',
-                backgroundPrimary: '#E3E1E1',
-                backgroundPrimaryDarker: '#e5eeee',
-                backgroundApp: '#f5f5f5',
+                backgroundPrimaryDarker: '#f7f7fa',
 
                 fontPrimary: '#333333',
                 fontSecondary: 'rgba(51, 51, 51, 0.7)',
 
-                borderPrimary: '#D7DBE0',
+                borderPrimary: '#f2f2f7',
+                borderDark: '#EEEEEE',
                 borderLight: 'rgb(229 231 235 / 0.7)',
             },
             fontSize: {
                 sm: '0.81rem',
-                base: '0.87rem',
+                base: '0.89rem',
                 md: '0.94',
             },
             screens: {

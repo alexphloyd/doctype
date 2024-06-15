@@ -13,6 +13,6 @@ export const getLocallyStored = createAsyncThunk<
     if (query.data) {
         return query.data;
     } else {
-        return rejectWithValue(query.error?.data);
+        return rejectWithValue(query.error?.response?.data);
     }
 });

@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
 import { serviceWorkerState } from '~/app/store/service-worker.state';
 
@@ -17,8 +17,15 @@ export const apiClient = {
         async function executeQuery() {
             await instance
                 .request<R>(config)
-                .then((res) => (_res = { error: undefined, data: res.data }))
-                .catch((err) => (_res = { data: undefined, error: err }));
+                .then((res: any) => {
+                    _res = { error: undefined, data: res.data };
+                })
+                .catch((err: AxiosError<ApiErrorData, any>) => {
+                    const code = err?.response?.data?.statusCode ?? 503;
+                    const _err = code >= 200 && code < 500 ? err : UNEXPECTED_ERROR;
+
+                    _res = { data: undefined, error: _err };
+                });
         }
 
         await serviceWorkerState.activated;
@@ -26,14 +33,23 @@ export const apiClient = {
 
         return {
             data: _res.data,
-            error: _res.error?.code === 'ERR_NETWORK' ? NETWORK_ERROR : _res.error?.response,
+            error: _res.error,
         };
     },
 };
 
-const NETWORK_ERROR = {
-    data: {
-        message: 'Network is required for this action',
-    },
-    status: 'ERR_NETWORK',
+const UNEXPECTED_ERROR: AxiosError<ApiErrorData, any> | undefined = {
+    response: {
+        data: {
+            message: "Oops! It seems we've hit a bump in the road..",
+            statusCode: 503,
+        },
+        status: 503,
+        statusText: 'UNEXPECTED',
+    } as any,
+    isAxiosError: true,
+    name: 'UNEXPECTED',
+    code: '503',
+    toJSON: () => ({}),
+    message: "Oops! It seems we've hit a bump in the road..",
 };

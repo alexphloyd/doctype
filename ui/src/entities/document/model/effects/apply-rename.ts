@@ -24,7 +24,7 @@ export const applyRename = createAsyncThunk<
             });
 
             if (renameQuery.data?.ok) {
-                dispatch(getLocallyStored());
+                await dispatch(getLocallyStored()).unwrap();
                 return renameQuery.data;
             } else {
                 notifications.show({
@@ -33,7 +33,7 @@ export const applyRename = createAsyncThunk<
                     color: 'red',
                     autoClose: 6000,
                 });
-                return rejectWithValue(renameQuery.error?.data);
+                return rejectWithValue(renameQuery.error?.response?.data);
             }
         }
     }

@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@mantine/core';
 import { PropsWithoutRef, ReactNode } from 'react';
 import { ForwardedRef, forwardRef } from 'react';
 import { FormProvider, useForm, type UseFormProps } from 'react-hook-form';
@@ -6,7 +7,6 @@ import { twMerge } from 'tailwind-merge';
 import { z, type ZodType } from 'zod';
 
 import { BaseLoader } from './base-loader';
-import { PrimaryButton } from './buttons/primary';
 
 export const FORM_ERROR = 'FORM_ERROR';
 
@@ -25,6 +25,7 @@ export interface FormProps<S extends z.ZodType<any, any>>
     addClass?: string | undefined;
     children?: ReactNode | undefined;
     initialValues?: UseFormProps<z.infer<S>>['defaultValues'];
+    leftSubmitSlot?: ReactNode;
 }
 
 function FormElement<S extends ZodType<any, any>>(
@@ -36,6 +37,7 @@ function FormElement<S extends ZodType<any, any>>(
         children,
         isLoading,
         className,
+        leftSubmitSlot,
         ...props
     }: FormProps<S>,
     ref: ForwardedRef<HTMLFormElement>
@@ -61,14 +63,23 @@ function FormElement<S extends ZodType<any, any>>(
                 {children}
 
                 {submitText ? (
-                    <div className="flex flex-col items-center">
-                        <PrimaryButton
-                            htmlType="submit"
-                            className="mt-2 w-full py-[10px] mb-2"
-                            content={
-                                isLoading ? <BaseLoader color="white" size="md" /> : submitText
-                            }
-                        />
+                    <div className="flex flex-col items-center w-full">
+                        <div className="flex flex-row items-center justify-between mt-2 w-full">
+                            {leftSubmitSlot}
+                            <Button
+                                type="submit"
+                                size="sm"
+                                classNames={{
+                                    root: 'w-[30%]',
+                                }}
+                            >
+                                {isLoading ? (
+                                    <BaseLoader color="white" size="md" />
+                                ) : (
+                                    submitText
+                                )}
+                            </Button>
+                        </div>
 
                         <Error message={errorMessage} />
                     </div>
@@ -85,5 +96,9 @@ export const Form = forwardRef(FormElement) as <S extends ZodType<any, any>>(
 export const Error = ({ message }: { message?: string | null | undefined }) => {
     if (!message) return null;
 
-    return <span className="mt-3 text-base text-[#d32f2f]">{message}</span>;
+    return (
+        <span className="w-full mt-4 text-base text-danger bg-red-100/15 px-4 py-[10px] rounded">
+            {message}
+        </span>
+    );
 };

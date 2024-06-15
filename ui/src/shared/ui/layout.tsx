@@ -15,7 +15,7 @@ export function Layout({ isAppLoading, appMenuSlot }: Props) {
                 <BaseLoader size="lg" color="blue" className="absolute top-[45vh] left-[50%]" />
             ) : (
                 <main className="flex flex-row relative font-sans">
-                    <section className="overflow-hidden fixed top-0 left-0 min-h-screen h-screen px-3 z-50 border-r-[1px] border-gray-200/70">
+                    <section className="overflow-hidden fixed top-0 left-0 min-h-screen h-screen px-3 z-50 border-r-[1px] border-borderPrimary">
                         {appMenuSlot}
                     </section>
 

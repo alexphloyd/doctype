@@ -18,7 +18,7 @@ export const DocumentsList = () => {
         >
             <ul className="justify-start align-top items-start grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 w-full gap-6 gap-y-8">
                 {documents?.map((doc) => {
-                    return <Preview key={doc.id} doc={doc} />;
+                    return <Preview key={doc.id} {...doc} />;
                 })}
             </ul>
         </m.main>

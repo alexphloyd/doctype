@@ -13,7 +13,7 @@ export function prepareErrorResponse(error?: Partial<AxiosError>): Response {
     const headers = new Headers((error?.response?.headers as any) ?? {});
 
     return new Response(errorData, {
-        status: error?.response?.status,
+        status: error?.response?.status ?? 503,
         statusText: error?.response?.statusText,
         headers,
     });

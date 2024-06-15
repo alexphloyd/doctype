@@ -15,7 +15,7 @@ export class UserRepository {
             })
             .catch((error) => {
                 if (error.code === 'P2002') {
-                    throw new HttpException('Email is already in use', 409);
+                    throw new HttpException('Email is already in use.', 409);
                 } else {
                     throw new HttpException(error?.message, 500);
                 }

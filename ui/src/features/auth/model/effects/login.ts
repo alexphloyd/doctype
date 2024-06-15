@@ -11,7 +11,7 @@ import { actions } from '../model';
 export const login = createAsyncThunk<
     void,
     z.infer<typeof LoginDto>,
-    { rejectValue: Partial<ApiErrorData> }
+    { rejectValue: Partial<ApiErrorData> | undefined }
 >('auth/login', async (args, { dispatch, rejectWithValue }) => {
     const query = await api.login({ data: args });
     const { error, data } = query;
@@ -36,6 +36,6 @@ export const login = createAsyncThunk<
     }
 
     if (!isVerificationNeeded && error) {
-        return rejectWithValue(error?.data);
+        return rejectWithValue(error?.response?.data);
     }
 });

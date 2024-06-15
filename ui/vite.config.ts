@@ -6,7 +6,6 @@ import { defineConfig } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react(), tsconfigPaths(), qrcode()],
     base: './',

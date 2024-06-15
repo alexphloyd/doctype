@@ -1,8 +1,8 @@
-import { TextInput } from '@mantine/core';
+import { Paper, TextInput } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { type Document } from 'core/src/domain/document/types';
 import dayjs from 'dayjs';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, memo, useEffect } from 'react';
 
 import { useAppDispatch } from '~/app/store/hooks';
 
@@ -10,20 +10,25 @@ import { applyRename } from '../model/effects/apply-rename';
 import { startRenamingProcess, updateRenamingProcess } from '../model/model';
 import { useRenamingProcess } from '../model/selectors';
 
-export const Preview = ({ doc }: { doc: Document }) => {
+export const Preview = memo((doc: Document) => {
     return (
         <div className="flex flex-col items-center">
-            <section className="mb-[6px] bg-white/70 flex items-center justify-center min-w-[10.5rem] min-h-[10.5rem] rounded-sm shadow-sm cursor-pointer" />
+            <Paper
+                withBorder
+                classNames={{
+                    root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer border-borderDark',
+                }}
+            />
 
-            <Name doc={doc} />
+            <Name {...doc} key={doc.id} />
             <span className="mt-[1px] text-[0.71rem] text-fontSecondary">
                 {dayjs(doc.lastUpdatedTime).format('D MMMM h:mm A').toString()}
             </span>
         </div>
     );
-};
+});
 
-const Name = ({ doc }: { doc: Document }) => {
+const Name = (doc: Document) => {
     const dispatch = useAppDispatch();
     const renamingProcess = useRenamingProcess();
 
@@ -62,7 +67,7 @@ const Name = ({ doc }: { doc: Document }) => {
                     }
                 }}
                 classNames={{
-                    input: 'text-center border-accent/30 max-w-[9.8rem] w-[9.8rem] text-sm min-h-0 h-[1.44rem] px-2 rounded-sm',
+                    input: 'text-center border-accent border-dashed max-w-[10.5rem] w-[10.5rem] text-sm min-h-0 h-[1.44rem] px-2 rounded-sm',
                 }}
                 size="xs"
                 autoFocus
@@ -71,7 +76,7 @@ const Name = ({ doc }: { doc: Document }) => {
     } else {
         return (
             <div
-                className="text-sm flex items-center h-[1.44rem] w-[9.8rem] max-w-[9.8rem] hover:outline-dashed outline-[1px] outline-borderPrimary rounded-sm truncate px-2"
+                className="text-sm flex items-center h-[1.44rem] w-[10.5rem] max-w-[10.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
                 onClick={startRenaming}
             >
                 <span className="truncate text-center w-full"> {doc.name}</span>

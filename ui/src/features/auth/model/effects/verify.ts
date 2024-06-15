@@ -20,13 +20,13 @@ export const verify = createAsyncThunk<
     if (query.data) {
         notifications.show({
             title: 'Account Created',
-            message: 'Please the use login tab to continue',
+            message: 'Please, use login tab to continue!',
             autoClose: 6000,
         });
 
         dispatch(actions.changeSignInProcessTab('log-in'));
         dispatch(actions.changeSignInProcessStep('credentials'));
     } else {
-        return rejectWithValue(query.error?.data);
+        return rejectWithValue(query.error?.response?.data);
     }
 });
