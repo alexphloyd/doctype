@@ -44,7 +44,7 @@ export const networkScheduler = {
                         parsedRequest: req,
                     });
 
-                    if (!response?.error) {
+                    if (response.error?.code !== 'ERR_NETWORK') {
                         succeed.push(id);
                     }
                 }
@@ -53,7 +53,7 @@ export const networkScheduler = {
                     messageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
                 }
 
-                db.networkSchedulerRequest.bulkDelete(succeed).catch(() => {});
+                db.networkSchedulerRequest.bulkDelete(succeed).catch(() => { });
             }
         }
     },
