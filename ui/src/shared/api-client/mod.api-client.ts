@@ -29,7 +29,7 @@ export const apiClient = {
         }
 
         await serviceWorkerState.activated;
-        await executeQuery().catch(() => {});
+        await executeQuery().catch(() => { });
 
         return {
             data: _res.data,
