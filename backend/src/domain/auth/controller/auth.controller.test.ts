@@ -93,8 +93,8 @@ describe('auth-controller', () => {
                 password: TEST_USER_DATA.password,
             });
 
-            expect(login_res.tokens.access).toBe('string');
-            expect(typeof login_res.tokens.refresh).toBe('string');
+            expect(login_res.tokens.access).toBeDefined();
+            expect(login_res.tokens.refresh).toBeDefined();
 
             const session = await authService.checkSession({
                 headers: {

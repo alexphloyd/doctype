@@ -6,10 +6,10 @@
   "scripts": {
     "core:build": "yarn workspace core build",
     "ui:check": "yarn workspace ui tsc && yarn workspace ui lint && yarn workspace ui test",
-    "ui:preview": "yarn workspace ui lint && yarn workspace ui test && yarn workspace ui build && yarn workspace ui preview",
+    "ui:serve": "yarn workspace ui lint && yarn workspace ui test && yarn workspace ui build && yarn workspace ui preview",
     "ui:dev": "yarn workspace ui dev",
     "backend:check": "yarn core:build && yarn workspace backend format && yarn workspace backend lint && yarn workspace backend test",
-    "backend:start": "yarn core:build && yarn backend:check && yarn workspace backend build && yarn workspace backend start:prod",
+    "backend:serve": "yarn core:build && yarn backend:check && yarn workspace backend build && yarn workspace backend start:prod",
     "backend:dev": "yarn core:build && yarn workspace backend start:dev"
   },
   "workspaces": [

@@ -5,10 +5,10 @@
     "license": "MIT",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build && npx import-meta-env -x .env",
+        "build": "vite build && npx import-meta-env -x .env",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
-        "test": "vitest"
+        "test": "vitest run"
     },
     "dependencies": {
         "@dnd-kit/core": "^6.1.0",

@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
-
-import { formatPhoneNumber } from '~/shared/lib/format-phone-number';
+import { formatPhoneNumber } from '~/core/shared/lib/format-phone-number';
 
 describe('format phone number', () => {
     it('must format filled input', () => {

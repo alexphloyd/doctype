@@ -53,7 +53,7 @@ export const networkScheduler = {
                     messageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
                 }
 
-                db.networkSchedulerRequest.bulkDelete(succeed).catch(() => { });
+                db.networkSchedulerRequest.bulkDelete(succeed).catch(() => {});
             }
         }
     },
