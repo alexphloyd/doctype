@@ -6,59 +6,57 @@ import { parseRequestInstance } from '~/service-worker/infrastructure/lib/reques
 import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/mod.network-scheduler';
 import { router } from '~/service-worker/infrastructure/router/mod.router';
 import {
-    prepareErrorResponse,
-    prepareResponse,
+  prepareErrorResponse,
+  prepareResponse,
 } from '~/service-worker/infrastructure/router/prepare-response';
 import { authService } from '~/service-worker/infrastructure/services/auth.service';
 
 async function loginHandler(ev: FetchEvent) {
-    const clonedReq = ev.request.clone();
-    const payload = clonedReq.body && (await clonedReq.json());
+  const clonedReq = ev.request.clone();
+  const payload = clonedReq.body && (await clonedReq.json());
 
-    const query = await swApiClient.query<{ user: User; tokens: Tokens }>({
-        parsedRequest: parseRequestInstance(clonedReq, payload),
-    });
+  const query = await swApiClient.query<{ user: User; tokens: Tokens }>({
+    parsedRequest: parseRequestInstance(clonedReq, payload),
+  });
 
-    if (query.data) {
-        await authService.updateTokens(query.data.tokens);
-        await authService.updateSession({ user: query.data.user });
-        networkScheduler.execute();
+  if (query.data) {
+    await authService.updateTokens(query.data.tokens);
+    await authService.updateSession({ user: query.data.user });
+    networkScheduler.execute();
 
-        return prepareResponse(query.data);
-    } else {
-        return prepareErrorResponse(query.error);
-    }
+    return prepareResponse(query.data);
+  } else {
+    return prepareErrorResponse(query.error);
+  }
 }
 
 export function registerAuthRoutes() {
-    router.register({
-        path: 'auth/login',
-        handler: loginHandler,
-    });
-    router.register({
-        path: 'auth/loginWithOAuth',
-        handler: loginHandler,
-    });
-    router.register({
-        path: 'auth/session',
-        handler: async (ev) => {
-            const tokens = await authService.getTokens();
+  router.register({
+    path: 'auth/login',
+    handler: loginHandler,
+  });
+  router.register({
+    path: 'auth/loginWithOAuth',
+    handler: loginHandler,
+  });
+  router.register({
+    path: 'auth/session',
+    handler: async (ev) => {
+      const tokens = await authService.getTokens();
 
-            if (!tokens) {
-                return prepareErrorResponse(
-                    new AxiosError('Authorization Tokens is not defined')
-                );
-            }
+      if (!tokens) {
+        return prepareErrorResponse(new AxiosError('Authorization Tokens is not defined'));
+      }
 
-            const query = await swApiClient.query<{ user: User }>({
-                parsedRequest: parseRequestInstance(ev.request),
-            });
+      const query = await swApiClient.query<{ user: User }>({
+        parsedRequest: parseRequestInstance(ev.request),
+      });
 
-            if (query.data) {
-                return prepareResponse(query.data);
-            } else {
-                return prepareErrorResponse(query.error);
-            }
-        },
-    });
+      if (query.data) {
+        return prepareResponse(query.data);
+      } else {
+        return prepareErrorResponse(query.error);
+      }
+    },
+  });
 }

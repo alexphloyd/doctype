@@ -8,29 +8,29 @@ import { from } from 'rxjs';
 
 @Injectable()
 export class SendgridService {
-    constructor(
-        @Inject(SENDGRID_SERVICE) private mailService: MailService,
-        private config: ConfigService
-    ) {}
-    private from = this.config.get('MAIL_FROM');
+  constructor(
+    @Inject(SENDGRID_SERVICE) private mailService: MailService,
+    private config: ConfigService
+  ) {}
+  private from = this.config.get('MAIL_FROM');
 
-    sendVerificationUserCode({
-        code,
-        email,
-    }: {
-        code: string;
-        email: TypeOfValue<User, 'email'>;
-    }) {
-        return from(
-            this.mailService.send({
-                from: this.from,
-                to: email,
-                subject: 'Welcome to Doctype',
-                templateId: SEND_VERIFICATION_CODE_TEMPLATE,
-                dynamicTemplateData: {
-                    code,
-                },
-            })
-        );
-    }
+  sendVerificationUserCode({
+    code,
+    email,
+  }: {
+    code: string;
+    email: TypeOfValue<User, 'email'>;
+  }) {
+    return from(
+      this.mailService.send({
+        from: this.from,
+        to: email,
+        subject: 'Welcome to Doctype',
+        templateId: SEND_VERIFICATION_CODE_TEMPLATE,
+        dynamicTemplateData: {
+          code,
+        },
+      })
+    );
+  }
 }

@@ -7,9 +7,9 @@ import { Home } from '~/core/pages/home';
 import { withGuard } from './with-guard';
 
 export const Pages = {
-    Home,
-    SignIn,
-    AccessDenied,
-    Editor,
-    Settings: withGuard(Settings, ['USER']),
+  Home,
+  SignIn,
+  AccessDenied,
+  Editor,
+  Settings: withGuard(Settings, ['USER']),
 };

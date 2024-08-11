@@ -4,8 +4,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [ConfigModule],
-    providers: [SendgridService, ...sendgridProviders],
-    exports: [SendgridService, ...sendgridProviders],
+  imports: [ConfigModule],
+  providers: [SendgridService, ...sendgridProviders],
+  exports: [SendgridService, ...sendgridProviders],
 })
 export class MailModule {}

@@ -7,10 +7,10 @@ import 'vitest-canvas-mock';
 expect.extend(matchers);
 
 afterEach(() => {
-    cleanup();
+  cleanup();
 });
 
 Object.defineProperty(window, 'scrollTo', {
-    value: () => null,
-    writable: true,
+  value: () => null,
+  writable: true,
 });

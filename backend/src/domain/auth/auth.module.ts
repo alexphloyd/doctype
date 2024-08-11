@@ -11,24 +11,24 @@ import { AuthController } from './controller/auth.controller';
 import { RoleGuard } from './guards/role.guard';
 
 @Module({
-    imports: [
-        UserModule,
-        MailModule,
-        JwtModule.registerAsync({
-            useFactory: async (config: ConfigService) => ({
-                secret: config.get('AUTH_SECRET_KEY'),
-            }),
-            inject: [ConfigService],
-        }),
-    ],
-    controllers: [AuthController],
-    providers: [
-        AuthService,
-        HashService,
-        VerificationService,
-        DBService,
-        RoleGuard,
-    ],
-    exports: [JwtModule, RoleGuard],
+  imports: [
+    UserModule,
+    MailModule,
+    JwtModule.registerAsync({
+      useFactory: async (config: ConfigService) => ({
+        secret: config.get('AUTH_SECRET_KEY'),
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [
+    AuthService,
+    HashService,
+    VerificationService,
+    DBService,
+    RoleGuard,
+  ],
+  exports: [JwtModule, RoleGuard],
 })
 export class AuthModule {}

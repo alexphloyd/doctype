@@ -5,24 +5,24 @@ import { api } from '../../api/mod.api';
 import { actions } from '../model';
 
 export const defineSession = createAsyncThunk(
-    'auth/define-session',
-    async (_, { dispatch }) => {
-        const query = await api.session();
+  'auth/define-session',
+  async (_, { dispatch }) => {
+    const query = await api.session();
 
-        if (query?.data?.user) {
-            dispatch(actions.registerSession(query.data.user));
-        } else {
-            showCloudStorageNotification();
-        }
+    if (query?.data?.user) {
+      dispatch(actions.registerSession(query.data.user));
+    } else {
+      showCloudStorageNotification();
     }
+  }
 );
 
 function showCloudStorageNotification() {
-    setTimeout(() => {
-        notifications.show({
-            title: 'Could Storage',
-            message: 'Sign In to keep your progress safe!',
-            autoClose: 10000,
-        });
-    }, 3500);
+  setTimeout(() => {
+    notifications.show({
+      title: 'Could Storage',
+      message: 'Sign In to keep your progress safe!',
+      autoClose: 10000,
+    });
+  }, 3500);
 }

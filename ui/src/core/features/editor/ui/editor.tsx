@@ -11,101 +11,101 @@ import { ReactNodeViewRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useCallback, useState } from 'react';
 import ReactFlow, {
-    Background,
-    Connection,
-    EdgeChange,
-    NodeChange,
-    addEdge,
-    applyEdgeChanges,
-    applyNodeChanges,
+  Background,
+  Connection,
+  EdgeChange,
+  NodeChange,
+  addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
 } from 'reactflow';
 
 import './styles.css';
 
 const initialNodes = [
-    { id: '1', position: { x: 0, y: 0 }, data: { label: 'router' } },
-    { id: '2', position: { x: 90, y: 70 }, data: { label: 'service module' } },
+  { id: '1', position: { x: 0, y: 0 }, data: { label: 'router' } },
+  { id: '2', position: { x: 90, y: 70 }, data: { label: 'service module' } },
 ];
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
 const FlowComponent = () => {
-    const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState(initialEdges);
 
-    const onNodesChange = useCallback(
-        (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        []
-    );
-    const onEdgesChange = useCallback(
-        (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        []
-    );
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    []
+  );
 
-    const onConnect = useCallback(
-        (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-        []
-    );
+  const onConnect = useCallback(
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    []
+  );
 
-    return (
-        <NodeViewWrapper>
-            <div className="h-[150px] my-8 w-full">
-                <ReactFlow
-                    id={crypto.randomUUID()}
-                    nodes={nodes}
-                    onNodesChange={onNodesChange}
-                    edges={edges}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    fitView
-                    fitViewOptions={{ padding: 0.2 }}
-                >
-                    <Background />
-                </ReactFlow>
-            </div>
-        </NodeViewWrapper>
-    );
+  return (
+    <NodeViewWrapper>
+      <div className="h-[250px] my-8 w-full">
+        <ReactFlow
+          id={crypto.randomUUID()}
+          nodes={nodes}
+          onNodesChange={onNodesChange}
+          edges={edges}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          fitView
+          fitViewOptions={{ padding: 0.4 }}
+        >
+          <Background />
+        </ReactFlow>
+      </div>
+    </NodeViewWrapper>
+  );
 };
 
 const Component = () => (
-    <NodeViewWrapper>
-        <figure data-drag-handle draggable={true} contentEditable={false}>
-            drag
-        </figure>
-        <FlowComponent />
-    </NodeViewWrapper>
+  <NodeViewWrapper>
+    <figure data-drag-handle draggable={true} contentEditable={false}>
+      drag
+    </figure>
+    <FlowComponent />
+  </NodeViewWrapper>
 );
 
 const SchemaNode = Node.create({
-    name: 'schema',
-    group: 'block',
-    atom: true,
-    draggable: true,
+  name: 'schema',
+  group: 'block',
+  atom: true,
+  draggable: true,
 
-    parseHTML() {
-        return [
-            {
-                tag: 'schema',
-            },
-        ];
-    },
+  parseHTML() {
+    return [
+      {
+        tag: 'schema',
+      },
+    ];
+  },
 
-    renderHTML({ HTMLAttributes }) {
-        return ['schema', mergeAttributes(HTMLAttributes)];
-    },
+  renderHTML({ HTMLAttributes }) {
+    return ['schema', mergeAttributes(HTMLAttributes)];
+  },
 
-    addAttributes() {
-        return {
-            src: String,
-        };
-    },
+  addAttributes() {
+    return {
+      src: String,
+    };
+  },
 
-    addNodeView() {
-        return ReactNodeViewRenderer(Component);
-    },
+  addNodeView() {
+    return ReactNodeViewRenderer(Component);
+  },
 });
 
 export const Editor = () => {
-    return <Demo />;
+  return <Demo />;
 };
 
 const content = `
@@ -129,77 +129,77 @@ const content = `
 `;
 
 function Demo() {
-    // const [items, setItems] = useState([{ id: '1' }, { id: '2' }, { id: '3' }]);
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Underline,
-            Link,
-            Superscript,
-            SubScript,
-            Highlight,
-            TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            SchemaNode,
-        ],
-        content,
-    });
+  // const [items, setItems] = useState([{ id: '1' }, { id: '2' }, { id: '3' }]);
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      SchemaNode,
+    ],
+    content,
+  });
 
-    return (
-        <>
-            <RichTextEditor
-                editor={editor}
-                classNames={{
-                    root: 'w-full max-w-[800px] mx-4 min-h-[95vh] h-[95vh] border-borderDark',
-                    toolbar: 'border-borderDark',
-                }}
-            >
-                <RichTextEditor.Toolbar sticky>
-                    <RichTextEditor.ControlsGroup>
-                        <RichTextEditor.Bold />
-                        <RichTextEditor.Italic />
-                        <RichTextEditor.Underline />
-                        <RichTextEditor.Strikethrough />
-                        <RichTextEditor.ClearFormatting />
-                        <RichTextEditor.Highlight />
-                        <RichTextEditor.Code />
-                    </RichTextEditor.ControlsGroup>
+  return (
+    <>
+      <RichTextEditor
+        editor={editor}
+        classNames={{
+          root: 'w-full max-w-[800px] mx-4 min-h-[95vh] h-[95vh] border-borderDark',
+          toolbar: 'border-borderDark',
+        }}
+      >
+        <RichTextEditor.Toolbar sticky>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Bold />
+            <RichTextEditor.Italic />
+            <RichTextEditor.Underline />
+            <RichTextEditor.Strikethrough />
+            <RichTextEditor.ClearFormatting />
+            <RichTextEditor.Highlight />
+            <RichTextEditor.Code />
+          </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup>
-                        <RichTextEditor.H1 />
-                        <RichTextEditor.H2 />
-                        <RichTextEditor.H3 />
-                        <RichTextEditor.H4 />
-                    </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.H1 />
+            <RichTextEditor.H2 />
+            <RichTextEditor.H3 />
+            <RichTextEditor.H4 />
+          </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup>
-                        <RichTextEditor.Blockquote />
-                        <RichTextEditor.Hr />
-                        <RichTextEditor.BulletList />
-                        <RichTextEditor.OrderedList />
-                        <RichTextEditor.Subscript />
-                        <RichTextEditor.Superscript />
-                    </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Blockquote />
+            <RichTextEditor.Hr />
+            <RichTextEditor.BulletList />
+            <RichTextEditor.OrderedList />
+            <RichTextEditor.Subscript />
+            <RichTextEditor.Superscript />
+          </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup>
-                        <RichTextEditor.Link />
-                        <RichTextEditor.Unlink />
-                    </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Link />
+            <RichTextEditor.Unlink />
+          </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup>
-                        <RichTextEditor.AlignLeft />
-                        <RichTextEditor.AlignCenter />
-                        <RichTextEditor.AlignJustify />
-                        <RichTextEditor.AlignRight />
-                    </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.AlignLeft />
+            <RichTextEditor.AlignCenter />
+            <RichTextEditor.AlignJustify />
+            <RichTextEditor.AlignRight />
+          </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup>
-                        <RichTextEditor.Undo />
-                        <RichTextEditor.Redo />
-                    </RichTextEditor.ControlsGroup>
-                </RichTextEditor.Toolbar>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Undo />
+            <RichTextEditor.Redo />
+          </RichTextEditor.ControlsGroup>
+        </RichTextEditor.Toolbar>
 
-                <RichTextEditor.Content className="editor-content" />
-            </RichTextEditor>
-        </>
-    );
+        <RichTextEditor.Content className="editor-content" />
+      </RichTextEditor>
+    </>
+  );
 }

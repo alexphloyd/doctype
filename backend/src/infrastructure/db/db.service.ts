@@ -3,7 +3,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 
 @Injectable()
 export class DBService extends PrismaClient implements OnModuleInit {
-    async onModuleInit() {
-        await this.$connect();
-    }
+  async onModuleInit() {
+    await this.$connect();
+  }
 }

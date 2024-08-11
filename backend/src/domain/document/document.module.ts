@@ -4,8 +4,8 @@ import { AuthModule } from '../auth/auth.module';
 import { DBService } from '~/infrastructure/db/db.service';
 
 @Module({
-    imports: [AuthModule],
-    controllers: [DocumentController],
-    providers: [DBService],
+  imports: [AuthModule],
+  controllers: [DocumentController],
+  providers: [DBService],
 })
 export class DocumentModule {}

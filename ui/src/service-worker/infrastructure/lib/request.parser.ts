@@ -3,32 +3,32 @@ import { type AxiosHeaders } from 'axios';
 import { type AnyPayload } from '../api-client/types';
 
 export function parseRequestInstance(req: Request, payload?: AnyPayload) {
-    const headers = Object.fromEntries(req.headers.entries());
-    const parsedReq = JSON.parse(
-        JSON.stringify(req, [
-            'bodyUsed',
-            'cache',
-            'credentials',
-            'destination',
-            'integrity',
-            'isHistoryNavigation',
-            'keepalive',
-            'method',
-            'mode',
-            'redirect',
-            'referrer',
-            'referrerPolicy',
-            'signal',
-            'url',
-        ])
-    );
+  const headers = Object.fromEntries(req.headers.entries());
+  const parsedReq = JSON.parse(
+    JSON.stringify(req, [
+      'bodyUsed',
+      'cache',
+      'credentials',
+      'destination',
+      'integrity',
+      'isHistoryNavigation',
+      'keepalive',
+      'method',
+      'mode',
+      'redirect',
+      'referrer',
+      'referrerPolicy',
+      'signal',
+      'url',
+    ])
+  );
 
-    return { ...parsedReq, headers, payload };
+  return { ...parsedReq, headers, payload };
 }
 
 export type ParsedRequest = Partial<
-    Omit<Request, 'arrayBuffer' | 'clone' | 'json' | 'blob' | 'text' | 'body' | 'headers'>
+  Omit<Request, 'arrayBuffer' | 'clone' | 'json' | 'blob' | 'text' | 'body' | 'headers'>
 > & {
-    headers?: AxiosHeaders;
-    payload?: AnyPayload;
+  headers?: AxiosHeaders;
+  payload?: AnyPayload;
 };

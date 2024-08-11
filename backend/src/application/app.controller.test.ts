@@ -2,19 +2,19 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 
 describe('AppController', () => {
-    let appController: AppController;
+  let appController: AppController;
 
-    beforeEach(async () => {
-        const app: TestingModule = await Test.createTestingModule({
-            controllers: [AppController],
-        }).compile();
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [AppController],
+    }).compile();
 
-        appController = app.get<AppController>(AppController);
+    appController = app.get<AppController>(AppController);
+  });
+
+  describe('root', () => {
+    it('bootstrap', () => {
+      expect(appController.getHello()).toBe('hello api');
     });
-
-    describe('root', () => {
-        it('bootstrap', () => {
-            expect(appController.getHello()).toBe('hello api');
-        });
-    });
+  });
 });

@@ -1,48 +1,42 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Doctype</title>
+  <head>
+    <title>Doctype</title>
 
-        <meta charset="utf-8" />
-        <base href="/" />
+    <meta charset="utf-8" />
+    <base href="/" />
 
-        <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
 
-        <link
-            rel="preload"
-            href="/fonts/roboto.woff2"
-            as="font"
-            type="font/woff2"
-            crossorigin
-        />
+    <link rel="preload" href="/fonts/roboto.woff2" as="font" type="font/woff2" crossorigin />
 
-        <link rel="shortcut icon" href="/images/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-    </head>
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+  </head>
 
-    <body>
-        <div id="root"></div>
+  <body>
+    <div id="root"></div>
 
-        <script>
-            /* PROD: will be replaced with generated production env at build time */
-            globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"');
-        </script>
+    <script>
+      /* PROD: will be replaced with generated production env at build time */
+      globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"');
+    </script>
 
-        <script type="module">
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker
-                        .register(import.meta.env.VITE_SW_ASSET, {
-                            type: 'module',
-                            scope: '/',
-                        })
-                        .catch(console.log);
-                });
-            }
-        </script>
+    <script type="module">
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register(import.meta.env.VITE_SW_ASSET, {
+              type: 'module',
+              scope: '/',
+            })
+            .catch(console.log);
+        });
+      }
+    </script>
 
-        <script type="module" src="/src/core/app/entry.tsx"></script>
-    </body>
+    <script type="module" src="/src/core/app/entry.tsx"></script>
+  </body>
 </html>

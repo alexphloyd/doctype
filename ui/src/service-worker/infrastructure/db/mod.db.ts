@@ -4,36 +4,36 @@ import Dexie from 'dexie';
 
 import { type ParsedRequest } from '../lib/request.parser';
 
-export class MainDB extends Dexie {
-    private static self?: MainDB;
-    public static async getConnection() {
-        if (!MainDB.self) {
-            const single = new MainDB();
-            MainDB.self = single;
+export class LocalDB extends Dexie {
+  private static self?: LocalDB;
+  public static async getConnection() {
+    if (!LocalDB.self) {
+      const single = new LocalDB();
+      LocalDB.self = single;
 
-            await single.open();
-        }
-
-        return MainDB.self!;
+      await single.open();
     }
 
-    document!: Dexie.Table<Document, string>;
+    return LocalDB.self!;
+  }
 
-    networkSchedulerRequest!: Dexie.Table<{ id: string; req: ParsedRequest }, string>;
-    authTokens!: Dexie.Table<{ id: 'singleton'; access: string; refresh: string }, string>;
+  document!: Dexie.Table<Document, string>;
 
-    session!: Dexie.Table<{ id: 'singleton'; current: User }>;
+  networkSchedulerRequest!: Dexie.Table<{ id: string; req: ParsedRequest }, string>;
+  authTokens!: Dexie.Table<{ id: 'singleton'; access: string; refresh: string }, string>;
 
-    private constructor() {
-        super('main_db');
+  session!: Dexie.Table<{ id: 'singleton'; current: User }>;
 
-        this.version(1).stores({
-            document: '&id, userId, lastUpdatedTime, name',
+  private constructor() {
+    super('main_db');
 
-            networkSchedulerRequest: '&id, req',
-            authTokens: '&id, access, refresh',
+    this.version(1).stores({
+      document: '&id, userId, lastUpdatedTime, name',
 
-            session: '&id, current',
-        });
-    }
+      networkSchedulerRequest: '&id, req',
+      authTokens: '&id, access, refresh',
+
+      session: '&id, current',
+    });
+  }
 }

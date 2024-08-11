@@ -4,8 +4,8 @@ import { authModel } from '~/core/features/auth/model/model';
 import { appLoaderModel } from '~/core/shared/ui/app-loader/model';
 
 export const reducer = combineReducers({
-    [documentModel.name]: documentModel.reducer,
-    [authModel.name]: authModel.reducer,
+  [documentModel.name]: documentModel.reducer,
+  [authModel.name]: authModel.reducer,
 
-    [appLoaderModel.name]: appLoaderModel.reducer,
+  [appLoaderModel.name]: appLoaderModel.reducer,
 });

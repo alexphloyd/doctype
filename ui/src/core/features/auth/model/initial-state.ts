@@ -1,44 +1,44 @@
 import { type ModelState } from './types';
 
 export const initialState: ModelState = {
-    session: undefined,
+  session: undefined,
 
-    processes: {
-        signIn: {
-            step: 'credentials',
-            tab: 'sign-up',
-            credentials: undefined,
-        },
-        login: {
-            error: undefined,
-        },
+  processes: {
+    signIn: {
+      step: 'credentials',
+      tab: 'sign-up',
+      credentials: undefined,
     },
+    login: {
+      error: undefined,
+    },
+  },
 
-    effects: {
-        defineSession: {
-            error: undefined,
-            status: 'idle',
-            firstExecution: true,
-        },
-        login: {
-            error: undefined,
-            status: 'idle',
-            firstExecution: true,
-        },
-        signUp: {
-            error: undefined,
-            status: 'idle',
-            firstExecution: true,
-        },
-        verify: {
-            error: undefined,
-            status: 'idle',
-            firstExecution: true,
-        },
-        loginWithOAuth: {
-            error: undefined,
-            status: 'idle',
-            firstExecution: true,
-        },
+  effects: {
+    defineSession: {
+      error: undefined,
+      status: 'idle',
+      firstExecution: true,
     },
+    login: {
+      error: undefined,
+      status: 'idle',
+      firstExecution: true,
+    },
+    signUp: {
+      error: undefined,
+      status: 'idle',
+      firstExecution: true,
+    },
+    verify: {
+      error: undefined,
+      status: 'idle',
+      firstExecution: true,
+    },
+    loginWithOAuth: {
+      error: undefined,
+      status: 'idle',
+      firstExecution: true,
+    },
+  },
 };

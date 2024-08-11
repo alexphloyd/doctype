@@ -1,5 +1,5 @@
 @layer utilities {
-    .shadow-effect {
-        box-shadow: 0px 6px 28px rgba(0, 0, 0, 0.1);
-    }
+  .shadow-effect {
+    box-shadow: 0px 6px 28px rgba(0, 0, 0, 0.1);
+  }
 }

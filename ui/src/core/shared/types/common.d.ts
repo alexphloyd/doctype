@@ -9,19 +9,19 @@ declare type RoutePath = string;
 declare type EffectStatus = 'idle' | 'pending' | 'fulfilled' | 'rejected';
 
 declare type EffectState = {
-    status: EffectStatus;
-    error?: Partial<ApiErrorData>;
-    firstExecution: boolean;
+  status: EffectStatus;
+  error?: Partial<ApiErrorData>;
+  firstExecution: boolean;
 };
 
 declare type ErrorMessage = string | undefined;
 
 type ApiErrorData = {
-    message: ErrorMessage;
-    statusCode: number;
+  message: ErrorMessage;
+  statusCode: number;
 };
 
 declare type ApiClientResponse<R> = {
-    data: R | undefined;
-    error: import('axios').AxiosError<ApiErrorData> | undefined;
+  data: R | undefined;
+  error: import('axios').AxiosError<ApiErrorData> | undefined;
 };
