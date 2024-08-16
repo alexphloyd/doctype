@@ -5,7 +5,7 @@
     "type": "commonjs",
     "main": "./src/index.ts",
     "scripts": {
-        "build": "rm -r ./dist-cjs & npx tsc"
+        "build": "rm -fr ./dist-cjs & npx tsc"
     },
     "dependencies": {
         "uuid": "^9.0.1",
