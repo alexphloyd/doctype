@@ -3,6 +3,7 @@ import { useClickOutside } from '@mantine/hooks';
 import { type Document } from 'core/src/domain/document/types';
 import dayjs from 'dayjs';
 import { ChangeEvent, memo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/core/app/store/hooks';
 
 import { applyRename } from '../model/effects/apply-rename';
@@ -10,8 +11,14 @@ import { startRenamingProcess, updateRenamingProcess } from '../model/model';
 import { useRenamingProcess } from '../model/selectors';
 
 export const Preview = memo((doc: Document) => {
+  const navigate = useNavigate();
+
+  const openInEditor = () => {
+    navigate('/editor/demo');
+  };
+
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center" onClick={openInEditor}>
       <Paper
         withBorder
         classNames={{

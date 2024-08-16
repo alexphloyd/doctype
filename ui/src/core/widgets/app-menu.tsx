@@ -19,7 +19,7 @@ export const AppMenu = () => {
           content={<Icon name="home" className="w-[1.09rem] h-[1.09rem] text-accent" />}
         />
         <NavigationButton
-          pushTo="/editor/12"
+          pushTo="/editor/demo"
           content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
         />
 

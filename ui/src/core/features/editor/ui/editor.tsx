@@ -109,8 +109,8 @@ export const Editor = () => {
 };
 
 const content = `
-<h1 style="text-align: center;"><em>Little Stupid Document</em></h1>
-<p>This is an example of content for a tiptap editor. We will include some text, lists, and more to demonstrate how it can be structured.</p>
+<h1 style="text-align: center;"><em>Little Document</em></h1>
+<p>This is an example of content for an editor. We will include some text, lists, and more to demonstrate how it can be structured.</p>
 
 <h2>Introduction</h2>
 <blockquote>Welcome to the example document. Below are some lists and more content to illustrate the structure.</blockquote>
@@ -129,7 +129,6 @@ const content = `
 `;
 
 function Demo() {
-  // const [items, setItems] = useState([{ id: '1' }, { id: '2' }, { id: '3' }]);
   const editor = useEditor({
     extensions: [
       StarterKit,
