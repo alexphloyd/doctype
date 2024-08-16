@@ -4,7 +4,9 @@ import { precacheAndServeAssets } from './infrastructure/cache/precache';
 import { router } from './infrastructure/router/mod.router';
 import { _self } from './infrastructure/self';
 
-precacheAndServeAssets();
+if (import.meta.env.PROD) {
+  precacheAndServeAssets();
+}
 
 registerDocumentRoutes();
 registerAuthRoutes();

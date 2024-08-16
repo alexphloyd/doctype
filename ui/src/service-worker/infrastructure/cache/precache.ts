@@ -1,24 +1,32 @@
-import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute, type PrecacheEntry } from 'workbox-precaching';
+import { cleanupOutdatedCaches } from 'workbox-precaching/cleanupOutdatedCaches';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate } from 'workbox-strategies';
+import { APPLICATION_VERSION } from '~/service-worker/application-version';
 
-/* serve precaching only for production */
 export function precacheAndServeAssets() {
-  if (import.meta.env.DEV) return;
+  cleanupOutdatedCaches();
 
-  const assets: Array<{ url: string; revision: string | null }> = [
-    { url: '/', revision: '1' },
-    { url: '/icons/primary.svg', revision: '1' },
-    { url: '/fonts/roboto.woff2', revision: '1' },
-    { url: '/images/favicon.ico', revision: '1' },
-    { url: '/images/favicon-32x32.png', revision: '1' },
-    { url: '/images/favicon-16x16.png', revision: '1' },
-    { url: '/images/apple-touch-icon.png', revision: '1' },
-    { url: '/avatar-placeholder.png', revision: '1' },
-  ];
+  const resources = [
+    { url: '/', revision: 'v' + APPLICATION_VERSION },
+    { url: '/icons/primary.svg', revision: 'v1' },
+    { url: '/fonts/roboto.woff2', revision: 'v1' },
+    { url: '/images/favicon.ico', revision: 'v1' },
+    { url: '/images/favicon-32x32.png', revision: 'v1' },
+    { url: '/images/favicon-16x16.png', revision: 'v1' },
+    { url: '/images/apple-touch-icon.png', revision: 'v1' },
+    { url: '/avatar-placeholder.png', revision: 'v1' },
+  ] satisfies Array<PrecacheEntry>;
 
-  const dynamicAssets = import.meta.env.VITE_ASSETS;
-  dynamicAssets?.split(' ').map((url: string) => {
-    assets.push({ url, revision: null });
-  });
+  const assets = import.meta.env.VITE_ASSETS?.split(' ').map((url: string) => {
+    return { url, revision: null };
+  }) satisfies Array<PrecacheEntry>;
 
-  precacheAndRoute(assets);
+  precacheAndRoute([...resources, ...assets]);
+  registerRoute(
+    ({ request }) => request.destination === 'script',
+    new StaleWhileRevalidate({
+      cacheName: 'js-cache',
+    })
+  );
 }

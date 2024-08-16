@@ -45,9 +45,10 @@ export default defineConfig({
 
             const swChunkUrl = manifest['src/service-worker/main.ts']?.file ?? '';
             const chunkUrls = [] as string[];
+
             Object.values(manifest).forEach((chunk: any) => {
               if (chunk.name === 'core-package' || chunk.name === 'libs') {
-                chunkUrls.push('/' + (chunk as any).file);
+                chunkUrls.push('/' + chunk.file);
               }
               if (chunk.name === 'app') {
                 chunkUrls.push('/' + chunk.file);
@@ -57,7 +58,6 @@ export default defineConfig({
             });
 
             const insert = `VITE_ASSETS=${chunkUrls.join(' ')}\n\nVITE_SW_ASSET=/${swChunkUrl}\n\n${originEnv}`;
-
             await writeFile(resolve(__dirname, '.env'), insert, 'utf-8');
 
             console.log('Generated .env');
