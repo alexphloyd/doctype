@@ -2,7 +2,7 @@ import { precacheAndRoute, type PrecacheEntry } from 'workbox-precaching';
 import { cleanupOutdatedCaches } from 'workbox-precaching/cleanupOutdatedCaches';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import { APPLICATION_VERSION } from '~/service-worker/application-version';
+import { APPLICATION_VERSION } from '~/application-version';
 
 export function precacheAndServeAssets() {
   cleanupOutdatedCaches();

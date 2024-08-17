@@ -27,7 +27,7 @@ export class AuthService {
     return {
       access: this.jwtService.sign(
         { sub: user.id, role: user.role, email: user.email },
-        { expiresIn: '5s' }
+        { expiresIn: '7m' }
       ),
       refresh: this.jwtService.sign(
         { sub: user.id, role: user.role, email: user.email },
@@ -139,7 +139,7 @@ export class AuthService {
       });
 
     const { sub, role } = verified_token;
-    const access = this.jwtService.sign({ sub, role }, { expiresIn: '5s' });
+    const access = this.jwtService.sign({ sub, role }, { expiresIn: '7m' });
     const refresh = this.jwtService.sign({ sub, role }, { expiresIn: '1d' });
 
     return {
