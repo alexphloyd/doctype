@@ -18,8 +18,9 @@ export const Preview = memo((doc: Document) => {
   };
 
   return (
-    <div className="flex flex-col items-center" onClick={openInEditor}>
+    <div className="flex flex-col items-center">
       <Paper
+        onClick={openInEditor}
         withBorder
         classNames={{
           root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer border-borderDark',
