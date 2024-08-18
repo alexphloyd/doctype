@@ -1,14 +1,10 @@
 import { precacheAndRoute, type PrecacheEntry } from 'workbox-precaching';
 import { cleanupOutdatedCaches } from 'workbox-precaching/cleanupOutdatedCaches';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
-import { APPLICATION_VERSION } from '~/application-version';
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 export function precacheAndServeAssets() {
-  cleanupOutdatedCaches();
-
   const resources = [
-    { url: '/', revision: 'v' + APPLICATION_VERSION },
     { url: '/icons/primary.svg', revision: 'v1' },
     { url: '/fonts/roboto.woff2', revision: 'v1' },
     { url: '/images/favicon.ico', revision: 'v1' },
@@ -23,10 +19,19 @@ export function precacheAndServeAssets() {
   }) satisfies Array<PrecacheEntry>;
 
   precacheAndRoute([...resources, ...assets]);
+
   registerRoute(
     ({ request }) => request.destination === 'script',
     new StaleWhileRevalidate({
-      cacheName: 'js-cache',
+      cacheName: 'assets',
     })
   );
+  registerRoute(
+    ({ request }) => request.destination === 'document' || request.mode === 'navigate',
+    new NetworkFirst({
+      cacheName: 'html',
+    })
+  );
+
+  cleanupOutdatedCaches();
 }
