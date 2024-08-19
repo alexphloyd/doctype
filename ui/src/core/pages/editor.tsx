@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Editor as EditorComponent } from '~/core/features/editor/ui/editor';
+import { Editor as EditorComponent } from '~/core/entities/editor/ui/editor';
 
 export const Editor = () => {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { initiate as initiateAuthModel } from '~/core/entities/auth/model/initiate';
 import { initiate as initiateDocumentModel } from '~/core/entities/document/model/initiate';
-import { initiate as initiateAuthModel } from '~/core/features/auth/model/initiate';
 
 import { listener } from './middleware';
 import { reducer } from './reducer';

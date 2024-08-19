@@ -1,8 +1,8 @@
 import { Divider } from '@mantine/core';
 import { useLocationArray } from '~/core/app/router/use-location-array';
 import { useAppDispatch } from '~/core/app/store/hooks';
+import { AuthActionsButton } from '~/core/entities/auth/ui/buttons/session-action.button';
 import { create as createDocument } from '~/core/entities/document/model/effects/create';
-import { AuthActionsButton } from '~/core/features/auth/ui/buttons/session-action.button';
 import { AppLoader } from '~/core/shared/ui/app-loader/ui';
 import { NavigationButton } from '~/core/shared/ui/buttons/navigation';
 import { ToolbarActionButton } from '~/core/shared/ui/buttons/toolbar-action';

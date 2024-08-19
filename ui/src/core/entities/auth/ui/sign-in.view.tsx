@@ -1,6 +1,6 @@
 import { Tabs } from '@mantine/core';
 import { useAppDispatch } from '~/core/app/store/hooks';
-import { type Tab, type SignInProcess } from '~/core/features/auth/model/types';
+import { type Tab, type SignInProcess } from '~/core/entities/auth/model/types';
 
 import { actions } from '../model/model';
 import { useSignInProcessTab } from '../model/selectors';

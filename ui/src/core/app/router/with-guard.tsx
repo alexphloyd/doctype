@@ -1,7 +1,7 @@
 import { type Role } from '@prisma/client';
 import { FunctionComponent } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSession } from '~/core/features/auth/model/selectors';
+import { useSession } from '~/core/entities/auth/model/selectors';
 
 const SUPER_ROLES = [] satisfies Role[];
 

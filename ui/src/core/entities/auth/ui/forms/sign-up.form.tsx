@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { useAppDispatch } from '~/core/app/store/hooks';
-import { SignUpSchema, VerificationSchema } from '~/core/features/auth/model/schemas';
+import { SignUpSchema, VerificationSchema } from '~/core/entities/auth/model/schemas';
 import { Form } from '~/core/shared/ui/form';
 import { type OnSubmitResult } from '~/core/shared/ui/form';
 import { Input } from '~/core/shared/ui/input';
