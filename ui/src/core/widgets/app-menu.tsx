@@ -26,7 +26,7 @@ export const AppMenu = () => {
         {location[0] !== 'sign-in' ? (
           <Divider
             classNames={{
-              root: 'h-[1px] w-full border-borderPrimary',
+              root: 'h-[1px] w-full border-borderLight',
             }}
             orientation="horizontal"
           />

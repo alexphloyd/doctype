@@ -5,10 +5,12 @@ import dayjs from 'dayjs';
 import { ChangeEvent, memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/core/app/store/hooks';
+import { Icon } from '~/core/shared/ui/icon';
 
 import { applyRename } from '../model/effects/apply-rename';
 import { startRenamingProcess, updateRenamingProcess } from '../model/model';
 import { useRenamingProcess } from '../model/selectors';
+import { ActionButton } from './action.button';
 
 export const Preview = memo((doc: Document) => {
   const navigate = useNavigate();
@@ -21,9 +23,9 @@ export const Preview = memo((doc: Document) => {
     <div className="flex flex-col items-center">
       <Paper
         onClick={openInEditor}
-        withBorder
+        shadow="xs"
         classNames={{
-          root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer border-borderDark',
+          root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer relative',
         }}
       />
 
