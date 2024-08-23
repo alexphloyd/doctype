@@ -23,7 +23,7 @@ export class AuthService {
     private verificationService: VerificationService
   ) {}
 
-  async getTokens({ user }: { user: User }) {
+  async generateTokens({ user }: { user: User }) {
     return {
       access: this.jwtService.sign(
         { sub: user.id, role: user.role, email: user.email },
@@ -64,7 +64,7 @@ export class AuthService {
       );
     }
 
-    const tokens = await this.getTokens({ user });
+    const tokens = await this.generateTokens({ user });
 
     Reflect.deleteProperty(user, 'password');
 
@@ -95,7 +95,7 @@ export class AuthService {
 
     const res = {} as {
       tokens: Awaited<
-        ReturnType<(typeof AuthService)['prototype']['getTokens']>
+        ReturnType<(typeof AuthService)['prototype']['generateTokens']>
       >;
       user: OmitStrict<User, 'password'>;
     };
@@ -107,12 +107,12 @@ export class AuthService {
       });
 
       res.user = createdUser;
-      res.tokens = await this.getTokens({
+      res.tokens = await this.generateTokens({
         user: createdUser,
       });
     } else {
       res.user = userInDb;
-      res.tokens = await this.getTokens({
+      res.tokens = await this.generateTokens({
         user: userInDb,
       });
     }
@@ -174,5 +174,15 @@ export class AuthService {
     return {
       user: sessionUser,
     };
+  }
+
+  async extractReqSession(req: Request) {
+    const bearer = extractAuthTokenFromHeader(req);
+    if (!bearer) return null;
+
+    const session = await this.jwtService.verifyAsync(bearer).catch(() => {
+      throw new HttpException('Invalid token', 403);
+    });
+    return session as { sub: string; role: string; email: string };
   }
 }

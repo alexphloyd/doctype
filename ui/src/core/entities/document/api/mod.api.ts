@@ -10,6 +10,14 @@ export const api = {
     });
   },
 
+  async remove({ data }: { data: Pick<Document, 'id'> }) {
+    return apiClient.query<{ ok: boolean }>({
+      url: 'document/remove',
+      method: 'POST',
+      data,
+    });
+  },
+
   async rename({ data }: { data: Pick<Document, 'name' | 'id'> }) {
     return apiClient.query<{ ok: boolean }>({
       url: 'document/rename',

@@ -20,7 +20,7 @@ export const apiClient = {
           _res = { error: undefined, data: res.data };
         })
         .catch((err: AxiosError<ApiErrorData, any>) => {
-          const code = err?.response?.data?.statusCode ?? 503;
+          const code = err?.response?.data?.statusCode ?? 304;
           const _err = code >= 200 && code < 500 ? err : UNEXPECTED_ERROR;
 
           _res = { data: undefined, error: _err };
@@ -41,14 +41,14 @@ const UNEXPECTED_ERROR: AxiosError<ApiErrorData, any> | undefined = {
   response: {
     data: {
       message: "Oops! It seems we've hit a bump in the road..",
-      statusCode: 503,
+      statusCode: 304,
     },
-    status: 503,
+    status: 304,
     statusText: 'UNEXPECTED',
   } as any,
   isAxiosError: true,
   name: 'UNEXPECTED',
-  code: '503',
+  code: '304',
   toJSON: () => ({}),
   message: "Oops! It seems we've hit a bump in the road..",
 };

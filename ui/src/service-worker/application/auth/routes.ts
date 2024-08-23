@@ -9,7 +9,7 @@ import {
   prepareErrorResponse,
   prepareResponse,
 } from '~/service-worker/infrastructure/router/prepare-response';
-import { authService } from '~/service-worker/infrastructure/services/auth.service';
+import { authService } from '~/service-worker/services/auth.service';
 
 async function loginHandler(ev: FetchEvent) {
   const clonedReq = ev.request.clone();

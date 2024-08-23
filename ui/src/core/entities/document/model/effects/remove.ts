@@ -1,18 +1,18 @@
 import { notifications } from '@mantine/notifications';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import dayjs from 'dayjs';
+import { type Document } from 'core/src/domain/document/types';
 
 import { api } from '../../api/mod.api';
 import { getLocallyStored } from './get-locally-stored';
 
-export const create = createAsyncThunk<
+export const remove = createAsyncThunk<
   any,
-  void,
+  { id: Document['id'] },
   { rejectValue: Partial<ApiErrorData> | undefined }
->('document/create', async (_, { dispatch, rejectWithValue }) => {
-  const query = await api.create({
+>('document/remove', async (args, { dispatch, rejectWithValue }) => {
+  const query = await api.remove({
     data: {
-      name: 'Issue: ' + '~' + dayjs().format('ss').toString(),
+      id: args.id,
     },
   });
 
@@ -22,7 +22,7 @@ export const create = createAsyncThunk<
   } else {
     notifications.show({
       title: 'Failed',
-      message: 'Oops, document is not created.',
+      message: 'Oops, document is not removed.',
       color: 'red',
       autoClose: 6000,
     });
