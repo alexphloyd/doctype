@@ -1,6 +1,7 @@
 import { registerAuthRoutes } from './application/auth/routes';
 import { registerDocumentRoutes } from './application/document/routes';
 import { precacheAndServeAssets } from './infrastructure/cache/precache';
+import { networkScheduler } from './infrastructure/network-scheduler/mod.network-scheduler';
 import { router } from './infrastructure/router/mod.router';
 import { _self } from './infrastructure/self';
 
@@ -20,3 +21,5 @@ _self.addEventListener('fetch', (event) => {
     event.respondWith(router.serve(event));
   }
 });
+
+networkScheduler.execute();

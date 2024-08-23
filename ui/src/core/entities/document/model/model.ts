@@ -102,6 +102,7 @@ export const documentModel = createSlice({
 navigator.serviceWorker.addEventListener('message', (ev) => {
   if (ev.data === NETWORK_MESSAGES.SAVED_TO_CLOUD) {
     notifications.show({
+      id: 'saved-to-cloud',
       title: 'Cloud Storage',
       message: 'Your progress successfully saved to cloud.',
       color: 'green',

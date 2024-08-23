@@ -9,9 +9,9 @@ import {
   prepareErrorResponse,
   prepareResponse,
 } from '~/service-worker/infrastructure/router/prepare-response';
-import { authService } from '~/service-worker/infrastructure/services/auth.service';
 
 import { cloudApi } from './cloud.api';
+import { authService } from '~/service-worker/services/auth.service';
 
 export function registerDocumentRoutes() {
   router.register({
@@ -36,6 +36,25 @@ export function registerDocumentRoutes() {
 
       return prepareResponse({
         ok: Boolean(created),
+      });
+    },
+  });
+
+  router.register({
+    path: 'document/remove',
+    handler: async (ev, db) => {
+      const body = await ev.request.json();
+      const parsedBody = DocumentSchema.pick({ id: true }).parse(body);
+
+      const session = await authService.getSession();
+      await db.document.delete(parsedBody.id);
+
+      if (session?.current.id) {
+        networkScheduler.post({ req: ev.request, payload: parsedBody });
+      }
+
+      return prepareResponse({
+        ok: true,
       });
     },
   });

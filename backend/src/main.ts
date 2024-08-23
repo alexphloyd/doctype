@@ -3,6 +3,8 @@ import { AppModule } from './application/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import { HttpExceptionFilter } from './application/filters/http-exceptions.filter';
+import { PrismaClientExceptionFilter } from './application/filters/prisma-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +16,8 @@ async function bootstrap() {
   app.use(helmet());
 
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
 
   app.use(cookieParser());
 

@@ -32,6 +32,12 @@ export function precacheAndServeAssets() {
       cacheName: 'html',
     })
   );
+  registerRoute(
+    ({ request }) => request.destination === 'style',
+    new NetworkFirst({
+      cacheName: 'css',
+    })
+  );
 
   cleanupOutdatedCaches();
 }

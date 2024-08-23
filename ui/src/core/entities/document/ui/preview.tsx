@@ -1,8 +1,8 @@
-import { Paper, TextInput } from '@mantine/core';
-import { useClickOutside } from '@mantine/hooks';
+import { CloseButton, Paper, TextInput } from '@mantine/core';
+import { useClickOutside, useDisclosure, useHover } from '@mantine/hooks';
 import { type Document } from 'core/src/domain/document/types';
 import dayjs from 'dayjs';
-import { ChangeEvent, memo, useEffect } from 'react';
+import { ChangeEvent, memo, MouseEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/core/app/store/hooks';
 import { Icon } from '~/core/shared/ui/icon';
@@ -10,29 +10,56 @@ import { Icon } from '~/core/shared/ui/icon';
 import { applyRename } from '../model/effects/apply-rename';
 import { startRenamingProcess, updateRenamingProcess } from '../model/model';
 import { useRenamingProcess } from '../model/selectors';
-import { ActionButton } from './action.button';
+import { RemoveModal } from './remove.modal';
 
 export const Preview = memo((doc: Document) => {
   const navigate = useNavigate();
+  const { ref: paperRef, hovered } = useHover();
+  const [removeModalOpened, { open: _openRemoveModal, close: closeRemoveModal }] =
+    useDisclosure(false);
 
   const openInEditor = () => {
     navigate('/editor/demo');
   };
 
+  const openRemoveModal: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    _openRemoveModal();
+  };
+
   return (
     <div className="flex flex-col items-center">
       <Paper
+        ref={paperRef}
+        withBorder={hovered}
         onClick={openInEditor}
-        shadow="xs"
+        shadow="sm"
         classNames={{
-          root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer relative',
+          root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer relative border-borderLight',
         }}
-      />
+      >
+        {(hovered || removeModalOpened) && (
+          <CloseButton
+            onClick={openRemoveModal}
+            className="absolute top-[6px] right-[6px] overflow-hidden"
+            icon={
+              <Icon
+                name="trash"
+                width="19px"
+                height="16px"
+                className="w-[19px] h-[16px] text-gray-500"
+              />
+            }
+          />
+        )}
+      </Paper>
 
       <Name {...doc} key={doc.id} />
       <span className="mt-[1px] text-[0.71rem] text-fontSecondary">
         {dayjs(doc.lastUpdatedTime).format('D MMMM h:mm A').toString()}
       </span>
+
+      <RemoveModal doc={doc} opened={removeModalOpened} onClose={closeRemoveModal} />
     </div>
   );
 });
