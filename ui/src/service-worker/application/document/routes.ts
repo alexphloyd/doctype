@@ -9,9 +9,9 @@ import {
   prepareErrorResponse,
   prepareResponse,
 } from '~/service-worker/infrastructure/router/prepare-response';
+import { authService } from '~/service-worker/services/auth.service';
 
 import { cloudApi } from './cloud.api';
-import { authService } from '~/service-worker/services/auth.service';
 
 export function registerDocumentRoutes() {
   router.register({
@@ -110,8 +110,8 @@ export function registerDocumentRoutes() {
   router.register({
     path: 'document/getWithRemotelyStored',
     handler: async (_ev, db) => {
-      const authorizationData = await authService.getTokens();
-      if (!navigator.onLine || !authorizationData) {
+      const authTokens = await authService.getTokens();
+      if (!navigator.onLine || !authTokens) {
         return prepareResponse({
           ok: false,
         });

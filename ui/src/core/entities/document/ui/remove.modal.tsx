@@ -1,6 +1,7 @@
 import { Button, FocusTrap, Modal } from '@mantine/core';
 import { type Document } from 'core/src/domain/document/types';
 import { useAppDispatch } from '~/core/app/store/hooks';
+
 import { remove } from '../model/effects/remove';
 
 interface Props {
@@ -63,7 +64,7 @@ export const RemoveModal = (props: Props) => {
           }}
         >
           Remove
-          <span className="text-white text-center font-bold ml-2 border-[1px] border-solid border-white/10 bg-white/5 px-[7px] py-[2.5px] rounded">
+          <span className="text-white text-center font-bold ml-3 border-[1px] border-solid border-white/20 bg-white/10 px-[6px] py-[2.5px] rounded">
             ⏎
           </span>
         </Button>

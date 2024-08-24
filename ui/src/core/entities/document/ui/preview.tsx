@@ -35,7 +35,7 @@ export const Preview = memo((doc: Document) => {
         onClick={openInEditor}
         shadow="sm"
         classNames={{
-          root: 'min-w-[10.5rem] min-h-[10.5rem] mb-[6px] cursor-pointer relative border-borderLight',
+          root: 'min-w-[14rem] min-h-[11.5rem] mb-[6px] cursor-pointer relative border-borderLight',
         }}
       >
         {(hovered || removeModalOpened) && (
