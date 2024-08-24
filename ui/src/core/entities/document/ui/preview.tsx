@@ -35,7 +35,7 @@ export const Preview = memo((doc: Document) => {
         onClick={openInEditor}
         shadow="sm"
         classNames={{
-          root: 'min-w-[14rem] min-h-[11.5rem] mb-[6px] cursor-pointer relative border-borderLight',
+          root: 'min-w-[14.6rem] min-h-[11.5rem] mb-[7px] cursor-pointer relative border-borderLight',
         }}
       >
         {(hovered || removeModalOpened) && (
@@ -104,7 +104,7 @@ const Name = (doc: Document) => {
         }}
         classNames={{
           input:
-            'text-center border-accent border-dashed max-w-[10.5rem] w-[10.5rem] text-sm min-h-0 h-[1.44rem] px-2 rounded-sm',
+            'text-center border-accent border-dashed max-w-[14.5rem] w-[14.5rem] text-sm min-h-0 h-[1.44rem] px-2 rounded-sm',
         }}
         size="xs"
         autoFocus
@@ -113,7 +113,7 @@ const Name = (doc: Document) => {
   } else {
     return (
       <div
-        className="text-sm flex items-center h-[1.44rem] w-[10.5rem] max-w-[10.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
+        className="text-sm flex items-center h-[1.44rem] w-[14.5rem] max-w-[14.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
         onClick={startRenaming}
       >
         <span className="truncate text-center w-full"> {doc.name}</span>
