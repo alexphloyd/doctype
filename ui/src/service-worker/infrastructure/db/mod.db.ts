@@ -38,10 +38,12 @@ export class LocalDB extends Dexie {
       session: '&id, current',
     });
 
-    this.document.add({
-      id: generateId(),
-      lastUpdatedTime: dayjs().toString(),
-      name: 'Issue: ~demo',
+    this.on('populate', () => {
+      this.document.add({
+        id: generateId(),
+        lastUpdatedTime: dayjs().toString(),
+        name: 'Issue: ~demo',
+      });
     });
   }
 }
