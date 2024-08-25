@@ -22,7 +22,7 @@ export const ToolbarActionButton = (props: Props) => {
     onClick,
     htmlType = 'button',
     debounce = false,
-    debounceTime = 600,
+    debounceTime = 300,
   } = props;
   const [isDisabled, setDisabled] = useState(false);
   const handleClick = () => {

@@ -1,4 +1,4 @@
-import { Button, MantineProvider, TextInput, createTheme } from '@mantine/core';
+import { Button, Kbd, MantineProvider, TextInput, createTheme } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { type ReactNode } from 'react';
 
@@ -14,6 +14,11 @@ const theme = createTheme({
     Button: Button.extend({
       classNames: {
         label: 'font-[500]',
+      },
+    }),
+    Kbd: Kbd.extend({
+      classNames: {
+        root: 'text-[0.87rem] px-[8px] text-gray-500',
       },
     }),
   },
