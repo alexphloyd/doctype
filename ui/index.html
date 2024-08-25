@@ -19,15 +19,15 @@
   <body>
     <div id="root"></div>
 
-    <script>
-      globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"');
-    </script>
-
     <script type="module">
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
+          const swAsset = import.meta.env.PROD
+            ? '/assets/sw.js'
+            : '/src/service-worker/main.ts';
+
           navigator.serviceWorker
-            .register(import.meta.env.VITE_SW_ASSET, {
+            .register(swAsset, {
               type: 'module',
               scope: '/',
             })

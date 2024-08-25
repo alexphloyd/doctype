@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
 import react from '@vitejs/plugin-react';
-import { readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { qrcode } from 'vite-plugin-qrcode';
@@ -33,41 +32,7 @@ export default defineConfig({
           }
         },
       },
-
-      plugins: [
-        {
-          name: 'generate-sw-precache-assets-list',
-          async closeBundle() {
-            const manifest = JSON.parse(
-              await readFile(resolve(__dirname, 'dist/.vite/manifest.json'), 'utf-8')
-            ) as any;
-            const originEnv = await readFile(resolve(__dirname, '.env.origin'), 'utf-8');
-
-            const swChunkUrl = manifest['src/service-worker/main.ts']?.file ?? '';
-            const chunkUrls = [] as string[];
-
-            Object.values(manifest).forEach((chunk: any) => {
-              if (chunk.name === 'core-package' || chunk.name === 'libs') {
-                chunkUrls.push('/' + chunk.file);
-              }
-              if (chunk.name === 'app') {
-                chunkUrls.push('/' + chunk.file);
-                chunkUrls.push('/' + chunk.css[0]);
-                chunkUrls.push('/' + chunk.assets[0]);
-              }
-            });
-
-            const insert = `VITE_ASSETS=${chunkUrls.join(' ')}\n\nVITE_SW_ASSET=/${swChunkUrl}\n\n${originEnv}`;
-            await writeFile(resolve(__dirname, '.env'), insert, 'utf-8');
-
-            console.log('Generated .env');
-            console.log(insert);
-          },
-        },
-      ],
     },
-
-    manifest: true,
   },
 
   server: {
