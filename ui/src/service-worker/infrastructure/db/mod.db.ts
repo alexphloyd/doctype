@@ -1,5 +1,7 @@
 import { type User } from '@prisma/client';
 import { type Document } from 'core/src/domain/document/types';
+import { generateId } from 'core/src/infrastructure/lib/generate-id';
+import dayjs from 'dayjs';
 import Dexie from 'dexie';
 
 import { type ParsedRequest } from '../lib/request.parser';
@@ -34,6 +36,12 @@ export class LocalDB extends Dexie {
       authTokens: '&id, access, refresh',
 
       session: '&id, current',
+    });
+
+    this.document.add({
+      id: generateId(),
+      lastUpdatedTime: dayjs().toString(),
+      name: 'Issue: ~demo',
     });
   }
 }
