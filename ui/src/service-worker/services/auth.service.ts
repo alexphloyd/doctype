@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 import { type Tokens } from 'core/src/domain/auth/types';
-import { claimDocsToSession } from '~/service-worker/application/document/model';
+
 import { LocalDB } from '../infrastructure/db/mod.db';
 import { messageChannel } from '../infrastructure/message-channel/mod.message-channel';
 
@@ -45,7 +45,7 @@ export const authService = {
         });
       }
 
-      claimDocsToSession();
+      messageChannel.post(AUTH_MESSAGES.SESSION_UPDATED);
     } catch {}
   },
   async getSession() {

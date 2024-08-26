@@ -1,10 +1,13 @@
+import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 import { type Document } from 'core/src/domain/document/types';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 import { LocalDB } from '~/service-worker/infrastructure/db/mod.db';
 import { messageChannel } from '~/service-worker/infrastructure/message-channel/mod.message-channel';
+import { authService } from '~/service-worker/services/auth.service';
 
 import { cloudApi } from './cloud.api';
-import { authService } from '~/service-worker/services/auth.service';
+
+messageChannel.on(AUTH_MESSAGES.SESSION_UPDATED, claimDocsToSession);
 
 export async function claimDocsToSession() {
   const failedClaims = [] as Array<{ docId: Document['id'] }>;
