@@ -43,7 +43,7 @@ export const DocumentsList = () => {
         })}
       </ul>
 
-      <div className="text-lg fixed bottom-6 right-7 text-gray-400 space-x-1 opacity-90">
+      <div className="text-lg fixed bottom-[21px] right-6 text-gray-400 space-x-1 opacity-90">
         <Kbd>⌘</Kbd> <span>+</span> <Kbd>N</Kbd>
       </div>
     </m.main>

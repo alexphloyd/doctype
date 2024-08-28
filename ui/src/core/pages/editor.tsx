@@ -1,13 +1,9 @@
-import { useParams } from 'react-router-dom';
-import { Editor as EditorComponent } from '~/core/entities/editor/ui/editor';
+import { Editor as EditorView } from '~/core/shared/ui/editor/editor';
 
 export const Editor = () => {
-  const { id } = useParams();
-
   return (
-    <main className="flex w-full px-[2%] lg:px-[3%] items-center justify-center">
-      <span className="text-sm hidden">slug --{id}</span>
-      <EditorComponent />
+    <main className="flex w-full px-[1%] lg:px-[2%] items-center justify-center relative">
+      <EditorView />
     </main>
   );
 };

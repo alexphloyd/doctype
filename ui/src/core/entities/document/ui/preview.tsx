@@ -7,9 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/core/app/store/hooks';
 import { Icon } from '~/core/shared/ui/icon';
 
+import { DEMO_CONTENT } from '../lib/demo-content';
+import { generatePreview } from '../lib/generate-preview';
 import { applyRename } from '../model/effects/apply-rename';
 import { startRenamingProcess, updateRenamingProcess } from '../model/model';
 import { useRenamingProcess } from '../model/selectors';
+import './preview.css';
 import { RemoveModal } from './remove.modal';
 
 export const Preview = memo((doc: Document) => {
@@ -35,13 +38,13 @@ export const Preview = memo((doc: Document) => {
         onClick={openInEditor}
         shadow="sm"
         classNames={{
-          root: 'min-w-[14.6rem] min-h-[11.5rem] mb-[7px] cursor-pointer relative border-borderLight',
+          root: 'min-w-[15.6rem] min-h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-transparent hover:border-borderLight overflow-hidden',
         }}
       >
         {(hovered || removeModalOpened) && (
           <CloseButton
             onClick={openRemoveModal}
-            className="absolute top-[6px] right-[6px] overflow-hidden"
+            className="absolute top-[6px] right-[6px] overflow-hidden bg-white"
             icon={
               <Icon
                 name="trash"
@@ -52,6 +55,11 @@ export const Preview = memo((doc: Document) => {
             }
           />
         )}
+
+        <div
+          className="doc-preview"
+          dangerouslySetInnerHTML={{ __html: generatePreview(DEMO_CONTENT) }}
+        />
       </Paper>
 
       <Name {...doc} key={doc.id} />
@@ -104,7 +112,7 @@ const Name = (doc: Document) => {
         }}
         classNames={{
           input:
-            'text-center border-accent border-dashed max-w-[14.5rem] w-[14.5rem] text-sm min-h-0 h-[1.44rem] px-2 rounded-sm',
+            'text-center focus:border-black/20 focus border-solid max-w-[15.5rem] w-[15.5rem] text-sm min-h-0 h-[1.44rem] px-2 rounded',
         }}
         size="xs"
         autoFocus
@@ -113,10 +121,10 @@ const Name = (doc: Document) => {
   } else {
     return (
       <div
-        className="text-sm flex items-center h-[1.44rem] w-[14.5rem] max-w-[14.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
+        className="text-sm flex items-center h-[1.44rem] w-[15.5rem] max-w-[15.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
         onClick={startRenaming}
       >
-        <span className="truncate text-center w-full"> {doc.name}</span>
+        <span className="truncate text-center w-full">{doc.name}</span>
       </div>
     );
   }

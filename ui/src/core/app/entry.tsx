@@ -27,7 +27,6 @@ import '@mantine/core/styles/Tabs.css';
 import '@mantine/core/styles/Kbd.css';
 import '@mantine/core/styles/global.css';
 import '@mantine/notifications/styles.css';
-import '@mantine/tiptap/styles.css';
 import 'reactflow/dist/style.css';
 import './styles/index.css';
 
