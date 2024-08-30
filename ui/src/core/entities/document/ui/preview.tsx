@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import { ChangeEvent, memo, MouseEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/core/app/store/hooks';
+import { DEMO_CONTENT } from '~/core/shared/ui/editor/demo-content';
 import { Icon } from '~/core/shared/ui/icon';
 
-import { DEMO_CONTENT } from '../lib/demo-content';
 import { generatePreview } from '../lib/generate-preview';
 import { applyRename } from '../model/effects/apply-rename';
 import { startRenamingProcess, updateRenamingProcess } from '../model/model';

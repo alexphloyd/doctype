@@ -1,4 +1,3 @@
-import { Divider } from '@mantine/core';
 import { useLocationArray } from '~/core/app/router/use-location-array';
 import { useAppDispatch } from '~/core/app/store/hooks';
 import { AuthActionsButton } from '~/core/entities/auth/ui/buttons/session-action.button';
@@ -9,8 +8,6 @@ import { ToolbarActionButton } from '~/core/shared/ui/buttons/toolbar-action';
 import { Icon } from '~/core/shared/ui/icon';
 
 export const AppMenu = () => {
-  const location = useLocationArray();
-
   return (
     <header className="py-[0.9rem] flex flex-col min-h-screen min-w-full">
       <section className="gap-y-2 flex flex-col grow">
@@ -22,15 +19,6 @@ export const AppMenu = () => {
           pushTo="/editor/demo"
           content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
         />
-
-        {location[0] !== 'sign-in' ? (
-          <Divider
-            classNames={{
-              root: 'h-[1px] w-[60%] mx-auto border-borderLight/40',
-            }}
-            orientation="horizontal"
-          />
-        ) : null}
 
         <HomeToolbar />
         <EditorToolbar />

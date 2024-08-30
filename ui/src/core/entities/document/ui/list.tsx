@@ -1,4 +1,4 @@
-import { Kbd } from '@mantine/core';
+import { Kbd, Paper } from '@mantine/core';
 import { m } from 'framer-motion';
 import { useEffect } from 'react';
 import { useAppDispatch } from '~/core/app/store/hooks';
@@ -13,9 +13,8 @@ export const DocumentsList = () => {
 
   useEffect(() => {
     const handleCreateShortcut = (event: KeyboardEvent) => {
-      const shortcut =
-        (event.metaKey && event.key === 'n') || (event.ctrlKey && event.key === 'n');
-      if (shortcut) {
+      const triggered = event.altKey && event.code === 'KeyN';
+      if (triggered) {
         event.preventDefault();
         dispatch(create());
       }
@@ -43,9 +42,18 @@ export const DocumentsList = () => {
         })}
       </ul>
 
-      <div className="text-lg fixed bottom-[21px] right-6 text-gray-400 space-x-1 opacity-90">
-        <Kbd>⌘</Kbd> <span>+</span> <Kbd>N</Kbd>
-      </div>
+      <Paper
+        shadow="sm"
+        className="px-3 py-2 fixed bottom-8 left-[50%] transform -translate-x-[50%] space-x-2 flex items-center justify-center z-50 overflow-hidden"
+      >
+        <Kbd className="h-7 w-7">
+          <p className="-mt-[5px] text-[18px]">⌥</p>
+        </Kbd>
+        <span className="text-gray-400">+</span>
+        <Kbd className="h-7 w-7 text-center">
+          <p className="text-[12px]">N</p>
+        </Kbd>
+      </Paper>
     </m.main>
   );
 };

@@ -8,3 +8,5 @@ export type Document = {
 
     name: string;
 };
+
+export type Source = string;

@@ -1,85 +1,150 @@
-.editor-content {
-  h1 {
-    font-size: 1.3rem;
+.tiptap {
+  padding-top: 15px;
+  padding-bottom: 70px;
+
+  width: 100%;
+
+  code {
+    background-color: gray;
+    border-radius: 0.4rem;
+    color: black;
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
   }
-  h2 {
-    font-size: 1.25rem;
-  }
-  h3 {
-    font-size: 1.18rem;
-  }
-  h4 {
-    font-size: 1.09rem;
+
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
   }
 
   h1,
   h2,
   h3,
-  h4 {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+    text-wrap: pretty;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  pre {
+    background: linear-gradient(to right, #e0fffa, #e0fffa);
+    border-radius: 0.4rem;
     color: #333;
-  }
-
-  /* Paragraphs */
-  p {
-    margin-bottom: 20px;
-    color: #555;
-  }
-
-  /* Unordered List */
-  ul {
-    margin: 12px 0;
-    padding-left: 20px;
-  }
-
-  ul li {
-    list-style-type: disc;
-  }
-
-  /* Ordered List */
-  ol {
-    margin: 10px 0;
-    padding-left: 20px;
-  }
-
-  ol li {
-    margin: 10px 0;
-    list-style-type: decimal;
-  }
-
-  /* Block Quotes */
-  blockquote {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-
-    margin: 20px 0;
-    padding: 10px 20px;
-    background-color: #f1f1f1;
-    border-left: 5px solid #ccc;
-    color: #666;
-    font-style: italic;
-  }
-
-  blockquote p {
-    margin: 0;
-  }
-
-  code {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #f5f5f5;
-    color: #2d2d2d;
-    width: 40%;
-    font-size: 0.9em;
-    border: 1px solid #e0e0e0;
-  }
-  main {
-    position: relative;
-    figure {
-      z-index: 9999;
-      position: absolute;
-      top: 0;
-      right: 0;
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.4rem 0;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
     }
+  }
+
+  blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
+  }
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #6a737d; /* Gray for comments and quotes */
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #d73a49; /* Soft red for variables, attributes, tags, etc. */
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #005cc5; /* Light blue for numbers, literals, and types */
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #032f62; /* Dark blue for strings and symbols */
+}
+
+.hljs-title,
+.hljs-section {
+  color: #6f42c1; /* Purple for titles and sections */
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #d73a49; /* Soft red for keywords and selector tags */
+}
+
+.hljs-emphasis {
+  font-style: italic; /* Italicize for emphasis */
+}
+
+.hljs-strong {
+  font-weight: 700; /* Bold for strong emphasis */
+}
+
+.ProseMirror-focused {
+  border: none;
+  outline: none;
+}
+
+.ProseMirror {
+  width: 90vw;
+}
+
+@media (min-width: 600px) {
+  .ProseMirror {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 992px) {
+  .ProseMirror {
+    width: 70vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  .ProseMirror {
+    width: 60vw;
   }
 }
