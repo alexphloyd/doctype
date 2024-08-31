@@ -36,7 +36,7 @@ export const DocumentsList = () => {
       }}
       className="w-full relative"
     >
-      <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 w-full gap-y-12">
+      <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 w-full gap-y-12 pb-16">
         {documents?.map((doc) => {
           return <Preview key={doc.id} {...doc} />;
         })}

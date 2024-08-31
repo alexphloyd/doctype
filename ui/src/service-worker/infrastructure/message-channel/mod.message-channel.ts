@@ -1,6 +1,6 @@
 import { _self } from '../self';
 
-export const messageChannel = {
+export const swMessageChannel = {
   on: (message: string, handler: () => void) => {
     _self.addEventListener('message', (ev) => {
       if (ev.data === message) {

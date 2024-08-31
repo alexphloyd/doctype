@@ -11,6 +11,8 @@ import {
 } from '~/service-worker/infrastructure/router/prepare-response';
 import { authService } from '~/service-worker/services/auth.service';
 
+import { claimDocsToSession } from '../document/claim-to-session';
+
 async function loginHandler(ev: FetchEvent) {
   const clonedReq = ev.request.clone();
   const payload = clonedReq.body && (await clonedReq.json());
@@ -22,6 +24,8 @@ async function loginHandler(ev: FetchEvent) {
   if (query.data) {
     await authService.updateTokens(query.data.tokens);
     await authService.updateSession({ user: query.data.user });
+
+    claimDocsToSession();
     networkScheduler.execute();
 
     return prepareResponse(query.data);

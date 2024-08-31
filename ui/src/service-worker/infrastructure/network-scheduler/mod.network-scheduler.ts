@@ -5,7 +5,7 @@ import { swApiClient } from '../api-client/mod.api-client';
 import { type AnyPayload } from '../api-client/types';
 import { LocalDB } from '../db/mod.db';
 import { parseRequestInstance } from '../lib/request.parser';
-import { messageChannel } from '../message-channel/mod.message-channel';
+import { swMessageChannel } from '../message-channel/mod.message-channel';
 
 const storage = {
   get: async () => {
@@ -50,7 +50,7 @@ export const networkScheduler = {
         }
 
         if (succeed.length > 0) {
-          messageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
+          swMessageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
         }
 
         db.networkSchedulerRequest.bulkDelete(succeed).catch(() => {});
@@ -59,6 +59,6 @@ export const networkScheduler = {
   },
 };
 
-messageChannel.on(NETWORK_MESSAGES.ONLINE, () => {
+swMessageChannel.on(NETWORK_MESSAGES.ONLINE, () => {
   networkScheduler.execute();
 });

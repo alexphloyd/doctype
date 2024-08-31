@@ -3,7 +3,7 @@ import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 import { type Tokens } from 'core/src/domain/auth/types';
 
 import { LocalDB } from '../infrastructure/db/mod.db';
-import { messageChannel } from '../infrastructure/message-channel/mod.message-channel';
+import { swMessageChannel } from '../infrastructure/message-channel/mod.message-channel';
 
 export const authService = {
   async updateTokens({ access, refresh }: Tokens) {
@@ -45,7 +45,7 @@ export const authService = {
         });
       }
 
-      messageChannel.post(AUTH_MESSAGES.SESSION_UPDATED);
+      swMessageChannel.post(AUTH_MESSAGES.SESSION_UPDATED);
     } catch {}
   },
   async getSession() {
@@ -58,7 +58,7 @@ export const authService = {
   },
 };
 
-messageChannel.on(AUTH_MESSAGES.LOGOUT, () => {
+swMessageChannel.on(AUTH_MESSAGES.LOGOUT, () => {
   authService.removeTokens();
   authService.removeSession();
 });

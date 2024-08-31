@@ -30,9 +30,7 @@ export function registerDocumentRoutes() {
       };
       const created = await db.document.add(payload);
 
-      if (payload.userId) {
-        networkScheduler.post({ req: ev.request, payload });
-      }
+      networkScheduler.post({ req: ev.request, payload });
 
       return prepareResponse({
         ok: Boolean(created),
