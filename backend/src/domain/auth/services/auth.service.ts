@@ -74,8 +74,8 @@ export class AuthService {
     };
   }
 
-  async loginWithOAuth(token: string) {
-    const oauthUser = await axios.request<{ email: string }>({
+  async loginWithGoogle(token: string) {
+    const googleUser = await axios.request<{ email: string }>({
       method: 'GET',
       url: 'https://www.googleapis.com/oauth2/v3/userinfo',
       headers: {
@@ -83,13 +83,13 @@ export class AuthService {
       },
     });
 
-    if (!oauthUser) {
+    if (!googleUser) {
       throw new HttpException('Unauthorized', HttpStatusCode.Locked);
     }
 
-    const userInDb = await this.userRepository
+    const localUser = await this.userRepository
       .findByEmail({
-        email: oauthUser.data.email,
+        email: googleUser.data.email,
       })
       .catch(null);
 
@@ -100,9 +100,9 @@ export class AuthService {
       user: OmitStrict<User, 'password'>;
     };
 
-    if (!userInDb) {
+    if (!localUser) {
       const createdUser = await this.userRepository.create({
-        email: oauthUser.data.email,
+        email: googleUser.data.email,
         password: await this.hashService.hash(generateRandomPassword(16)),
       });
 
@@ -111,9 +111,9 @@ export class AuthService {
         user: createdUser,
       });
     } else {
-      res.user = userInDb;
+      res.user = localUser;
       res.tokens = await this.generateTokens({
-        user: userInDb,
+        user: localUser,
       });
     }
 

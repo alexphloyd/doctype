@@ -77,7 +77,7 @@ export class AuthController {
       throw new HttpException('Unauthorized', HttpStatusCode.Locked);
     }
 
-    return await this.authService.loginWithOAuth(token);
+    return await this.authService.loginWithGoogle(token);
   }
 
   @Get('session')
