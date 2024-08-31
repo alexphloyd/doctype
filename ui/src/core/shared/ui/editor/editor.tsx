@@ -20,9 +20,6 @@ export function Editor(props: Props) {
       extensions={extensions}
       content={source}
       editorProps={config.editorProps}
-      onUpdate={(ev) => {
-        console.log(JSON.stringify(ev.editor.getJSON()));
-      }}
     />
   );
 }

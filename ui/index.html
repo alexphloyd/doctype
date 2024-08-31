@@ -31,6 +31,9 @@
               type: 'module',
               scope: '/',
             })
+            .then((registration) => {
+              registration.update();
+            })
             .catch(console.log);
         });
       }

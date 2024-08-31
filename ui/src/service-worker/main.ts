@@ -12,6 +12,10 @@ if (import.meta.env.PROD) {
 registerDocumentRoutes();
 registerAuthRoutes();
 
+_self.addEventListener('install', () => {
+  _self.skipWaiting();
+});
+
 _self.addEventListener('activate', (event) => {
   event.waitUntil(_self.clients.claim());
 });

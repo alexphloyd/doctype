@@ -11,7 +11,7 @@ export async function claimDocsToSession() {
 
   try {
     const session = await authService.getSession();
-    console.log('try with', session);
+
     if (session?.current.id) {
       const db = await LocalDB.getConnection();
 
