@@ -4,22 +4,17 @@
 
   width: 100%;
 
-  code {
-    background-color: gray;
-    border-radius: 0.4rem;
-    color: black;
-    font-size: 0.85rem;
-    padding: 0.25em 0.3em;
-  }
-
-  ul,
-  ol {
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
-
-    li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
+  ul[data-type='taskList'] {
+    display: flex;
+    flex-direction: column;
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: start;
+      label {
+        padding-top: 1px;
+        margin-right: 6px;
+      }
     }
   }
 
@@ -35,10 +30,22 @@
 
   h1 {
     font-size: 1.5rem;
+    margin-bottom: 12px;
   }
 
   h3 {
     font-size: 1.3rem;
+    margin-top: 9px;
+    margin-bottom: 7px;
+  }
+
+  code {
+    background: linear-gradient(to right, #e0fffa, #e0fffa);
+    border-radius: 4px;
+    color: black;
+    font-size: 0.85rem;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.28em 0.4em;
   }
 
   pre {

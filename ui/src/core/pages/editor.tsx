@@ -1,6 +1,6 @@
 import { Editor as EditorView } from '~/core/shared/ui/editor/editor';
 
-import { DEMO_CONTENT } from '../shared/ui/editor/demo-content';
+import { DEMO_CONTENT } from '../shared/ui/editor/demo-content.const';
 
 export const Editor = () => {
   return (

@@ -1,5 +1,16 @@
 import { Divider, Kbd, Paper } from '@mantine/core';
-import { CodeIcon, TextIcon, HeadingIcon, type IconProps } from '@radix-ui/react-icons';
+import {
+  CodeIcon,
+  TextIcon,
+  HeadingIcon,
+  ActivityLogIcon,
+  DashboardIcon,
+  KeyboardIcon,
+  FileTextIcon,
+  StarIcon,
+  ReaderIcon,
+  CheckboxIcon,
+} from '@radix-ui/react-icons';
 import { useCurrentEditor } from '@tiptap/react';
 import { ComponentType, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -37,6 +48,12 @@ export function EditorToolbar() {
         IconSlot={CodeIcon}
         shortcutKey="Digit3"
       />
+      <Button
+        action={() => editor.chain().focus().toggleTaskList().run()}
+        isActive={editor.isActive('taskList')}
+        IconSlot={CheckboxIcon}
+        shortcutKey="Digit4"
+      />
     </Paper>
   );
 }
@@ -50,7 +67,7 @@ function Button({
   shortcutKey: string;
   action: () => void;
   isActive?: boolean;
-  IconSlot: ComponentType<IconProps>;
+  IconSlot: ComponentType<Parameters<typeof ActivityLogIcon>[0]>;
 }) {
   const numberLabel = shortcutKey.at(-1);
 
@@ -70,8 +87,8 @@ function Button({
   }, []);
 
   return (
-    <button onClick={action} className="relative">
-      <IconSlot className={twMerge('w-5 h-5', isActive && 'text-accent')} />
+    <button onClick={action} className="relative w-5 h-5">
+      <IconSlot className={twMerge('w-[18px] h-[18px]', isActive && 'text-accent')} />
       <span className="absolute -bottom-[4px] -right-[5px] text-[9px] text-gray-500">
         {numberLabel}
       </span>

@@ -1,9 +1,5 @@
-import CodeBlock from '@tiptap/extension-code-block';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import Text from '@tiptap/extension-text';
-import { ReactNodeViewRenderer } from '@tiptap/react';
+import TaskList from '@tiptap/extension-task-list';
 import StarterKit from '@tiptap/starter-kit';
 import css from 'highlight.js/lib/languages/css';
 import go from 'highlight.js/lib/languages/go';
@@ -13,7 +9,9 @@ import ts from 'highlight.js/lib/languages/typescript';
 import html from 'highlight.js/lib/languages/xml';
 import { all, createLowlight } from 'lowlight';
 
-import { CodeBlockExtended } from './extensions/code-block';
+import { CodeBlockExtended } from './code-block';
+import { DocumentExtended } from './document';
+import { TaskItemExtended } from './task-list';
 
 const lowlight = createLowlight(all);
 
@@ -25,7 +23,12 @@ lowlight.register('rust', rust);
 lowlight.register('go', go);
 
 export const extensions = [
-  StarterKit.configure({ codeBlock: false }),
+  DocumentExtended,
+  StarterKit.configure({ codeBlock: false, document: false }),
+
+  TaskList,
+  TaskItemExtended,
+
   CodeBlockExtended,
   CodeBlockLowlight.configure({
     lowlight,

@@ -5,10 +5,8 @@ import dayjs from 'dayjs';
 import { ChangeEvent, memo, MouseEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/core/app/store/hooks';
-import { DEMO_CONTENT } from '~/core/shared/ui/editor/demo-content';
 import { Icon } from '~/core/shared/ui/icon';
 
-import { generatePreview } from '../lib/generate-preview';
 import { applyRename } from '../model/effects/apply-rename';
 import { startRenamingProcess, updateRenamingProcess } from '../model/model';
 import { useRenamingProcess } from '../model/selectors';
@@ -55,11 +53,6 @@ export const Preview = memo((doc: Document) => {
             }
           />
         )}
-
-        <div
-          className="doc-preview"
-          dangerouslySetInnerHTML={{ __html: generatePreview(DEMO_CONTENT) }}
-        />
       </Paper>
 
       <Name {...doc} key={doc.id} />
