@@ -18,6 +18,8 @@ import {
   InternalServerErrorException,
   Post,
   Put,
+  Query,
+  Redirect,
   Req,
   UsePipes,
 } from '@nestjs/common';
@@ -90,5 +92,26 @@ export class AuthController {
   async refresh(@Req() req: Request) {
     const newTokens = await this.authService.refresh(req);
     return newTokens;
+  }
+
+  @Get('callback/github-app')
+  async githubAppCallback(@Query('code') code: string) {
+    const result = await this.authService.loginWithGithubApp(code);
+
+    return result;
+  }
+
+  /**
+   * // TODO: rm this route
+   * @deprecated
+   * @description This route is only for development purposes. It imited button click to login with Github App.
+   */
+  @Get('dev/github-app')
+  @Redirect()
+  async loginWithGithubApp() {
+    const GITHUB_APP_CLIENT_ID = process.env.GITHUB_APP_CLIENT_ID;
+    const url_authorize = `https://github.com/login/oauth/authorize?client_id=${GITHUB_APP_CLIENT_ID}`;
+
+    return { url: url_authorize };
   }
 }

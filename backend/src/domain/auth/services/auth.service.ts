@@ -6,7 +6,7 @@ import {
 import { HashService } from '~/domain/auth/services/hash.service';
 import { UserRepository } from '~/domain/user/services/user.repository';
 import { LoginSchema } from '../dto';
-import { Injectable, HttpException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import axios, { HttpStatusCode } from 'axios';
 import { Request } from 'express';
@@ -39,7 +39,7 @@ export class AuthService {
   async login({ email, password }: z.infer<typeof LoginSchema>) {
     const user = await this.userRepository.findByEmail({ email });
 
-    if (!user)
+    if (!user) 
       throw new HttpException(
         'Invalid email or password. Please try again!',
         HttpStatusCode.Conflict
@@ -74,22 +74,10 @@ export class AuthService {
     };
   }
 
-  async loginWithGoogle(token: string) {
-    const googleUser = await axios.request<{ email: string }>({
-      method: 'GET',
-      url: 'https://www.googleapis.com/oauth2/v3/userinfo',
-      headers: {
-        Authorization: token,
-      },
-    });
-
-    if (!googleUser) {
-      throw new HttpException('Unauthorized', HttpStatusCode.Locked);
-    }
-
+  private async upsertUser(email: string) {
     const localUser = await this.userRepository
       .findByEmail({
-        email: googleUser.data.email,
+        email,
       })
       .catch(null);
 
@@ -102,7 +90,7 @@ export class AuthService {
 
     if (!localUser) {
       const createdUser = await this.userRepository.create({
-        email: googleUser.data.email,
+        email,
         password: await this.hashService.hash(generateRandomPassword(16)),
       });
 
@@ -124,6 +112,61 @@ export class AuthService {
     Reflect.deleteProperty(res.user, 'password');
 
     return res;
+  }
+
+  async loginWithGoogle(token: string) {
+    const googleUser = await axios.request<{ email: string }>({
+      method: 'GET',
+      url: 'https://www.googleapis.com/oauth2/v3/userinfo',
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    if (!googleUser) {
+      throw new HttpException('Unauthorized', HttpStatusCode.Locked);
+    }
+
+    return this.upsertUser(googleUser.data.email);
+  }
+
+  async loginWithGithubApp(code: string) {
+    const GITHUB_APP_CLIENT_ID = process.env.GITHUB_APP_CLIENT_ID!;
+    const GITHUB_APP_CLIENT_SECRET = process.env.GITHUB_APP_CLIENT_SECRET!;
+    const url_exchange = `https://github.com/login/oauth/access_token`;
+    const url_user = `https://api.github.com/user/public_emails`;
+    const data = new FormData();
+    data.append('client_id', GITHUB_APP_CLIENT_ID);
+    data.append('client_secret', GITHUB_APP_CLIENT_SECRET);
+    data.append('code', code);
+
+    const {
+      data: { access_token },
+    } = await axios({
+      method: 'POST',
+      url: url_exchange,
+      headers: {
+        accept: 'application/json',
+      },
+      data,
+    });
+    const {
+      data: [first],
+    } = await axios<{ email: string }[]>({
+      method: 'GET',
+      url: url_user,
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json',
+        authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    if (!first) {
+      throw new HttpException('Unauthorized', HttpStatusCode.Locked);
+    }
+
+    return this.upsertUser(first.email);
   }
 
   async refresh(req: Request) {
