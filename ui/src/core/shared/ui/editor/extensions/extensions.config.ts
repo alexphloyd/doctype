@@ -1,5 +1,4 @@
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import TaskList from '@tiptap/extension-task-list';
 import StarterKit from '@tiptap/starter-kit';
 import css from 'highlight.js/lib/languages/css';
 import go from 'highlight.js/lib/languages/go';
@@ -11,7 +10,7 @@ import { all, createLowlight } from 'lowlight';
 
 import { CodeBlockExtended } from './code-block';
 import { DocumentExtended } from './document';
-import { TaskItemExtended } from './task-list';
+import { TaskItemExtended, TaskListExtended } from './task-list';
 
 const lowlight = createLowlight(all);
 
@@ -26,8 +25,10 @@ export const extensions = [
   DocumentExtended,
   StarterKit.configure({ codeBlock: false, document: false }),
 
-  TaskList,
-  TaskItemExtended,
+  TaskListExtended,
+  TaskItemExtended.configure({
+    nested: true,
+  }),
 
   CodeBlockExtended,
   CodeBlockLowlight.configure({

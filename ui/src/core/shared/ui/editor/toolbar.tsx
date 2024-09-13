@@ -4,12 +4,8 @@ import {
   TextIcon,
   HeadingIcon,
   ActivityLogIcon,
-  DashboardIcon,
-  KeyboardIcon,
-  FileTextIcon,
-  StarIcon,
-  ReaderIcon,
   CheckboxIcon,
+  Link1Icon,
 } from '@radix-ui/react-icons';
 import { useCurrentEditor } from '@tiptap/react';
 import { ComponentType, useEffect } from 'react';

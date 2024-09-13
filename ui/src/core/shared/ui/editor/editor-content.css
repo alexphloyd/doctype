@@ -1,19 +1,29 @@
 .tiptap {
   padding-top: 15px;
-  padding-bottom: 70px;
+  padding-bottom: 30vh;
 
   width: 100%;
 
   ul[data-type='taskList'] {
     display: flex;
     flex-direction: column;
+    margin-top: 3px;
+
     li {
       display: flex;
       flex-direction: row;
       align-items: start;
+
+      div {
+        margin-top: -2px;
+      }
+
       label {
-        padding-top: 1px;
         margin-right: 6px;
+        input {
+          width: 16px;
+          height: 16px;
+        }
       }
     }
   }

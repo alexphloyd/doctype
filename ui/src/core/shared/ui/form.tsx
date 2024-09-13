@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@mantine/core';
+import { Button, ButtonProps } from '@mantine/core';
 import { PropsWithoutRef, ReactNode } from 'react';
 import { ForwardedRef, forwardRef } from 'react';
 import { FormProvider, useForm, type UseFormProps } from 'react-hook-form';
@@ -20,12 +20,13 @@ export interface FormProps<S extends z.ZodType<any, any>>
   schema: S;
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>;
   isLoading?: boolean;
+
   errorMessage?: string | null | undefined;
   submitText?: string | undefined;
-  addClass?: string | undefined;
-  children?: ReactNode | undefined;
   initialValues?: UseFormProps<z.infer<S>>['defaultValues'];
   leftSubmitSlot?: ReactNode;
+
+  children?: ReactNode | undefined;
 }
 
 function FormElement<S extends ZodType<any, any>>(
@@ -57,7 +58,7 @@ function FormElement<S extends ZodType<any, any>>(
       <form
         ref={ref}
         onSubmit={handleSubmit}
-        className={twMerge(className, 'flex flex-col gap-4')}
+        className={twMerge('flex flex-col gap-4', className)}
         {...props}
       >
         {children}
@@ -70,7 +71,7 @@ function FormElement<S extends ZodType<any, any>>(
                 type="submit"
                 size="sm"
                 classNames={{
-                  root: 'w-[30%]',
+                  root: 'min-w-[70px] w-[30%] self-end ml-auto',
                 }}
               >
                 {isLoading ? <BaseLoader color="white" size="md" /> : submitText}

@@ -9,6 +9,19 @@ import {
 } from '@tiptap/react';
 
 export const CodeBlockExtended = CodeBlock.extend({
+  addKeyboardShortcuts() {
+    return {
+      Tab: () => {
+        if (this.editor.isActive('codeBlock')) {
+          const view = this.editor.view;
+          view.dispatch(view.state.tr.insertText('  '));
+          return true;
+        } else {
+          return false;
+        }
+      },
+    };
+  },
   addNodeView() {
     return ReactNodeViewRenderer(CodeBlockComponent);
   },
