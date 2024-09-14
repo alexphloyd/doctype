@@ -69,8 +69,8 @@ export class AuthController {
     return await this.authService.login(data);
   }
 
-  @Get('loginWithOAuth')
-  async loginWithOAuth(@Req() req: Request) {
+  @Get('loginWithGoogle')
+  async loginWithGoogle(@Req() req: Request) {
     const token = extractOAuthTokenFromHeader(req);
 
     if (!token?.length) {

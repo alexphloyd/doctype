@@ -94,8 +94,6 @@ export const Error = ({ message }: { message?: string | null | undefined }) => {
   if (!message) return null;
 
   return (
-    <span className="w-full mt-4 text-base text-danger bg-red-100/15 px-4 py-[10px] rounded">
-      {message}
-    </span>
+    <span className="w-full mt-4 text-base text-danger px-[2px] py-[10px]">{message}</span>
   );
 };

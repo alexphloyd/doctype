@@ -1,7 +1,7 @@
 import { type Role } from '@prisma/client';
 import { FunctionComponent } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSession } from '~/core/entities/auth/model/selectors';
+import { sessionModel } from '~/interface/application/session/model';
 
 const SUPER_ROLES = [] satisfies Role[];
 
@@ -11,7 +11,7 @@ export function withGuard(
   redirectTo?: RoutePath
 ) {
   return function RouteElement(props: Record<string, unknown>) {
-    const session = useSession();
+    const session = sessionModel.session;
 
     if (!session?.role || !isAccessGranted(session.role, permissibleRoles)) {
       return <Navigate to={redirectTo || '/access-denied'} replace />;

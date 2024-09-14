@@ -1,4 +1,4 @@
-import { SignIn as SignInView } from '~/core/entities/auth/ui/sign-in.view';
+import { SignIn as SignInView } from '~/interface/view/sign-in/view';
 
 export const SignIn = () => {
   return (

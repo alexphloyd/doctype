@@ -12,7 +12,7 @@ interface Props extends VariantProps<typeof styles> {
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
-export const ToolbarActionButton = (props: Props) => {
+export const AppActionButton = (props: Props) => {
   const {
     content,
     className,

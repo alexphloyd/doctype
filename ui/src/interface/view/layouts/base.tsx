@@ -1,6 +1,7 @@
-import { Layout } from '~/core/shared/ui/layout';
-import { AppMenu } from '~/core/widgets/app-menu';
+import { Layout } from '~/interface/shared/view/layout';
+
+import { AppNavigation } from '../navigation';
 
 export const BaseLayout = () => {
-  return <Layout isAppLoading={false} appMenuSlot={<AppMenu />} />;
+  return <Layout isAppLoading={false} appMenuSlot={<AppNavigation />} />;
 };
