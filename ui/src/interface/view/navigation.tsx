@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { AppActionButton } from '~/interface/shared/view/buttons/action';
 import { Icon } from '~/interface/shared/view/icon';
 
+import { documentManagerModel } from '../application/document/manager/model';
 import { sessionModel } from '../application/session/model';
 import { useNetworkState } from '../kernel/network/use-network-state';
 import { useLocationArray } from '../kernel/router/use-location-array';
@@ -37,15 +38,15 @@ const HomeSegment = () => {
   const location = useLocationArray();
   const show = location[0] === '';
 
-  const _createDocument = () => {
-    // dispatch(createDocument());
+  const createDocument = () => {
+    documentManagerModel.create.run();
   };
 
   return (
     <section hidden={!show}>
       <AppActionButton
         debounce
-        onClick={_createDocument}
+        onClick={createDocument}
         content={<Icon name="write" className="w-[1.09rem] h-[1.09rem] text-accent" />}
       />
     </section>

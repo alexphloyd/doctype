@@ -34,4 +34,50 @@ export const notifications = {
       autoClose: 6000,
     });
   },
+
+  receivedCloudUpdates() {
+    _notifications.show({
+      title: 'Cloud Storage',
+      message: `You've received few updates from cloud!`,
+      color: 'lime',
+      autoClose: 12000,
+    });
+  },
+
+  progressSavedToCloud() {
+    _notifications.show({
+      id: 'saved-to-cloud',
+      title: 'Cloud Storage',
+      message: 'Your progress successfully saved to cloud.',
+      color: 'green',
+      autoClose: 12000,
+    });
+  },
+
+  documentNotCreated() {
+    _notifications.show({
+      title: 'Failed',
+      message: 'Oops, document is not created.',
+      color: 'red',
+      autoClose: 6000,
+    });
+  },
+
+  documentNotRemoved() {
+    _notifications.show({
+      title: 'Failed',
+      message: 'Oops, document is not removed.',
+      color: 'red',
+      autoClose: 6000,
+    });
+  },
+
+  documentNotRenamed() {
+    _notifications.show({
+      title: 'Failed',
+      message: 'Oops, document is not renamed.',
+      color: 'red',
+      autoClose: 6000,
+    });
+  },
 };

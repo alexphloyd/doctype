@@ -1,7 +1,4 @@
 import { AxiosError } from 'axios';
-import { type Document } from 'core/src/domain/document/types';
-import { DocumentSchema } from 'core/src/domain/document/validation';
-import { generateId } from 'core/src/infrastructure/lib/generate-id';
 import dayjs from 'dayjs';
 import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/mod.network-scheduler';
 import { router } from '~/service-worker/infrastructure/router/mod.router';
@@ -10,6 +7,10 @@ import {
   prepareResponse,
 } from '~/service-worker/infrastructure/router/prepare-response';
 import { authService } from '~/service-worker/services/auth.service';
+
+import { type Document } from 'core/src/domain/document/types';
+import { DocumentSchema } from 'core/src/domain/document/validation';
+import { generateId } from 'core/src/infrastructure/lib/generate-id';
 
 import { cloudApi } from './cloud.api';
 
@@ -87,7 +88,7 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/getLocallyStored',
+    path: 'document/pull',
     handler: async (_ev, db) => {
       try {
         const docs = await db.document.toArray();
@@ -106,7 +107,7 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/getWithRemotelyStored',
+    path: 'document/pullCloud',
     handler: async (_ev, db) => {
       const authTokens = await authService.getTokens();
       if (!navigator.onLine || !authTokens) {

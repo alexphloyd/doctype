@@ -1,6 +1,5 @@
 import { type User } from '@prisma/client';
 import { AxiosError } from 'axios';
-import { type Tokens } from 'core/src/domain/auth/types';
 import { swApiClient } from '~/service-worker/infrastructure/api-client/mod.api-client';
 import { parseRequestInstance } from '~/service-worker/infrastructure/lib/request.parser';
 import { networkScheduler } from '~/service-worker/infrastructure/network-scheduler/mod.network-scheduler';
@@ -10,6 +9,8 @@ import {
   prepareResponse,
 } from '~/service-worker/infrastructure/router/prepare-response';
 import { authService } from '~/service-worker/services/auth.service';
+
+import { type Tokens } from 'core/src/domain/auth/types';
 
 import { claimDocsToSession } from '../document/claim-to-session';
 
@@ -40,7 +41,7 @@ export function registerAuthRoutes() {
     handler: loginHandler,
   });
   router.register({
-    path: 'auth/loginWithOAuth',
+    path: 'auth/loginWithGoogle',
     handler: loginHandler,
   });
   router.register({
