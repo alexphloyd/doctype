@@ -57,9 +57,15 @@ const VerificationForm = observer(() => {
       errorMessage={registrationModel.verify.meta.error?.message}
       submitText="Apply"
       className="w-full"
+      leftSubmitSlot={
+        <section className="flex items-center justify-center gap-x-4">
+          <GoogleButton />
+          <GithubButton />
+        </section>
+      }
     >
       <p className="-mb-2 text-[0.95rem]">
-        We've sent you a code! Please, check your &nbsp;
+        <span> We've sent you a code! Please, check your </span>
         <a href="https://gmail.com" target="_blank" rel="noreferrer" className="text-cyan-500">
           email!
         </a>

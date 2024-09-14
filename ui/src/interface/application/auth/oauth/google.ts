@@ -6,6 +6,7 @@ import { apiClient } from '~/interface/shared/api-client/mod.api-client';
 import { notifications } from '~/interface/shared/lib/notifications';
 
 import { sessionModel } from '../../session/model';
+import { registrationModel } from '../registration/model';
 
 export const loginWithGoogle = async (
   creds: Pick<GoogleTokenResponse, 'token_type' | 'access_token'>
@@ -25,6 +26,8 @@ export const loginWithGoogle = async (
   if (query.data?.user) {
     sessionModel.upsert(query.data.user);
     router.navigate('/');
+
+    registrationModel.reset();
   } else {
     notifications.oauthFailed();
   }

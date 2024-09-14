@@ -27,6 +27,11 @@ class RegistrationModel {
     this.credentials = payload;
   }
 
+  reset() {
+    this.step = 'receiving-credentials';
+    this.credentials = undefined;
+  }
+
   signUp = createEffect(async (creds: z.infer<typeof SignUpDto>) => {
     const query = await api.signUp({ data: creds });
 
