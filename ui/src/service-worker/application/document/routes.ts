@@ -180,7 +180,10 @@ export function registerDocumentRoutes() {
       const body = await ev.request.json();
       const { id, source } = DocumentSchema.pick({ id: true, source: true }).parse(body);
 
-      const update = await db.document.update(id, { source });
+      const update = await db.document.update(id, {
+        source,
+        lastUpdatedTime: dayjs().toString(),
+      });
 
       if (update) {
         return prepareResponse({
