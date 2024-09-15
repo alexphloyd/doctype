@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import { createEffect } from '~/interface/shared/lib/create-effect';
 import { notifications } from '~/interface/shared/lib/notifications';
+import { PROPOSAL_TEMPLATE } from '~/interface/view/editor/templates/proposal.template';
 
 import { type Document } from 'core/src/domain/document/types';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
@@ -11,6 +12,7 @@ import { api } from './api';
 
 class DocumentManagerModel {
   pool: Document[] = [];
+  lastOpenedDoc: Document['id'] | null = null;
 
   constructor(private sessionModel: SessionModelInterface) {
     makeAutoObservable(this);
@@ -19,6 +21,8 @@ class DocumentManagerModel {
 
   init() {
     this.pull.run();
+    this.lastOpenedDoc = localStorage.getItem('last-opened-doc');
+
     reaction(
       () => sessionModel.session,
       () => this.pullCloud.run()
@@ -29,6 +33,7 @@ class DocumentManagerModel {
     const query = await api.create({
       data: {
         name: 'Issue: ' + '~' + dayjs().format('ss').toString(),
+        source: PROPOSAL_TEMPLATE,
       },
     });
 
@@ -79,6 +84,11 @@ class DocumentManagerModel {
       throw new Error(query.error?.response?.data.message);
     }
   });
+
+  setLastOpenedDoc(id: Document['id']) {
+    this.lastOpenedDoc = id;
+    localStorage.setItem('last-opened-doc', id);
+  }
 }
 
 export const documentManagerModel = new DocumentManagerModel(sessionModel);

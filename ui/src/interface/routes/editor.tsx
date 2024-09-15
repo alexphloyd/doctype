@@ -1,10 +1,33 @@
-import { DEMO_CONTENT } from '../view/editor/demo-content.const';
-import { Editor as EditorView } from '../view/editor/editor';
+import { m } from 'framer-motion';
+import { useParams } from 'react-router-dom';
+
+import { DocumentSourceModel } from '../application/document/edit/model';
+import { documentManagerModel } from '../application/document/manager/model';
+import { router } from '../kernel/router/mod.router';
+import { notifications } from '../shared/lib/notifications';
+import { EditorView } from '../view/editor/editor';
 
 export const Editor = () => {
+  const { docId } = useParams();
+
+  if (!docId?.length) {
+    router.navigate('/');
+    return notifications.documentIsNotDefined();
+  }
+
   return (
-    <main className="flex w-full px-[1%] lg:px-[2%] items-center justify-center relative">
-      <EditorView source={DEMO_CONTENT} />
-    </main>
+    <m.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.12,
+        ease: 'easeIn',
+      }}
+      className="flex w-full px-[1%] lg:px-[2%] items-start justify-center relative min-h-[95vh]"
+    >
+      <EditorView
+        documentSourceModel={new DocumentSourceModel({ docId }, documentManagerModel)}
+      />
+    </m.main>
   );
 };

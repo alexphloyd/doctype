@@ -10,7 +10,9 @@ import { useNetworkState } from '../kernel/network/use-network-state';
 import { useLocationArray } from '../kernel/router/use-location-array';
 import { NavigationButton } from '../shared/view/buttons/navigation';
 
-export const AppNavigation = () => {
+export const AppNavigation = observer(() => {
+  const lastOpenedDoc = documentManagerModel.lastOpenedDoc;
+
   return (
     <header className="py-[0.9rem] flex flex-col min-h-screen min-w-full">
       <section className="gap-y-2 flex flex-col grow">
@@ -18,10 +20,13 @@ export const AppNavigation = () => {
           pushTo="/"
           content={<Icon name="home" className="w-[1.09rem] h-[1.09rem] text-accent" />}
         />
-        <NavigationButton
-          pushTo="/editor/demo"
-          content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
-        />
+
+        {lastOpenedDoc && (
+          <NavigationButton
+            pushTo={'/editor/' + lastOpenedDoc}
+            content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+          />
+        )}
 
         <HomeSegment />
         <EditorSegment />
@@ -32,7 +37,7 @@ export const AppNavigation = () => {
       </section>
     </header>
   );
-};
+});
 
 const HomeSegment = () => {
   const location = useLocationArray();

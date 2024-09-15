@@ -80,4 +80,13 @@ export const notifications = {
       autoClose: 6000,
     });
   },
+
+  documentIsNotDefined() {
+    _notifications.show({
+      title: 'Redirected to Home',
+      message: 'Document is not defined.',
+      color: 'gray',
+      autoClose: 7000,
+    });
+  },
 };

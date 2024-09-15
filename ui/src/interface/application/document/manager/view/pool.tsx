@@ -1,5 +1,4 @@
 import { Kbd, Paper } from '@mantine/core';
-import { m } from 'framer-motion';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 
@@ -25,15 +24,7 @@ export const DocumentsPool = observer(() => {
   }, []);
 
   return (
-    <m.main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{
-        duration: 0.2,
-        ease: 'easeIn',
-      }}
-      className="w-full relative"
-    >
+    <>
       <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 w-full gap-y-12 pb-16">
         {pool?.map((doc) => {
           return <Preview key={doc.id} {...doc} />;
@@ -52,6 +43,6 @@ export const DocumentsPool = observer(() => {
           <p className="text-[12px]">N</p>
         </Kbd>
       </Paper>
-    </m.main>
+    </>
   );
 });

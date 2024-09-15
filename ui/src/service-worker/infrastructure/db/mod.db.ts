@@ -1,8 +1,7 @@
 import { type User } from '@prisma/client';
-import { type Document } from 'core/src/domain/document/types';
-import { generateId } from 'core/src/infrastructure/lib/generate-id';
-import dayjs from 'dayjs';
 import Dexie from 'dexie';
+
+import { type Document } from 'core/src/domain/document/types';
 
 import { type ParsedRequest } from '../lib/request.parser';
 
@@ -30,20 +29,12 @@ export class LocalDB extends Dexie {
     super('main_db');
 
     this.version(1).stores({
-      document: '&id, userId, lastUpdatedTime, name',
+      document: '&id, userId, lastUpdatedTime, name, source',
 
       networkSchedulerRequest: '&id, req',
       authTokens: '&id, access, refresh',
 
       session: '&id, current',
-    });
-
-    this.on('populate', () => {
-      this.document.add({
-        id: generateId(),
-        lastUpdatedTime: dayjs().toString(),
-        name: 'Issue: ~demo',
-      });
     });
   }
 }

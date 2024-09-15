@@ -7,6 +7,8 @@ export type Document = {
     lastUpdatedTime: string;
 
     name: string;
+
+    source: Source;
 };
 
-export type Source = string;
+export type Source = Record<string, unknown>;

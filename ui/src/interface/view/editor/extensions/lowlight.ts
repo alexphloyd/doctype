@@ -1,0 +1,34 @@
+import bash from 'highlight.js/lib/languages/bash';
+import c from 'highlight.js/lib/languages/c';
+import cpp from 'highlight.js/lib/languages/cpp';
+import css from 'highlight.js/lib/languages/css';
+import go from 'highlight.js/lib/languages/go';
+import java from 'highlight.js/lib/languages/java';
+import js from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
+import python from 'highlight.js/lib/languages/python';
+import rust from 'highlight.js/lib/languages/rust';
+import shell from 'highlight.js/lib/languages/shell';
+import sql from 'highlight.js/lib/languages/sql';
+import swift from 'highlight.js/lib/languages/swift';
+import ts from 'highlight.js/lib/languages/typescript';
+import html from 'highlight.js/lib/languages/xml';
+import { createLowlight } from 'lowlight';
+
+export const lowlight = createLowlight();
+
+lowlight.register('html', html);
+lowlight.register('css', css);
+lowlight.register('ts', ts);
+lowlight.register('python', python);
+lowlight.register('rust', rust);
+lowlight.register('go', go);
+lowlight.register('js', js);
+lowlight.register('json', json);
+lowlight.register('sql', sql);
+lowlight.register('bash', bash);
+lowlight.register('shell', shell);
+lowlight.register('c', c);
+lowlight.register('cpp', cpp);
+lowlight.register('swift', swift);
+lowlight.register('java', java);

@@ -19,7 +19,7 @@ export const Preview = observer((doc: Document) => {
     useDisclosure(false);
 
   const openInEditor = () => {
-    navigate('/editor/demo');
+    navigate('/editor/' + doc.id);
   };
 
   const openRemoveModal: MouseEventHandler<HTMLButtonElement> = (event) => {

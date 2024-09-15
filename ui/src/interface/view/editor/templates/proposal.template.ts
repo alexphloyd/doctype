@@ -1,4 +1,4 @@
-export const DEMO_CONTENT = {
+export const PROPOSAL_TEMPLATE = {
   type: 'doc',
   content: [
     {

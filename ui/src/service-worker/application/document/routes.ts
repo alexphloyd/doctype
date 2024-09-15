@@ -19,7 +19,7 @@ export function registerDocumentRoutes() {
     path: 'document/create',
     handler: async (ev, db) => {
       const body = await ev.request.json();
-      const parsedBody = DocumentSchema.pick({ name: true }).parse(body);
+      const parsedBody = DocumentSchema.pick({ name: true, source: true }).parse(body);
 
       const session = await authService.getSession();
 
@@ -152,6 +152,42 @@ export function registerDocumentRoutes() {
         });
       } else {
         return prepareErrorResponse(new AxiosError());
+      }
+    },
+  });
+
+  router.register({
+    path: 'document/getById',
+    handler: async (ev, db) => {
+      const body = await ev.request.json();
+      const parsedBody = DocumentSchema.pick({ id: true }).parse(body);
+      const doc = await db.document.get(parsedBody.id);
+
+      if (doc) {
+        return prepareResponse({
+          ok: true,
+          doc,
+        });
+      } else {
+        return prepareErrorResponse(new AxiosError('Document is not defined.'));
+      }
+    },
+  });
+
+  router.register({
+    path: 'document/updateSource',
+    handler: async (ev, db) => {
+      const body = await ev.request.json();
+      const { id, source } = DocumentSchema.pick({ id: true, source: true }).parse(body);
+
+      const update = await db.document.update(id, { source });
+
+      if (update) {
+        return prepareResponse({
+          ok: true,
+        });
+      } else {
+        return prepareErrorResponse(new AxiosError('Document Source is not updated.'));
       }
     },
   });
