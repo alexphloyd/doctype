@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/guards/roles.decorator';
-import { ZodValidationPipe } from '~/application/pipes/zod.validation.pipe';
+import { ZodValidationPipe } from '~/kernel/pipes/zod.validation.pipe';
 import { DocumentStrictSchema } from 'core/dist-cjs/src/domain/document/validation';
 import { z } from 'zod';
 import { DBService } from '~/infrastructure/db/db.service';

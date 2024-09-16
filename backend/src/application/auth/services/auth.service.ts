@@ -2,9 +2,9 @@ import { User } from '@prisma/client';
 import {
   extractAuthTokenFromHeader,
   extractRefreshTokenFromHeader,
-} from '~/domain/auth/lib/extract-token';
-import { HashService } from '~/domain/auth/services/hash.service';
-import { UserRepository } from '~/domain/user/services/user.repository';
+} from '~/application/auth/lib/extract-token';
+import { HashService } from '~/application/auth/services/hash.service';
+import { UserRepository } from '~/application/user/services/user.repository';
 import { LoginSchema } from '../dto';
 import { Injectable, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserRepository } from '~/domain/user/services/user.repository';
+import { UserRepository } from '~/application/user/services/user.repository';
 import {
   HttpException,
   HttpStatus,

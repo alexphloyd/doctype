@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { extractAuthTokenFromHeader } from '~/domain/auth/lib/extract-token';
+import { extractAuthTokenFromHeader } from '~/application/auth/lib/extract-token';
 import {
   CanActivate,
   ExecutionContext,

@@ -1,4 +1,4 @@
-import { SignUpSchema } from '~/domain/auth/dto';
+import { SignUpSchema } from '~/application/auth/dto';
 import { HttpException, Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { DBService } from '~/infrastructure/db/db.service';

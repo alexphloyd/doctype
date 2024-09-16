@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './application/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import { HttpExceptionFilter } from './application/filters/http-exceptions.filter';
-import { PrismaClientExceptionFilter } from './application/filters/prisma-exceptions.filter';
+import { AppModule } from './kernel/app.module';
+import { HttpExceptionFilter } from './kernel/filters/http-exceptions.filter';
+import { PrismaClientExceptionFilter } from './kernel/filters/prisma-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

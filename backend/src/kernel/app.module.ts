@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from '~/domain/auth/auth.module';
-import { RoleGuard } from '~/domain/auth/guards/role.guard';
+import { AuthModule } from '~/application/auth/auth.module';
+import { RoleGuard } from '~/application/auth/guards/role.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { DocumentModule } from '~/domain/document/document.module';
+import { DocumentModule } from '~/application/document/document.module';
 
 @Module({
   imports: [

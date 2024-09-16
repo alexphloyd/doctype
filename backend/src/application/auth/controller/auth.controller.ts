@@ -5,11 +5,11 @@ import {
   LoginDto,
   VerificationDto,
 } from 'core/dist-cjs/src/domain/auth/validation';
-import { ZodValidationPipe } from '~/application/pipes/zod.validation.pipe';
-import { AuthService } from '~/domain/auth/services/auth.service';
-import { HashService } from '~/domain/auth/services/hash.service';
-import { VerificationService } from '~/domain/auth/services/verification.service';
-import { UserRepository } from '~/domain/user/services/user.repository';
+import { ZodValidationPipe } from '~/kernel/pipes/zod.validation.pipe';
+import { AuthService } from '~/application/auth/services/auth.service';
+import { HashService } from '~/application/auth/services/hash.service';
+import { VerificationService } from '~/application/auth/services/verification.service';
+import { UserRepository } from '~/application/user/services/user.repository';
 import {
   Body,
   Controller,

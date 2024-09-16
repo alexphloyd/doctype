@@ -1,16 +1,16 @@
-import { UserModule } from '~/domain/user/user.module';
-import { AuthModule } from '~/domain/auth/auth.module';
-import { UserRepository } from '~/domain/user/services/user.repository';
+import { UserModule } from '~/application/user/user.module';
+import { AuthModule } from '~/application/auth/auth.module';
+import { UserRepository } from '~/application/user/services/user.repository';
 import { DBService } from '~/infrastructure/db/db.service';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { HashService } from '~/domain/auth/services/hash.service';
-import { VerificationService } from '~/domain/auth/services/verification.service';
+import { HashService } from '~/application/auth/services/hash.service';
+import { VerificationService } from '~/application/auth/services/verification.service';
 import { SendgridService } from '~/infrastructure/mail/services/sendgrid.service';
 import { MailService } from '@sendgrid/mail';
 import { SENDGRID_SERVICE } from '~/infrastructure/mail/config/constants';
-import { AuthService } from '~/domain/auth/services/auth.service';
-import { AppModule } from '~/application/app.module';
+import { AuthService } from '~/application/auth/services/auth.service';
+import { AppModule } from '~/kernel/app.module';
 import { AuthController } from './auth.controller';
 
 const TEST_USER_DATA = {
