@@ -26,8 +26,8 @@ async function loginHandler(ev: FetchEvent) {
     await authService.updateTokens(query.data.tokens);
     await authService.updateSession({ user: query.data.user });
 
+    await networkScheduler.execute();
     claimDocsToSession();
-    networkScheduler.execute();
 
     return prepareResponse(query.data);
   } else {

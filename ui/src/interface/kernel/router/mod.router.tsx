@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
         element: <Pages.Home />,
       },
       {
-        path: '/editor/:docId',
+        path: '/notes/:docId',
         element: <Pages.Editor />,
       },
 

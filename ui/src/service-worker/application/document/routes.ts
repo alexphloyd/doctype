@@ -185,6 +185,8 @@ export function registerDocumentRoutes() {
         lastUpdatedTime: dayjs().toString(),
       });
 
+      networkScheduler.post({ req: ev.request, payload: { id, source } });
+
       if (update) {
         return prepareResponse({
           ok: true,

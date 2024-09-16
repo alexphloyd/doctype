@@ -23,7 +23,7 @@ export const AppNavigation = observer(() => {
 
         {lastOpenedDoc && (
           <NavigationButton
-            pushTo={'/editor/' + lastOpenedDoc}
+            pushTo={'/notes/' + lastOpenedDoc}
             content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
           />
         )}

@@ -1,5 +1,6 @@
 import { m } from 'framer-motion';
 import { useParams } from 'react-router-dom';
+import { Fragment } from 'react/jsx-runtime';
 
 import { DocumentSourceModel } from '../application/document/edit/model';
 import { documentManagerModel } from '../application/document/manager/model';
@@ -12,7 +13,9 @@ export const Editor = () => {
 
   if (!docId?.length) {
     router.navigate('/');
-    return notifications.documentIsNotDefined();
+    notifications.documentIsNotDefined();
+
+    return <></>;
   }
 
   return (

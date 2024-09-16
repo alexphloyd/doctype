@@ -7,6 +7,8 @@ import { LocalDB } from '../db/mod.db';
 import { parseRequestInstance } from '../lib/request.parser';
 import { swMessageChannel } from '../message-channel/mod.message-channel';
 
+const LATEST_ONLY_STRATEGY_ROUTES = ['document/updateSource'];
+
 const storage = {
   get: async () => {
     const db = await LocalDB.getConnection();
@@ -14,6 +16,21 @@ const storage = {
   },
   add: async ({ req, payload }: { req: Request; payload?: AnyPayload }) => {
     const db = await LocalDB.getConnection();
+
+    const cleanupRequired = LATEST_ONLY_STRATEGY_ROUTES.find((route) => {
+      return req.url.includes(route);
+    });
+
+    if (cleanupRequired) {
+      const stale = await db.networkSchedulerRequest
+        .filter(({ req }) => {
+          return Boolean(req.url?.includes(cleanupRequired));
+        })
+        .toArray();
+
+      await db.networkSchedulerRequest.bulkDelete(stale.map((record) => record.id));
+    }
+
     db.networkSchedulerRequest.add({
       id: generateId(),
       req: parseRequestInstance(req, payload),
