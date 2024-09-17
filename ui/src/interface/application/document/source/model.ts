@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import { router } from '~/interface/kernel/router/mod.router';
 import { createEffect } from '~/interface/shared/lib/create-effect';
 import { notifications } from '~/interface/shared/lib/notifications';
@@ -23,6 +23,9 @@ export class DocumentSourceModel {
   }
 
   init = createEffect(async () => {
+    await this.documentNamagerModel.init.meta.promise;
+    await this.documentNamagerModel.pullCloud.run();
+
     const pullQuery = await api.getById({ id: this.docId });
     const source = pullQuery.data?.doc.source;
 
@@ -36,6 +39,18 @@ export class DocumentSourceModel {
       router.navigate('/');
       notifications.documentIsNotDefined();
     }
+
+    reaction(
+      () => this.documentNamagerModel.pool,
+      () => {
+        runInAction(() => {
+          const pulled = this.documentNamagerModel.pool.find((doc) => doc.id === this.docId);
+          if (pulled) {
+            this.source = pulled.source;
+          }
+        });
+      }
+    );
   });
 
   updateSource = createEffect(async (payload: Source) => {

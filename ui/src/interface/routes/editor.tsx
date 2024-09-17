@@ -1,9 +1,8 @@
 import { m } from 'framer-motion';
 import { useParams } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 
-import { DocumentSourceModel } from '../application/document/edit/model';
 import { documentManagerModel } from '../application/document/manager/model';
+import { DocumentSourceModel } from '../application/document/source/model';
 import { router } from '../kernel/router/mod.router';
 import { notifications } from '../shared/lib/notifications';
 import { EditorView } from '../view/editor/editor';

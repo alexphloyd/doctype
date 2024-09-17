@@ -124,12 +124,15 @@ export function registerDocumentRoutes() {
         const receivedRemotely = query.data.items;
 
         receivedRemotely.forEach(async (remoteDoc) => {
-          const same = local.find((localDoc) => localDoc.id === remoteDoc.id);
-          if (same) {
-            const isNewer = dayjs(remoteDoc.lastUpdatedTime).isAfter(same.lastUpdatedTime);
-            if (isNewer) {
+          const localDoc = local.find((localDoc) => localDoc.id === remoteDoc.id);
+          if (localDoc) {
+            const upgradeRequired = dayjs(remoteDoc.lastUpdatedTime).isAfter(
+              localDoc.lastUpdatedTime
+            );
+
+            if (upgradeRequired) {
               await db.document
-                .update(same.id, remoteDoc)
+                .update(localDoc.id, remoteDoc)
                 .then(() => (updated = true))
                 .catch(() => {});
             }
@@ -180,12 +183,13 @@ export function registerDocumentRoutes() {
       const body = await ev.request.json();
       const { id, source } = DocumentSchema.pick({ id: true, source: true }).parse(body);
 
+      const lastUpdatedTime = dayjs().toString();
       const update = await db.document.update(id, {
         source,
-        lastUpdatedTime: dayjs().toString(),
+        lastUpdatedTime,
       });
 
-      networkScheduler.post({ req: ev.request, payload: { id, source } });
+      networkScheduler.post({ req: ev.request, payload: { id, source, lastUpdatedTime } });
 
       if (update) {
         return prepareResponse({

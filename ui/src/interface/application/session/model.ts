@@ -12,16 +12,16 @@ class SessionModel {
 
   constructor() {
     makeAutoObservable(this);
-    this.init();
+    this.init.run();
   }
 
-  init() {
-    this.defineSession.run();
+  init = createEffect(async () => {
+    await this.defineSession.run();
 
     window.addEventListener('online', () => {
       this.defineSession.run();
     });
-  }
+  });
 
   upsert(payload: Session) {
     this.session = payload;

@@ -2,9 +2,12 @@ import { observable, runInAction } from 'mobx';
 
 export function createEffect<T = void, E = any>(fn: (args: T) => Promise<E>) {
   const meta = observable<{
+    promise: Promise<unknown> | null;
     status: EffectStatus;
     error?: { message?: string | null } | null;
-  }>({ status: 'idle', error: null });
+  }>({ status: 'idle', error: null, promise: null });
+
+  let resolver: (v: void) => void;
 
   return {
     meta,
@@ -12,6 +15,9 @@ export function createEffect<T = void, E = any>(fn: (args: T) => Promise<E>) {
       runInAction(() => {
         meta.error = null;
         meta.status = 'pending';
+        meta.promise = new Promise((_resolve) => {
+          resolver = _resolve;
+        });
       });
 
       await fn(args)
@@ -27,7 +33,8 @@ export function createEffect<T = void, E = any>(fn: (args: T) => Promise<E>) {
               message: error?.message ?? 'failed',
             };
           });
-        });
+        })
+        .finally(() => resolver?.());
     },
   };
 }

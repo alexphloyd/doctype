@@ -16,18 +16,21 @@ class DocumentManagerModel {
 
   constructor(private sessionModel: SessionModelInterface) {
     makeAutoObservable(this);
-    this.init();
+    this.init.run();
   }
 
-  init() {
+  init = createEffect(async () => {
     this.pull.run();
     this.lastOpenedDoc = localStorage.getItem('last-opened-doc');
 
+    await this.sessionModel.init.meta.promise;
+    await this.pullCloud.run();
+
     reaction(
-      () => sessionModel.session,
+      () => this.sessionModel.session,
       () => this.pullCloud.run()
     );
-  }
+  });
 
   create = createEffect(async () => {
     const query = await api.create({

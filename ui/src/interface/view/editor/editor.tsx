@@ -1,5 +1,6 @@
 import { type EditorEvents, EditorProvider } from '@tiptap/react';
 import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
 import { DocumentSourceModel } from '~/interface/application/document/edit/model';
 import { debounce } from '~/interface/shared/lib/debounce';
 
@@ -16,7 +17,7 @@ export const EditorView = observer(({ documentSourceModel }: Props) => {
     documentSourceModel.updateSource.run(event.editor.getJSON());
   }, 800);
 
-  if (documentSourceModel.init.meta.status === 'pending') {
+  if (documentSourceModel.init.meta.status !== 'fulfilled') {
     return null;
   }
 

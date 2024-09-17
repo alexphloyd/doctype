@@ -1,11 +1,9 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   HttpException,
   HttpStatus,
-  Param,
   Post,
   Req,
   UseGuards,
@@ -19,6 +17,7 @@ import { z } from 'zod';
 import { DBService } from '~/infrastructure/db/db.service';
 import { AuthService } from '../auth/services/auth.service';
 import { Request } from 'express';
+import dayjs from 'dayjs';
 
 @Controller('document')
 export class DocumentController {
@@ -30,8 +29,10 @@ export class DocumentController {
   @Post('create')
   @UseGuards(RoleGuard)
   @Roles('USER')
-  @UsePipes(new ZodValidationPipe(DocumentStrictSchema))
-  async create(@Body() body: z.infer<typeof DocumentStrictSchema>) {
+  @UsePipes(new ZodValidationPipe(DocumentStrictSchema.omit({ source: true })))
+  async create(
+    @Body() body: Omit<z.infer<typeof DocumentStrictSchema>, 'source'>
+  ) {
     const created = await this.db.document.create({
       data: body,
     });
@@ -51,6 +52,10 @@ export class DocumentController {
       where: {
         userId: reqSession?.sub,
       },
+    });
+
+    items.forEach((doc) => {
+      doc.source = JSON.parse(doc.source);
     });
 
     return {
@@ -93,6 +98,64 @@ export class DocumentController {
     return {
       ok: Boolean(renamed),
       message: renamed && 'Document successfully renamed',
+    };
+  }
+
+  @Post('updateSource')
+  @UseGuards(RoleGuard)
+  @Roles('USER')
+  @UsePipes(
+    new ZodValidationPipe(
+      DocumentStrictSchema.pick({
+        id: true,
+        source: true,
+        lastUpdatedTime: true,
+      })
+    )
+  )
+  async updateSource(
+    @Body()
+    body: Pick<
+      z.infer<typeof DocumentStrictSchema>,
+      'id' | 'source' | 'lastUpdatedTime'
+    >,
+    @Req() req: Request
+  ) {
+    const reqSession = await this.authService.extractReqSession(req);
+    const existed = await this.db.document.findFirst({
+      where: {
+        id: body.id,
+      },
+    });
+    if (!existed) {
+      throw new HttpException('Document not found', HttpStatus.CONFLICT);
+    }
+
+    const isOutdated = dayjs(existed.lastUpdatedTime).isAfter(
+      body.lastUpdatedTime
+    );
+    if (isOutdated) {
+      throw new HttpException('Outdated payload', HttpStatus.CONFLICT);
+    }
+
+    const updated = await this.db.document
+      .update({
+        where: {
+          id: body.id,
+          userId: reqSession?.sub,
+        },
+        data: {
+          source: JSON.stringify(body.source) as string,
+          lastUpdatedTime: body.lastUpdatedTime,
+        },
+      })
+      .catch((err) => {
+        throw new HttpException(err?.meta?.cause, HttpStatus.CONFLICT);
+      });
+
+    return {
+      ok: Boolean(updated),
+      message: updated && 'Document Source successfully updated',
     };
   }
 

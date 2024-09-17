@@ -60,7 +60,7 @@ const HomeSegment = () => {
 
 const EditorSegment = () => {
   const location = useLocationArray();
-  const show = location[0] === 'editor';
+  const show = location[0] === 'notes';
 
   return (
     <section hidden={!show}>
