@@ -55,7 +55,9 @@ export class DocumentController {
     });
 
     items.forEach((doc) => {
-      doc.source = JSON.parse(doc.source);
+      if (doc.source.length) {
+        doc.source = JSON.parse(doc.source);
+      }
     });
 
     return {
