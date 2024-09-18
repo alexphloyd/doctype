@@ -6,12 +6,11 @@ import {
   ActivityLogIcon,
   CheckboxIcon,
 } from '@radix-ui/react-icons';
-import { useCurrentEditor } from '@tiptap/react';
+import { Editor, useCurrentEditor } from '@tiptap/react';
 import { ComponentType, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export function EditorToolbar() {
-  const { editor } = useCurrentEditor();
+export function EditorToolbar({ editor }: { editor: Editor | null }) {
   if (!editor) {
     return null;
   }

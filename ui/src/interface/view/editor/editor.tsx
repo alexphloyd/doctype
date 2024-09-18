@@ -32,8 +32,9 @@ export const EditorView = observer(({ documentSourceModel }: Props) => {
   }
 
   return (
-    <EditorContent editor={editor}>
-      <EditorToolbar />
-    </EditorContent>
+    <>
+      <EditorContent editor={editor} />
+      <EditorToolbar editor={editor} />
+    </>
   );
 });
