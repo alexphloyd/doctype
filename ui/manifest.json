@@ -1,13 +1,23 @@
 {
-  "lang": "en-us",
   "name": "Doctype",
   "short_name": "Doctype",
-  "description": "Doc Builder",
+  "lang": "en-us",
+  "@context": "https://doctype.pro",
+  "url": "https://doctype.pro",
+  "description": "Doctype is an Offline-First Progressive Web App designed for seamless note-taking, document management, and productivity. With offline capabilities, Doctype ensures users can create, edit, and organize notes anytime, anywhere, without needing an internet connection.",
   "start_url": "/",
   "background_color": "#f5f5f5",
   "theme_color": "#f5f5f5",
   "orientation": "any",
   "display": "standalone",
+  "purpose": "any maskable",
+  "applicationCategory": "Notes",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
   "icons": [
     {
       "src": "/images/apple-touch-icon.png",
