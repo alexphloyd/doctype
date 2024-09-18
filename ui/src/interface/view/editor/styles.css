@@ -1,5 +1,5 @@
 .tiptap {
-  padding-top: 15px;
+  padding-top: 5px;
   padding-bottom: 30vh;
 
   width: 100%;
@@ -35,10 +35,14 @@
   h6 {
     line-height: 1.2;
     text-wrap: pretty;
+
+    &:first-child {
+      font-size: 1.5rem;
+    }
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-bottom: 12px;
   }
 

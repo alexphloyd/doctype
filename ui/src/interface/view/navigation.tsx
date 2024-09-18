@@ -1,12 +1,9 @@
-import { Avatar } from '@mantine/core';
-import { m } from 'framer-motion';
 import { observer } from 'mobx-react-lite';
 import { AppActionButton } from '~/interface/shared/view/buttons/action';
 import { Icon } from '~/interface/shared/view/icon';
 
 import { documentManagerModel } from '../application/document/manager/model';
-import { sessionModel } from '../application/session/model';
-import { useNetworkState } from '../kernel/network/use-network-state';
+import { SessionAction } from '../application/session/view';
 import { useLocationArray } from '../kernel/router/use-location-array';
 import { NavigationButton } from '../shared/view/buttons/navigation';
 
@@ -33,7 +30,7 @@ export const AppNavigation = observer(() => {
       </section>
 
       <section className="flex flex-col items-center justify-center">
-        <AuthActionButton />
+        <SessionAction />
       </section>
     </header>
   );
@@ -71,48 +68,3 @@ const EditorSegment = () => {
     </section>
   );
 };
-
-const AuthActionButton = observer(() => {
-  const network = useNetworkState();
-  const session = sessionModel.session;
-
-  const logout = () => {
-    sessionModel.logout();
-  };
-
-  if (!session && network.online) {
-    return (
-      <NavigationButton
-        className="px-[9.5px] py-[7px] "
-        pushTo="/sign-in"
-        content={
-          <Icon name="login" className="w-[1.29rem] h-[1.29rem] text-accent -ml-[0.5px]" />
-        }
-      />
-    );
-  }
-
-  if (session) {
-    return (
-      <m.div
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.2,
-          ease: 'easeIn',
-        }}
-      >
-        <Avatar
-          styles={{ root: { cursor: 'pointer', marginBottom: '-5px' } }}
-          src="/avatar-placeholder.png"
-          size="md"
-          onClick={logout}
-        />
-      </m.div>
-    );
-  }
-});
