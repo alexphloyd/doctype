@@ -25,7 +25,7 @@ export const SessionAction = observer(() => {
     );
   }
 
-  if (session) {
+  if (session && network.online) {
     return (
       <m.div
         initial={{
