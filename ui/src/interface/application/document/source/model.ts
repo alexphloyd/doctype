@@ -24,7 +24,7 @@ export class DocumentSourceModel {
 
   init = createEffect(async () => {
     await this.documentNamagerModel.init.meta.promise;
-    await this.documentNamagerModel.pullCloud.run();
+    this.documentNamagerModel.pullCloud.run();
 
     const pullQuery = await api.getById({ id: this.docId });
     const source = pullQuery.data?.doc.source;

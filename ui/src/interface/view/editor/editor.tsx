@@ -1,7 +1,7 @@
-import { type EditorEvents, EditorProvider } from '@tiptap/react';
+import { EditorContent, type EditorEvents, useEditor } from '@tiptap/react';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
-import { DocumentSourceModel } from '~/interface/application/document/edit/model';
+import { useEffect } from 'react';
+import { DocumentSourceModel } from '~/interface/application/document/source/model';
 import { debounce } from '~/interface/shared/lib/debounce';
 
 import { extensions } from './extensions/extensions.config';
@@ -15,20 +15,25 @@ interface Props {
 export const EditorView = observer(({ documentSourceModel }: Props) => {
   const handleUpdate = debounce((event: EditorEvents['update']) => {
     documentSourceModel.updateSource.run(event.editor.getJSON());
-  }, 800);
+  }, 300);
+
+  const editor = useEditor({
+    content: documentSourceModel.source,
+    extensions: extensions,
+    onUpdate: handleUpdate,
+  });
+
+  useEffect(() => {
+    editor?.commands.setContent(documentSourceModel.source);
+  }, [documentSourceModel.source]);
 
   if (documentSourceModel.init.meta.status !== 'fulfilled') {
     return null;
   }
 
   return (
-    <EditorProvider
-      autofocus
-      content={documentSourceModel.source}
-      extensions={extensions}
-      onUpdate={handleUpdate}
-    >
+    <EditorContent editor={editor}>
       <EditorToolbar />
-    </EditorProvider>
+    </EditorContent>
   );
 });

@@ -24,7 +24,7 @@ class DocumentManagerModel {
     this.lastOpenedDoc = localStorage.getItem('last-opened-doc');
 
     await this.sessionModel.init.meta.promise;
-    await this.pullCloud.run();
+    this.pullCloud.run();
 
     reaction(
       () => this.sessionModel.session,

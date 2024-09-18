@@ -29,12 +29,13 @@ export class DocumentController {
   @Post('create')
   @UseGuards(RoleGuard)
   @Roles('USER')
-  @UsePipes(new ZodValidationPipe(DocumentStrictSchema.omit({ source: true })))
-  async create(
-    @Body() body: Omit<z.infer<typeof DocumentStrictSchema>, 'source'>
-  ) {
+  @UsePipes(new ZodValidationPipe(DocumentStrictSchema))
+  async create(@Body() body: z.infer<typeof DocumentStrictSchema>) {
     const created = await this.db.document.create({
-      data: body,
+      data: {
+        ...body,
+        source: JSON.stringify(body.source),
+      },
     });
     return {
       ok: true,
@@ -74,12 +75,16 @@ export class DocumentController {
       DocumentStrictSchema.pick({
         id: true,
         name: true,
+        lastUpdatedTime: true,
       })
     )
   )
   async rename(
     @Body()
-    body: Pick<z.infer<typeof DocumentStrictSchema>, 'id' | 'name'>,
+    body: Pick<
+      z.infer<typeof DocumentStrictSchema>,
+      'id' | 'name' | 'lastUpdatedTime'
+    >,
     @Req() req: Request
   ) {
     const reqSession = await this.authService.extractReqSession(req);
@@ -91,6 +96,7 @@ export class DocumentController {
         },
         data: {
           name: body.name,
+          lastUpdatedTime: body.lastUpdatedTime,
         },
       })
       .catch((err) => {

@@ -76,7 +76,8 @@ export function registerDocumentRoutes() {
         const cloudReqPayload = {
           id: parsedBody.id,
           name: parsedBody.name,
-        } satisfies Pick<Document, 'id' | 'name'>;
+          lastUpdatedTime: dayjs().toString(),
+        } satisfies Pick<Document, 'id' | 'name' | 'lastUpdatedTime'>;
 
         networkScheduler.post({ req: ev.request, payload: cloudReqPayload });
       }
