@@ -58,7 +58,7 @@ export const Name = observer((doc: Document) => {
         className="text-sm flex items-center h-[1.48rem] w-[15.5rem] max-w-[15.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
         onClick={start}
       >
-        <span className="leading-4 truncate text-center w-full">{doc.name}</span>
+        <span className="truncate text-center w-full">{doc.name}</span>
       </div>
     );
   }

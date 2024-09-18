@@ -4,24 +4,59 @@
 
   width: 100%;
 
+  p {
+    font-size: 17px;
+  }
+
+  font-family: 'Roboto';
+
   ul[data-type='taskList'] {
     display: flex;
     flex-direction: column;
-    margin: 1px 0;
+    margin-top: 4px;
 
     li {
       display: flex;
       flex-direction: row;
-      align-items: start;
+      align-items: flex-start;
       padding: 0.5px 0;
 
       label {
-        margin-right: 7px;
-
         input {
-          width: 15px;
-          height: 15px;
-          margin-top: 4px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          margin-right: 9px;
+          margin-top: 2.5px;
+
+          background-color: #fff;
+          border: 1px solid #ced4da;
+          border-radius: 4px;
+
+          position: relative;
+        }
+
+        input:checked {
+          background-color: #339af0;
+          border-color: #339af0;
+        }
+
+        input:checked::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 5px;
+          width: 6px;
+          height: 9px;
+          border: solid #fff;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+
+        input:hover {
+          border-color: #339af0;
         }
       }
     }

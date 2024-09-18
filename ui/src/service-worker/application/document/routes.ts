@@ -94,7 +94,7 @@ export function registerDocumentRoutes() {
       try {
         const docs = await db.document.toArray();
         const sorted = docs?.sort((a, b) => {
-          return dayjs(a.lastUpdatedTime).diff(dayjs(b.lastUpdatedTime));
+          return dayjs(b.lastUpdatedTime).diff(dayjs(a.lastUpdatedTime));
         });
 
         return prepareResponse({
@@ -146,7 +146,7 @@ export function registerDocumentRoutes() {
         });
 
         const merged = (await db.document.toArray()).sort((a, b) => {
-          return dayjs(a.lastUpdatedTime).diff(dayjs(b.lastUpdatedTime));
+          return dayjs(b.lastUpdatedTime).diff(dayjs(a.lastUpdatedTime));
         });
 
         return prepareResponse({
