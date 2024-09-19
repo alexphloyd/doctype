@@ -65,10 +65,12 @@ export function registerDocumentRoutes() {
       const parsedBody = DocumentSchema.pick({ name: true, id: true }).parse(body);
 
       const session = await authService.getSession();
+      const lastUpdatedTime = dayjs().toString();
 
       const renamed = await db.document
         .update(parsedBody.id, {
           name: parsedBody.name,
+          lastUpdatedTime,
         })
         .catch(() => undefined);
 
@@ -76,7 +78,7 @@ export function registerDocumentRoutes() {
         const cloudReqPayload = {
           id: parsedBody.id,
           name: parsedBody.name,
-          lastUpdatedTime: dayjs().toString(),
+          lastUpdatedTime,
         } satisfies Pick<Document, 'id' | 'name' | 'lastUpdatedTime'>;
 
         networkScheduler.post({ req: ev.request, payload: cloudReqPayload });

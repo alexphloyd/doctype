@@ -4,11 +4,13 @@ import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { type MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { preparePreview } from '~/interface/shared/lib/prepate-preview';
 import { Icon } from '~/interface/shared/view/icon';
 
 import { type Document } from 'core/src/domain/document/types';
 
 import { Name } from '../../rename/view';
+import './preview.css';
 import { RemoveModal } from './remove.modal';
 
 export const Preview = observer((doc: Document) => {
@@ -28,16 +30,21 @@ export const Preview = observer((doc: Document) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <li className="flex flex-col items-center">
       <Paper
         ref={paperRef}
         withBorder={hovered}
         onClick={openInEditor}
         shadow="sm"
         classNames={{
-          root: 'min-w-[15.6rem] min-h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-transparent hover:border-borderLight overflow-hidden',
+          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/30 hover:border-borderLight overflow-hidden px-3 py-2',
         }}
       >
+        <div
+          className="tiptap-preview"
+          dangerouslySetInnerHTML={{ __html: preparePreview(doc.source) }}
+        />
+
         {(hovered || removeModalOpened) && (
           <CloseButton
             onClick={openRemoveModal}
@@ -55,11 +62,11 @@ export const Preview = observer((doc: Document) => {
       </Paper>
 
       <Name {...doc} key={doc.id} />
-      <span className="mt-[1px] text-[0.71rem] text-fontSecondary">
+      <span className="mt-[0.5px] text-[0.7rem] text-fontSecondary">
         {dayjs(doc.lastUpdatedTime).format('D MMMM h:mm A').toString()}
       </span>
 
       <RemoveModal doc={doc} opened={removeModalOpened} onClose={closeRemoveModal} />
-    </div>
+    </li>
   );
 });

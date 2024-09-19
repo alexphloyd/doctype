@@ -5,7 +5,7 @@ export const DocumentSchema = z.object({
     userId: z.number().nullish(),
     lastUpdatedTime: z.string(),
     name: z.string(),
-    source: z.record(z.any()),
+    source: z.string(),
 });
 
 export const DocumentStrictSchema = DocumentSchema.omit({ userId: true }).extend({

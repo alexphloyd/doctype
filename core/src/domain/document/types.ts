@@ -11,4 +11,4 @@ export type Document = {
     source: Source;
 };
 
-export type Source = Record<string, unknown>;
+export type Source = string;

@@ -14,7 +14,7 @@ interface Props {
 
 export const EditorView = observer(({ documentSourceModel }: Props) => {
   const handleUpdate = debounce((event: EditorEvents['update']) => {
-    documentSourceModel.updateSource.run(event.editor.getJSON());
+    documentSourceModel.updateSource.run(event.editor.getHTML());
   }, 300);
 
   const editor = useEditor({

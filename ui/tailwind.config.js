@@ -20,7 +20,7 @@ module.exports = {
         borderLight: 'rgb(229 231 235 / 0.7)',
       },
       fontSize: {
-        sm: '0.81rem',
+        sm: '0.75rem',
         base: '0.91rem',
         md: '0.95rem',
         lg: '1rem',

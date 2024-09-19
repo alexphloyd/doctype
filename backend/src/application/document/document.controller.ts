@@ -32,10 +32,7 @@ export class DocumentController {
   @UsePipes(new ZodValidationPipe(DocumentStrictSchema))
   async create(@Body() body: z.infer<typeof DocumentStrictSchema>) {
     const created = await this.db.document.create({
-      data: {
-        ...body,
-        source: JSON.stringify(body.source),
-      },
+      data: body,
     });
     return {
       ok: true,
@@ -53,12 +50,6 @@ export class DocumentController {
       where: {
         userId: reqSession?.sub,
       },
-    });
-
-    items.forEach((doc) => {
-      if (doc.source.length) {
-        doc.source = JSON.parse(doc.source);
-      }
     });
 
     return {
@@ -153,7 +144,7 @@ export class DocumentController {
           userId: reqSession?.sub,
         },
         data: {
-          source: JSON.stringify(body.source) as string,
+          source: body.source,
           lastUpdatedTime: body.lastUpdatedTime,
         },
       })
