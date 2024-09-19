@@ -74,7 +74,7 @@ export function registerDocumentRoutes() {
         })
         .catch(() => undefined);
 
-      if (session?.id) {
+      if (session?.current) {
         const cloudReqPayload = {
           id: parsedBody.id,
           name: parsedBody.name,
@@ -186,13 +186,17 @@ export function registerDocumentRoutes() {
       const body = await ev.request.json();
       const { id, source } = DocumentSchema.pick({ id: true, source: true }).parse(body);
 
+      const session = await authService.getSession();
+
       const lastUpdatedTime = dayjs().toString();
       const update = await db.document.update(id, {
         source,
         lastUpdatedTime,
       });
 
-      networkScheduler.post({ req: ev.request, payload: { id, source, lastUpdatedTime } });
+      if (session?.current) {
+        networkScheduler.post({ req: ev.request, payload: { id, source, lastUpdatedTime } });
+      }
 
       if (update) {
         return prepareResponse({

@@ -1,6 +1,6 @@
 import { EditorContent, type EditorEvents, useEditor } from '@tiptap/react';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { DocumentSourceModel } from '~/interface/application/document/source/model';
 import { debounce } from '~/interface/shared/lib/debounce';
 
@@ -13,9 +13,12 @@ interface Props {
 }
 
 export const EditorView = observer(({ documentSourceModel }: Props) => {
-  const handleUpdate = debounce((event: EditorEvents['update']) => {
-    documentSourceModel.updateSource.run(event.editor.getHTML());
-  }, 300);
+  const handleUpdate = useCallback(
+    debounce((event: EditorEvents['update']) => {
+      documentSourceModel.updateSource.run(event.editor.getHTML());
+    }, 700),
+    []
+  );
 
   const editor = useEditor({
     content: documentSourceModel.source,

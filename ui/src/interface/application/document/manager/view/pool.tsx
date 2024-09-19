@@ -1,6 +1,6 @@
 import { Kbd, Paper } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 
 import { documentManagerModel } from '../model';
 import { Preview } from './preview';
@@ -21,6 +21,12 @@ export const DocumentsPool = observer(() => {
     return () => {
       window.removeEventListener('keydown', handleCreateShortcut);
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (documentManagerModel.pull.meta.status === 'fulfilled') {
+      documentManagerModel.pull.run();
+    }
   }, []);
 
   return (
