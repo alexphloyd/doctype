@@ -1,8 +1,11 @@
 .tiptap-preview {
+  position: relative;
   overflow: hidden;
 
   width: 100%;
   height: 100%;
+
+  mask-image: linear-gradient(to bottom, black 94%, transparent);
 
   p {
     font-size: 7px;
@@ -60,10 +63,6 @@
           border-width: 0 1px 1px 0;
           transform: rotate(45deg);
         }
-
-        input:hover {
-          border-color: #339af0;
-        }
       }
     }
   }
@@ -103,7 +102,20 @@
   }
 
   pre {
-    display: none;
+    border-radius: 2px;
+    color: #333;
+    font-family: 'JetBrainsMono', monospace;
+    margin-bottom: 0px;
+    padding: 2px 4px;
+    overflow-x: auto;
+    font-size: 5px;
+
+    code {
+      font-size: 7px;
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
   }
 }
 

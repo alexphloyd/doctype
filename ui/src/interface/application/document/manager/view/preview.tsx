@@ -37,7 +37,7 @@ export const Preview = observer((doc: Document) => {
         onClick={openInEditor}
         shadow="sm"
         classNames={{
-          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/30 hover:border-borderLight overflow-hidden px-3 py-2',
+          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/30 hover:border-borderLight overflow-hidden px-3 pt-2 py-[6px]',
         }}
       >
         <div
