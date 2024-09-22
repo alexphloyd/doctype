@@ -19,13 +19,11 @@ export class DocumentRenamingModel {
   }
 
   start(doc: Document) {
-    runInAction(() => {
-      this.process = {
-        id: doc.id,
-        initial: doc.name,
-        input: doc.name,
-      };
-    });
+    this.process = {
+      id: doc.id,
+      initial: doc.name,
+      input: doc.name,
+    };
   }
 
   update(payload: Pick<Document, 'name'>) {
@@ -41,9 +39,7 @@ export class DocumentRenamingModel {
   }
 
   apply = createEffect(async () => {
-    if (!this.process) return;
-
-    if (this.process?.initial !== this.process?.input) {
+    if (this.process && this.process?.initial !== this.process?.input) {
       const renameQuery = await api.rename({
         data: {
           id: this.process.id,
