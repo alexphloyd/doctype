@@ -58,6 +58,7 @@ export function registerAuthRoutes() {
       });
 
       if (query.data) {
+        await claimDocsToSession();
         return prepareResponse(query.data);
       } else {
         return prepareErrorResponse(query.error);

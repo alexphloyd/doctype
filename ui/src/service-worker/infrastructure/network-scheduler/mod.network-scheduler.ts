@@ -6,6 +6,7 @@ import { type AnyPayload } from '../api-client/types';
 import { LocalDB } from '../db/mod.db';
 import { parseRequestInstance } from '../lib/request.parser';
 import { swMessageChannel } from '../message-channel/mod.message-channel';
+import { isNetworkError } from './is-network-error';
 
 const LATEST_ONLY_STRATEGY_ROUTES = ['document/updateSource'];
 
@@ -31,49 +32,44 @@ const storage = {
       await db.networkSchedulerRequest.bulkDelete(stale.map((record) => record.id));
     }
 
-    db.networkSchedulerRequest.add({
+    await db.networkSchedulerRequest.add({
       id: generateId(),
       req: parseRequestInstance(req, payload),
     });
   },
 };
 
-export const networkScheduler = {
-  post: ({ req, payload }: { req: Request; payload: AnyPayload }) => {
-    if (navigator.onLine) {
-      swApiClient.query({
-        parsedRequest: parseRequestInstance(req, payload),
-      });
-    } else {
-      storage.add({ req, payload });
-    }
-  },
-  execute: async () => {
-    if (navigator.onLine) {
-      const db = await LocalDB.getConnection();
+async function post({ req, payload }: { req: Request; payload: AnyPayload }) {
+  await storage.add({ req, payload });
+  await execute();
+}
 
-      const queue = await storage.get();
-      const succeed = [];
+async function execute() {
+  if (navigator.onLine) {
+    const db = await LocalDB.getConnection();
 
-      if (queue.length) {
-        for (const { req, id } of queue) {
-          const response = await swApiClient.query<any>({
-            parsedRequest: req,
-          });
+    const queue = await storage.get();
+    const succeed = [];
 
-          if (response.error?.code !== 'ERR_NETWORK') {
-            succeed.push(id);
-          }
+    if (queue.length) {
+      for (const { req, id } of queue) {
+        const response = await swApiClient.query<any>({
+          parsedRequest: req,
+        });
+
+        if (!isNetworkError(response.error)) {
+          succeed.push(id);
         }
-
-        if (succeed.length > 0) {
-          swMessageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
-        }
-
-        db.networkSchedulerRequest.bulkDelete(succeed).catch(() => {});
       }
+
+      await db.networkSchedulerRequest.bulkDelete(succeed).catch(() => {});
     }
-  },
+  }
+}
+
+export const networkScheduler = {
+  post,
+  execute,
 };
 
 swMessageChannel.on(NETWORK_MESSAGES.ONLINE, () => {
