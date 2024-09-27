@@ -1,6 +1,7 @@
 import { Kbd, Paper } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useLayoutEffect } from 'react';
+import { QuickStart } from '~/interface/view/quick-start';
 
 import { documentManagerModel } from '../model';
 import { Preview } from './preview';
@@ -29,6 +30,10 @@ export const DocumentsPool = observer(() => {
     }
   }, []);
 
+  if (!pool.length) {
+    return <QuickStart />;
+  }
+
   return (
     <>
       <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 w-full gap-y-12 pb-16">
@@ -45,8 +50,8 @@ export const DocumentsPool = observer(() => {
           <p className="-mt-[5px] text-[18px]">⌥</p>
         </Kbd>
         <span className="text-gray-400">+</span>
-        <Kbd className="h-7 w-7 text-center">
-          <p className="text-[12px]">N</p>
+        <Kbd className="h-7 w-7 text-center font-['JetBrainsMono']">
+          <p className="text-[14px] -mt-[1px]">N</p>
         </Kbd>
       </Paper>
     </>

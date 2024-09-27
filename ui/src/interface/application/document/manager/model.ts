@@ -2,6 +2,9 @@ import dayjs from 'dayjs';
 import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import { createEffect } from '~/interface/shared/lib/create-effect';
 import { notifications } from '~/interface/shared/lib/notifications';
+import { DEVOPS_DEPLOY_TEMPLATE } from '~/interface/view/editor/templates/devops.template';
+import { MOBX_TEMPLATE } from '~/interface/view/editor/templates/mobx.templates';
+import { getNoteTemplate } from '~/interface/view/editor/templates/personal.template';
 import { PROPOSAL_TEMPLATE } from '~/interface/view/editor/templates/proposal.template';
 
 import { type Document } from 'core/src/domain/document/types';
@@ -29,11 +32,12 @@ class DocumentManagerModel {
     );
   });
 
-  create = createEffect(async () => {
+  create = createEffect(async (payload?: Pick<Document, 'name' | 'source'> | void) => {
+    const name = payload?.name ?? 'Note: ' + '~' + dayjs().format('ss').toString();
     const query = await api.create({
       data: {
-        name: 'Issue: ' + '~' + dayjs().format('ss').toString(),
-        source: PROPOSAL_TEMPLATE,
+        name,
+        source: payload?.source ?? getNoteTemplate({ name, date: dayjs().toString() }),
       },
     });
 
@@ -89,6 +93,12 @@ class DocumentManagerModel {
     this.lastOpenedDoc = id;
     localStorage.setItem('last-opened-doc', id);
   }
+
+  generateSample = createEffect(async () => {
+    this.create.run({ name: 'Learn Mobx', source: MOBX_TEMPLATE });
+    this.create.run({ name: 'Proposal: Safe Assignment Operator', source: PROPOSAL_TEMPLATE });
+    this.create.run({ name: 'DevOps: Deploy Notes', source: DEVOPS_DEPLOY_TEMPLATE });
+  });
 }
 
 export const documentManagerModel = new DocumentManagerModel(sessionModel);

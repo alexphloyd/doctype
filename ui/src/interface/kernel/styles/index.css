@@ -28,6 +28,5 @@
 @import '@mantine/core/styles/ActionIcon.css';
 @import '@mantine/core/styles/global.css';
 @import '@mantine/notifications/styles.css';
-@import 'reactflow/dist/style.css';
 
 @import url('./core.css');
