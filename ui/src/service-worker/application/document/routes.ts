@@ -22,19 +22,24 @@ export function registerDocumentRoutes() {
       const parsedBody = DocumentSchema.pick({ name: true, source: true }).parse(body);
 
       const session = await authService.getSession();
-
       const payload = {
         ...parsedBody,
         id: generateId(),
         lastUpdatedTime: dayjs().toString(),
-        userId: session?.current.id,
       };
-      const created = await db.document.add(payload);
 
-      networkScheduler.post({ req: ev.request, payload });
+      if (session) {
+        await db.document.add({ ...payload, userId: session.current.id });
+        networkScheduler.post({
+          req: ev.request,
+          payload: { ...payload, userId: session.current.id },
+        });
+      } else {
+        await db.document.add(payload);
+      }
 
       return prepareResponse({
-        ok: Boolean(created),
+        ok: true,
       });
     },
   });

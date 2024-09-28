@@ -4,7 +4,7 @@ import { createEffect } from '~/interface/shared/lib/create-effect';
 import { notifications } from '~/interface/shared/lib/notifications';
 import { DEVOPS_DEPLOY_TEMPLATE } from '~/interface/view/editor/templates/devops.template';
 import { MOBX_TEMPLATE } from '~/interface/view/editor/templates/mobx.templates';
-import { getNoteTemplate } from '~/interface/view/editor/templates/personal.template';
+import { getNoteTemplate } from '~/interface/view/editor/templates/note.template';
 import { PROPOSAL_TEMPLATE } from '~/interface/view/editor/templates/proposal.template';
 
 import { type Document } from 'core/src/domain/document/types';
