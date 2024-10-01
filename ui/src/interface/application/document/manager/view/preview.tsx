@@ -13,15 +13,15 @@ import { Name } from '../../rename/view';
 import './preview.css';
 import { RemoveModal } from './remove.modal';
 
-export const Preview = observer((doc: Document) => {
+export const Preview = observer((props: Document) => {
   const navigate = useNavigate();
 
   const { ref: paperRef, hovered } = useHover();
   const [removeModalOpened, { open: _openRemoveModal, close: closeRemoveModal }] =
     useDisclosure(false);
 
-  const openInEditor = () => {
-    navigate('/notes/' + doc.id);
+  const openNote = () => {
+    navigate('/notes/' + props.id);
   };
 
   const openRemoveModal: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -34,7 +34,7 @@ export const Preview = observer((doc: Document) => {
       <Paper
         ref={paperRef}
         withBorder={hovered}
-        onClick={openInEditor}
+        onClick={openNote}
         shadow="sm"
         classNames={{
           root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/30 hover:border-borderLight overflow-hidden px-3 pt-2 py-[6px]',
@@ -42,7 +42,7 @@ export const Preview = observer((doc: Document) => {
       >
         <div
           className="tiptap-preview"
-          dangerouslySetInnerHTML={{ __html: preparePreview(doc.source) }}
+          dangerouslySetInnerHTML={{ __html: preparePreview(props.source) }}
         />
 
         {(hovered || removeModalOpened) && (
@@ -61,12 +61,12 @@ export const Preview = observer((doc: Document) => {
         )}
       </Paper>
 
-      <Name {...doc} key={doc.id} />
+      <Name {...props} key={props.id} />
       <span className="mt-[0.5px] text-[0.7rem] text-fontSecondary">
-        {dayjs(doc.lastUpdatedTime).format('D MMMM h:mm A').toString()}
+        {dayjs(props.lastUpdatedTime).format('D MMMM h:mm A').toString()}
       </span>
 
-      <RemoveModal doc={doc} opened={removeModalOpened} onClose={closeRemoveModal} />
+      <RemoveModal doc={props} opened={removeModalOpened} onClose={closeRemoveModal} />
     </li>
   );
 });
