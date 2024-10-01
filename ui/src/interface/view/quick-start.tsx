@@ -9,10 +9,10 @@ export const QuickStart = observer(() => {
 
   return (
     <div className="min-h-screen flex items-center justify-center flex-col -mt-[10vh] gap-2">
-      <p className="flex items-center text-[29px] font-['JetBrainsMono'] tracking-wide text-cyan-800/90 gap-x-1">
+      <h1 className="flex items-center text-[29px] font-['JetBrainsMono'] tracking-wide text-cyan-800/90 gap-x-1">
         Seamless note-taking tool
         <img src="/logo.webp" width={100} height={100} className="w-8 h-8" />
-      </p>
+      </h1>
 
       <p className="flex space-x-2 items-center">
         <Button onClick={handleGenerate} size="sm" variant="outline" className="h-[35px]">
