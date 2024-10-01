@@ -31,8 +31,8 @@ export const DocumentsPool = observer(() => {
     }
   }, []);
 
-  if (!pool.length && documentManagerModel.pull.meta.status === 'fulfilled') {
-    return <QuickStart />;
+  if (!pool.length) {
+    return documentManagerModel.pull.meta.status === 'fulfilled' && <QuickStart />;
   } else {
     return (
       <>
