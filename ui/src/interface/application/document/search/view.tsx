@@ -15,13 +15,17 @@ export const Search = observer(() => {
   const notes = documentManagerModel.pool;
 
   const [searchValue, setSearchValue] = useState('');
+  const searchParts = searchValue.toLowerCase().split(/[ \-._]+/);
+
+  const searchResult = notes
+    .filter((note) => {
+      return searchParts.every((part) => note.name.toLowerCase().includes(part));
+    })
+    .slice(0, 7);
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-
-  const searchResult = notes
-    .filter((note) => note.name.toLowerCase().includes(searchValue.toLowerCase().trim()))
-    .slice(0, 7);
 
   const openNote = (selected: Document['id'] & string) => {
     navigate('/notes/' + selected);
