@@ -2,11 +2,12 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import { compression } from 'vite-plugin-compression2';
 import { qrcode } from 'vite-plugin-qrcode';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths(), qrcode()],
+  plugins: [react(), tsconfigPaths(), qrcode(), compression()],
   base: './',
   root: './',
 
