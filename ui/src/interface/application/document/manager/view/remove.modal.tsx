@@ -62,7 +62,7 @@ export const RemoveModal = (props: Props) => {
           }}
         >
           Remove
-          <span className="text-white text-center font-bold ml-3 border-[1px] border-solid border-white/20 bg-white/10 px-[6px] py-[2.5px] rounded">
+          <span className="text-white text-center font-bold ml-[10px] border-[1px] border-solid border-white/20 bg-white/10 pl-[7px] pr-[9px] pt-[2.5px] pb-[1.5px] rounded">
             ⏎
           </span>
         </Button>
