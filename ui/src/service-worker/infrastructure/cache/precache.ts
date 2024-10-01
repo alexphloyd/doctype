@@ -12,8 +12,7 @@ export function precacheAndServeAssets() {
   registerRoute(
     ({ request }) => {
       const isApplicationAsset =
-        request.destination === 'script' &&
-        !request.url.endsWith('accounts.google.com/gsi/client');
+        request.destination === 'script' && request.url.includes('assets');
 
       return (
         isApplicationAsset ||

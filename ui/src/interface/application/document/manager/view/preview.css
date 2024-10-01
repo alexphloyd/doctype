@@ -1,4 +1,5 @@
 .tiptap-preview {
+  user-select: none;
   position: relative;
   overflow: hidden;
 
