@@ -1,3 +1,4 @@
+import { Pencil2Icon, PlusIcon } from '@radix-ui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { AppActionButton } from '~/interface/shared/view/buttons/action';
 import { Icon } from '~/interface/shared/view/icon';
@@ -49,7 +50,7 @@ const HomeSegment = () => {
       <AppActionButton
         debounce
         onClick={createDocument}
-        content={<Icon name="write" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+        content={<Pencil2Icon className="w-[1.16rem] h-[1.16rem] text-accent" />}
       />
     </section>
   );

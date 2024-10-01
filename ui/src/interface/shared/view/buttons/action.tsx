@@ -52,14 +52,14 @@ export const AppActionButton = (props: Props) => {
 };
 
 const styles = cva(
-  'select-none w-fit rounded-md whitespace-nowrap tracking-wider text-center font-sans cursor-pointer flex items-center justify-center',
+  'select-none w-full rounded-md whitespace-nowrap tracking-wider text-center cursor-default font-sans flex items-center justify-center',
   {
     variants: {
       type: {
         default: ['bg-transparent text-accent'],
       },
       size: {
-        md: ['px-3 h-[34px] text-base'],
+        md: ['h-[34px] text-base'],
       },
       disabled: {
         true: [

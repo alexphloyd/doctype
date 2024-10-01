@@ -44,7 +44,7 @@ function isPathSelected(currentPathName: string, pushTo: string) {
 }
 
 const styles = cva(
-  'select-none w-full flex flex-row justify-start items-center rounded-[6px] whitespace-nowrap text-center cursor-pointer',
+  'select-none w-full flex flex-row justify-start items-center rounded-[6px] whitespace-nowrap cursor-default text-center',
   {
     variants: {
       type: {
