@@ -9,10 +9,19 @@ interface Props extends VariantProps<typeof styles> {
   className?: string;
   disabled?: boolean;
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  ariaLabel?: string;
 }
 
 export const NavigationButton = (props: Props) => {
-  const { content, className, size, disabled = false, htmlType = 'button', pushTo } = props;
+  const {
+    content,
+    className,
+    size,
+    disabled = false,
+    htmlType = 'button',
+    pushTo,
+    ariaLabel,
+  } = props;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,6 +39,7 @@ export const NavigationButton = (props: Props) => {
         }),
         className
       )}
+      aria-label={ariaLabel}
     >
       {content}
     </button>

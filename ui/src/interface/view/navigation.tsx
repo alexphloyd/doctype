@@ -17,12 +17,14 @@ export const AppNavigation = observer(() => {
         <NavigationButton
           pushTo="/"
           content={<Icon name="home" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+          ariaLabel="home"
         />
 
         {lastOpenedDoc && (
           <NavigationButton
             pushTo={'/notes/' + lastOpenedDoc}
             content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+            ariaLabel="last-active-note"
           />
         )}
 
@@ -51,6 +53,7 @@ const HomeSegment = () => {
         debounce
         onClick={createDocument}
         content={<Pencil2Icon className="w-[1.16rem] h-[1.16rem] text-accent" />}
+        ariaLabel="create-new-note"
       />
     </section>
   );
@@ -65,6 +68,7 @@ const EditorSegment = () => {
       <AppActionButton
         onClick={() => null}
         content={<Icon name="share" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+        ariaLabel="share-note"
       />
     </section>
   );

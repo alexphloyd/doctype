@@ -10,6 +10,7 @@ interface Props extends VariantProps<typeof styles> {
   debounceTime?: number;
   onClick?: () => void;
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  ariaLabel?: string;
 }
 
 export const AppActionButton = (props: Props) => {
@@ -23,7 +24,9 @@ export const AppActionButton = (props: Props) => {
     htmlType = 'button',
     debounce = false,
     debounceTime = 300,
+    ariaLabel,
   } = props;
+
   const [isDisabled, setDisabled] = useState(false);
   const handleClick = () => {
     if (!debounce) {
@@ -45,6 +48,7 @@ export const AppActionButton = (props: Props) => {
       onClick={handleClick}
       type={htmlType}
       className={twMerge(styles({ type, size, disabled }), className)}
+      aria-label={ariaLabel}
     >
       {content}
     </button>
