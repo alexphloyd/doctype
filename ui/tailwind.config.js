@@ -7,15 +7,17 @@ module.exports = {
     },
     extend: {
       colors: {
+        primary: 'rga(35, 39, 47)',
+        secondary: 'rgb(64, 71, 86)',
+
         accent: '#007AFF',
         danger: '#E03131',
 
-        backgroundPrimaryDarker: '#f7f7fa',
-
-        fontPrimary: '#333333',
+        fontPrimary: 'rga(35, 39, 47)',
         fontSecondary: 'rgba(51, 51, 51, 0.7)',
 
-        borderPrimary: '#EAEAEA',
+        bgPrimary: '#f7f7fa',
+
         borderDark: '#E7E7E7',
         borderLight: 'rgb(229 231 235 / 0.7)',
       },
@@ -24,6 +26,7 @@ module.exports = {
         base: '0.91rem',
         md: '0.95rem',
         lg: '1rem',
+        xl: '1.13rem',
       },
       screens: {
         sm: '690px',

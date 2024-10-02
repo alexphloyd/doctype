@@ -10,11 +10,12 @@ export const AccessDenied = () => {
         Oops! It seems we've hit a bump in the road..
       </span>
       <Button
+        variant="outline"
         onClick={() => {
-          navigate(-1);
+          navigate('/');
         }}
       >
-        Go Back
+        Back Home
       </Button>
     </main>
   );

@@ -56,7 +56,7 @@ export const AppActionButton = (props: Props) => {
 };
 
 const styles = cva(
-  'select-none w-full rounded-md whitespace-nowrap tracking-wider text-center cursor-default font-sans flex items-center justify-center',
+  'cursor-pointer select-none w-full rounded-md whitespace-nowrap tracking-wider text-center font-sans flex items-center justify-center',
   {
     variants: {
       type: {

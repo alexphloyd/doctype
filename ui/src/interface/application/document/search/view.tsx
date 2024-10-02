@@ -108,7 +108,7 @@ function Kbd({ dropdownOpened }: { dropdownOpened: boolean }) {
   return (
     <p
       className={twJoin(
-        "flex items-center justify-center border-[1px] border-borderDark rounded bg-backgroundPrimaryDarker h-[18px] w-9 font-['JetBrainsMono'] font-black text-[11px] text-nowrap",
+        "flex items-center justify-center border-[1px] border-borderDark rounded bg-bgPrimary h-[18px] w-9 font-['JetBrainsMono'] font-black text-[11px] text-nowrap",
         dropdownOpened && 'opacity-65'
       )}
     >

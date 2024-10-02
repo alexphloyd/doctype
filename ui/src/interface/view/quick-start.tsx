@@ -1,15 +1,24 @@
 import { Button, Kbd } from '@mantine/core';
 import { RocketIcon } from '@radix-ui/react-icons';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 import { documentManagerModel } from '../application/document/manager/model';
 
 export const QuickStart = observer(() => {
+  const navigate = useNavigate();
+
   const handleGenerate = () => documentManagerModel.generateSample.run();
+  const openAboutPage = () => {
+    navigate('/about');
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center flex-col -mt-[10vh] gap-2">
-      <h1 className="flex items-center text-[29px] font-['JetBrainsMono'] tracking-wide text-cyan-800/90 gap-x-1">
+      <h1
+        className="flex items-center text-[29px] font-['JetBrainsMono'] tracking-wide text-cyan-800/90 gap-x-1 cursor-pointer"
+        onClick={openAboutPage}
+      >
         Seamless note-taking tool
         <img src="/logo.webp" width={34} height={34} className="w-8 h-8" alt="app-logo" />
       </h1>

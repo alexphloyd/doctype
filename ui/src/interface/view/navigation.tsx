@@ -1,4 +1,4 @@
-import { Pencil2Icon, PlusIcon } from '@radix-ui/react-icons';
+import { InfoCircledIcon, Pencil2Icon, PlusIcon } from '@radix-ui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { AppActionButton } from '~/interface/shared/view/buttons/action';
 import { Icon } from '~/interface/shared/view/icon';
@@ -28,6 +28,18 @@ export const AppNavigation = observer(() => {
           />
         )}
 
+        <NavigationButton
+          pushTo="/about"
+          content={
+            <InfoCircledIcon
+              width={19}
+              height={19}
+              className="w-[1.19rem] h-[1.19rem] text-accent"
+            />
+          }
+          ariaLabel="home"
+        />
+
         <HomeSegment />
         <EditorSegment />
       </section>
@@ -52,7 +64,7 @@ const HomeSegment = () => {
       <AppActionButton
         debounce
         onClick={createDocument}
-        content={<Pencil2Icon className="w-[1.16rem] h-[1.16rem] text-accent" />}
+        content={<Pencil2Icon className="w-[1.17rem] h-[1.17rem]  text-accent" />}
         ariaLabel="create-new-note"
       />
     </section>

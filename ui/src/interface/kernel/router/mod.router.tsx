@@ -20,6 +20,11 @@ export const router = createBrowserRouter([
         path: '/sign-in',
         element: <Pages.SignIn />,
       },
+
+      {
+        path: '/about',
+        element: <Pages.About />,
+      },
     ],
     errorElement: <Pages.AccessDenied />,
   },
