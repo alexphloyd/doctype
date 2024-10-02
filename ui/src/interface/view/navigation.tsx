@@ -30,13 +30,7 @@ export const AppNavigation = observer(() => {
 
         <NavigationButton
           pushTo="/about"
-          content={
-            <InfoCircledIcon
-              width={19}
-              height={19}
-              className="w-[1.19rem] h-[1.19rem] text-accent"
-            />
-          }
+          content={<InfoCircledIcon className="w-[1.25rem] h-[1.25rem] text-accent" />}
           ariaLabel="home"
         />
 
@@ -64,7 +58,7 @@ const HomeSegment = () => {
       <AppActionButton
         debounce
         onClick={createDocument}
-        content={<Pencil2Icon className="w-[1.17rem] h-[1.17rem]  text-accent" />}
+        content={<Pencil2Icon className="w-[1.19rem] h-[1.19rem]  text-accent" />}
         ariaLabel="create-new-note"
       />
     </section>

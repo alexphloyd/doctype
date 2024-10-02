@@ -62,7 +62,7 @@ const styles = cva(
         active: ['bg-bgPrimary'],
       },
       size: {
-        md: ['py-[8px] text-base'],
+        md: ['py-[8px] text-base min-w-[38px]'],
       },
       disabled: {
         true: ['cursor-not-allowed'],

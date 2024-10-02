@@ -63,7 +63,7 @@ const styles = cva(
         default: ['bg-transparent text-accent'],
       },
       size: {
-        md: ['h-[34px] text-base'],
+        md: ['h-[34px] text-base min-w-[38px]'],
       },
       disabled: {
         true: [
