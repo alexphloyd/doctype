@@ -21,6 +21,10 @@
       align-items: flex-start;
       padding: 0.5px 0;
 
+      p {
+        padding-left: 3px;
+      }
+
       label {
         input {
           -webkit-appearance: none;
@@ -28,7 +32,7 @@
           appearance: none;
           width: 18px;
           height: 18px;
-          margin-right: 9px;
+          margin-right: 5px;
           margin-top: 2.5px;
 
           background-color: #fff;
@@ -124,6 +128,11 @@
     border-top: 1px solid var(--gray-2);
     margin: 2rem 0;
   }
+}
+
+.ProseMirror {
+  min-height: 100%;
+  overflow: auto;
 }
 
 .hljs-comment,
