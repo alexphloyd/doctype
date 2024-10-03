@@ -13,32 +13,32 @@ export const AppNavigation = observer(() => {
 
   return (
     <header className="py-[0.9rem] flex flex-col min-h-screen min-w-full">
-      <section className="gap-y-2 flex flex-col grow">
+      <section className="space-y-2 flex flex-col grow">
         <NavigationButton
           pushTo="/"
-          content={<Icon name="home" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+          content={<Icon name="home" className="w-[1.11rem] h-[1.11rem] text-accent" />}
           ariaLabel="home"
         />
 
         {lastOpenedDoc && (
           <NavigationButton
             pushTo={'/notes/' + lastOpenedDoc}
-            content={<Icon name="app" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+            content={<Icon name="app" className="w-[1.11rem] h-[1.11rem] text-accent" />}
             ariaLabel="last-active-note"
           />
         )}
 
+        <HomeSegment />
+        <EditorSegment />
+      </section>
+
+      <section className="flex flex-col items-center justify-center space-y-2">
         <NavigationButton
           pushTo="/about"
           content={<InfoCircledIcon className="w-[1.25rem] h-[1.25rem] text-accent" />}
           ariaLabel="home"
         />
 
-        <HomeSegment />
-        <EditorSegment />
-      </section>
-
-      <section className="flex flex-col items-center justify-center">
         <SessionAction />
       </section>
     </header>
@@ -58,7 +58,7 @@ const HomeSegment = () => {
       <AppActionButton
         debounce
         onClick={createDocument}
-        content={<Pencil2Icon className="w-[1.19rem] h-[1.19rem]  text-accent" />}
+        content={<Pencil2Icon className="w-[1.11rem] h-[1.11rem]  text-accent" />}
         ariaLabel="create-new-note"
       />
     </section>
@@ -73,7 +73,7 @@ const EditorSegment = () => {
     <section hidden={!show}>
       <AppActionButton
         onClick={() => null}
-        content={<Icon name="share" className="w-[1.09rem] h-[1.09rem] text-accent" />}
+        content={<Icon name="share" className="w-[1.11rem] h-[1.11rem] text-accent" />}
         ariaLabel="share-note"
       />
     </section>

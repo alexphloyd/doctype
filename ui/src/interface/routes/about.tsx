@@ -38,7 +38,7 @@ export const About = () => {
               Chrome.
             </a>
             <Image
-              src="/images/installed-app.png"
+              src="/images/installed-app.webp"
               alt="installed-app"
               w="auto"
               fit="contain"

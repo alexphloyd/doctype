@@ -21,6 +21,7 @@ export const SessionAction = observer(() => {
         className="px-[9.5px] py-[7px] "
         pushTo="/sign-in"
         content={<EnterIcon className="w-[1.19rem] h-[1.19rem] text-accent -ml-[0.5px]" />}
+        ariaLabel="sign-in"
       />
     );
   }

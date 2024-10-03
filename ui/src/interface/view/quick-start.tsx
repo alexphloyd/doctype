@@ -16,18 +16,18 @@ export const QuickStart = observer(() => {
   return (
     <div className="min-h-screen flex items-center justify-center flex-col -mt-[10vh] gap-2">
       <h1
-        className="flex items-center text-[29px] font-['JetBrainsMono'] tracking-wide text-cyan-800/90 gap-x-1 cursor-pointer"
+        className="flex items-center text-[27px] tracking-wide text-cyan-800/90 gap-x-1 cursor-pointer"
         onClick={openAboutPage}
       >
         Seamless note-taking tool
-        <img src="/logo.webp" width={34} height={34} className="w-8 h-8" alt="app-logo" />
+        <img src="/logo.webp" width={30} height={30} className="-mt-[2px]" alt="app-logo" />
       </h1>
 
       <p className="flex space-x-2 items-center">
-        <Button onClick={handleGenerate} size="sm" variant="outline" className="h-[35px]">
+        <Button onClick={handleGenerate} size="sm" variant="gradient" className="h-[35px]">
           Generate sample <RocketIcon className="ml-2" />
         </Button>
-        <span className="font-['JetBrainsMono'] tracking-wide text-gray-400/90">
+        <span className="font-['JetBrainsMono'] tracking-wide text-gray-500">
           or create yours with
         </span>
         <div className="px-2 py-2 space-x-2 flex items-center justify-center ">
