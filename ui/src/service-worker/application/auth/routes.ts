@@ -44,6 +44,7 @@ export function registerAuthRoutes() {
     path: 'auth/loginWithGoogle',
     handler: loginHandler,
   });
+
   router.register({
     path: 'auth/session',
     handler: async (ev) => {
@@ -58,10 +59,27 @@ export function registerAuthRoutes() {
       });
 
       if (query.data) {
+        await authService.updateSession({ user: query.data.user });
         await claimDocsToSession();
+
         return prepareResponse(query.data);
       } else {
         return prepareErrorResponse(query.error);
+      }
+    },
+  });
+
+  router.register({
+    path: 'auth/github-auth-verified',
+    handler: async (ev) => {
+      const access = ev.request.headers.get('access_token');
+      const refresh = ev.request.headers.get('refresh_token');
+
+      if (access && refresh) {
+        await authService.updateTokens({ access, refresh });
+        return prepareResponse({ ok: true });
+      } else {
+        return prepareErrorResponse(new AxiosError('Authorization Tokens is not defined'));
       }
     },
   });

@@ -14,7 +14,7 @@ const styles = cva(
   {
     variants: {
       color: {
-        blue: ['text-accent/85'],
+        blue: ['text-[#238BE6]'],
         white: ['text-zinc-200'],
       },
       size: {

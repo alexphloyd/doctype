@@ -48,7 +48,8 @@
     "workbox-precaching": "^7.1.0",
     "workbox-routing": "^7.1.0",
     "workbox-strategies": "^7.1.0",
-    "zod": "3.14.3"
+    "zod": "3.14.3",
+    "js-cookie": "^3.0.5"
   },
   "devDependencies": {
     "@import-meta-env/cli": "^0.6.8",
