@@ -15,11 +15,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         sw: resolve(__dirname, '/src/service-worker/main.ts'),
-        app: resolve(__dirname, 'index.html'),
+        interface: resolve(__dirname, 'index.html'),
       },
       output: {
         manualChunks: {
-          libs: ['zod', 'dayjs', 'axios'],
+          'common-libs': ['zod', 'dayjs', 'axios'],
           'core-package': ['core'],
         },
         entryFileNames: (file) => {
@@ -27,7 +27,7 @@ export default defineConfig({
             case 'sw':
               return `assets/[name].js`;
             case 'index':
-              return `assets/app-[hash].js`;
+              return `assets/interface-[hash].js`;
             default:
               return `assets/[name]-[hash].js`;
           }

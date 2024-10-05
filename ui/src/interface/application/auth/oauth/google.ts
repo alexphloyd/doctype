@@ -8,7 +8,7 @@ import { notifications } from '~/interface/shared/lib/notifications';
 import { sessionModel } from '../../session/model';
 import { registrationModel } from '../registration/model';
 
-export const loginWithGoogle = async (
+export const googleLogin = async (
   creds: Pick<GoogleTokenResponse, 'token_type' | 'access_token'>
 ) => {
   const preparedToken = `${creds.token_type} ${creds.access_token}`;
@@ -16,7 +16,7 @@ export const loginWithGoogle = async (
     tokens: Tokens;
     user: Session;
   }>({
-    url: 'auth/loginWithGoogle',
+    url: 'auth/google-login',
     method: 'GET',
     headers: {
       oauth: preparedToken,

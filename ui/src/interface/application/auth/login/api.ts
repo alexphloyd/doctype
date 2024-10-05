@@ -17,12 +17,12 @@ export const api = {
     });
   },
 
-  async loginWithGoogle({ googleToken }: { googleToken: string | undefined }) {
+  async googleLogin({ googleToken }: { googleToken: string | undefined }) {
     return apiClient.query<{
       tokens: Tokens;
       user: User;
     }>({
-      url: 'auth/loginWithGoogle',
+      url: 'auth/google-login',
       method: 'GET',
       headers: {
         oauth: googleToken,

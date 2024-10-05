@@ -8,6 +8,7 @@ import { cloudApi } from './cloud.api';
 
 export async function claimDocsToSession() {
   const db = await LocalDB.getConnection();
+
   const session = await authService.getSession();
   if (!session?.current) return;
 
@@ -28,7 +29,7 @@ export async function claimDocsToSession() {
           db.document.update(doc.id, {
             userId: session.current.id,
           });
-
+          console.log('AWTASDK');
           swMessageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
         }
       }

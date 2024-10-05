@@ -10,6 +10,8 @@ interface ImportMetaEnv {
   VITE_BACKEND_URL: string;
 
   VITE_GOOGLE_CLIENT_ID: string;
+
+  VITE_GITHUB_APP_CLIENT_ID: string;
 }
 
 interface ImportMeta {

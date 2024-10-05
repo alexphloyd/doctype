@@ -1,6 +1,7 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
-import { type Tokens } from 'core/src/domain/auth/types';
 import { authService } from '~/service-worker/services/auth.service';
+
+import { type Tokens } from 'core/src/domain/auth/types';
 
 import { ParsedRequest } from '../lib/request.parser';
 import fetchAdapter from './fetch.adapter';
@@ -9,7 +10,7 @@ const REFRESH_TOKENS_API_PATH = 'auth/refresh';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  withCredentials: false,
+  withCredentials: true,
 
   adapter: fetchAdapter,
 });

@@ -18,11 +18,16 @@ import {
   InternalServerErrorException,
   Post,
   Put,
+  Res,
+  Query,
   Req,
   UsePipes,
 } from '@nestjs/common';
-import { Request } from 'express';
-import { extractOAuthTokenFromHeader } from '../lib/extract-token';
+import { Request, Response } from 'express';
+import {
+  extractOAuthTokenFromHeader,
+  extractRefreshTokenFromHeader,
+} from '../lib/extract-token';
 
 @Controller('auth')
 export class AuthController {
@@ -69,26 +74,46 @@ export class AuthController {
     return await this.authService.login(data);
   }
 
-  @Get('loginWithGoogle')
-  async loginWithGoogle(@Req() req: Request) {
+  @Get('google-login')
+  async googleLogin(@Req() req: Request) {
     const token = extractOAuthTokenFromHeader(req);
 
     if (!token?.length) {
       throw new HttpException('Unauthorized', HttpStatusCode.Locked);
     }
 
-    return await this.authService.loginWithGoogle(token);
+    return await this.authService.googleLogin(token);
   }
 
   @Get('session')
   async session(@Req() req: Request) {
-    const session = await this.authService.checkSession(req);
-    return session;
+    return await this.authService.checkSession(req);
   }
 
   @Get('refresh')
   async refresh(@Req() req: Request) {
-    const newTokens = await this.authService.refresh(req);
-    return newTokens;
+    return await this.authService.refresh(extractRefreshTokenFromHeader(req));
+  }
+
+  @Get('callback/github-app')
+  async githubAppCallback(@Query('code') code: string, @Res() res: Response) {
+    const { tokens } = await this.authService.loginWithGithubApp(code);
+
+    res.cookie('github_token', tokens.refresh, {
+      secure: true,
+      httpOnly: true,
+    });
+
+    return res.redirect(
+      process.env.FRONTEND_APP_URL! + '?' + 'github-auth-verified'
+    );
+  }
+
+  @Get('exchange-github-token')
+  async exchangeGitHubToken(@Req() req: Request) {
+    const githubToken = req.cookies['github_token'];
+    const pair = await this.authService.refresh(githubToken);
+
+    return { tokens: pair };
   }
 }

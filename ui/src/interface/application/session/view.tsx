@@ -39,6 +39,7 @@ export const SessionAction = observer(() => {
           duration: 0.2,
           ease: 'easeIn',
         }}
+        className="w-[38px] h-[33px] flex items-center justify-center"
       >
         <Avatar
           styles={{ root: { cursor: 'pointer', marginBottom: '4px' } }}

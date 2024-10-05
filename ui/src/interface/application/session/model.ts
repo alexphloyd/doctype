@@ -5,6 +5,7 @@ import { notifications } from '~/interface/shared/lib/notifications';
 
 import { AUTH_MESSAGES } from 'core/src/domain/auth/channel-messaging';
 
+import { handleGithubRedirection } from '../auth/oauth/github';
 import { api } from './api';
 
 class SessionModel {
@@ -16,6 +17,7 @@ class SessionModel {
   }
 
   init = createEffect(async () => {
+    await handleGithubRedirection();
     await this.defineSession.run();
 
     window.addEventListener('online', () => {
