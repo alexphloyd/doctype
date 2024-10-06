@@ -3,13 +3,13 @@ import { observer } from 'mobx-react-lite';
 import { AppActionButton } from '~/interface/shared/view/buttons/action';
 import { Icon } from '~/interface/shared/view/icon';
 
-import { documentManagerModel } from '../application/document/manager/model';
+import { notesManagerModel } from '../application/note/manager/model';
 import { SessionAction } from '../application/session/view';
 import { useLocationArray } from '../kernel/router/use-location-array';
 import { NavigationButton } from '../shared/view/buttons/navigation';
 
 export const AppNavigation = observer(() => {
-  const lastOpenedDoc = documentManagerModel.lastOpenedDoc;
+  const lastOpenedNote = notesManagerModel.lasOpenedNote;
 
   return (
     <header className="py-[0.9rem] flex flex-col min-h-screen min-w-full">
@@ -20,9 +20,9 @@ export const AppNavigation = observer(() => {
           ariaLabel="home"
         />
 
-        {lastOpenedDoc && (
+        {lastOpenedNote && (
           <NavigationButton
-            pushTo={'/notes/' + lastOpenedDoc}
+            pushTo={'/notes/' + lastOpenedNote}
             content={<Icon name="app" className="w-[1.11rem] h-[1.11rem] text-accent" />}
             ariaLabel="last-active-note"
           />
@@ -49,15 +49,15 @@ const HomeSegment = () => {
   const location = useLocationArray();
   const show = location[0] === '';
 
-  const createDocument = () => {
-    documentManagerModel.create.run();
+  const createNote = () => {
+    notesManagerModel.create.run();
   };
 
   return (
     <section hidden={!show}>
       <AppActionButton
         debounce
-        onClick={createDocument}
+        onClick={createNote}
         content={<Pencil2Icon className="w-[1.11rem] h-[1.11rem]  text-accent" />}
         ariaLabel="create-new-note"
       />

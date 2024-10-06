@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-export type Document = {
+export type Note = {
     id: string;
     userId?: User['id'] | null | undefined;
 

@@ -7,13 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { preparePreview } from '~/interface/shared/lib/prepate-preview';
 import { Icon } from '~/interface/shared/view/icon';
 
-import { type Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 
 import { Name } from '../../rename/view';
 import './preview.css';
 import { RemoveModal } from './remove.modal';
 
-export const Preview = observer((props: Document) => {
+export const Preview = observer((props: Note) => {
   const navigate = useNavigate();
 
   const { ref: paperRef, hovered } = useHover();
@@ -33,11 +33,11 @@ export const Preview = observer((props: Document) => {
     <li className="flex flex-col items-center">
       <Paper
         ref={paperRef}
-        withBorder={hovered}
+        withBorder
         onClick={openNote}
-        shadow="xs"
+        shadow={(hovered && 'xs') || undefined}
         classNames={{
-          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/35 hover:border-borderDark/80 overflow-hidden px-3 pt-2 py-[6px]',
+          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderDark overflow-hidden px-3 pt-2 py-[6px]',
         }}
       >
         <div
@@ -66,7 +66,7 @@ export const Preview = observer((props: Document) => {
         {dayjs(props.lastUpdatedTime).format('D MMMM h:mm A').toString()}
       </span>
 
-      <RemoveModal doc={props} opened={removeModalOpened} onClose={closeRemoveModal} />
+      <RemoveModal note={props} opened={removeModalOpened} onClose={closeRemoveModal} />
     </li>
   );
 });

@@ -1,22 +1,23 @@
-import { type Document } from 'core/src/domain/document/types';
-import { DocumentStrictSchema } from 'core/src/domain/document/validation';
 import { z } from 'zod';
 import { swApiClient } from '~/service-worker/infrastructure/api-client/mod.api-client';
 
+import { type Note } from 'core/src/domain/note/types';
+import { NoteStrictSchema } from 'core/src/domain/note/validation';
+
 export const cloudApi = {
   async getRemotelyStored() {
-    return swApiClient.query<{ ok: boolean; items: Document[] }>({
+    return swApiClient.query<{ ok: boolean; items: Note[] }>({
       parsedRequest: {
-        url: 'document/get',
+        url: 'note/get',
         method: 'GET',
       },
     });
   },
 
-  async create({ payload }: { payload: z.infer<typeof DocumentStrictSchema> }) {
+  async create({ payload }: { payload: z.infer<typeof NoteStrictSchema> }) {
     return swApiClient.query<{ ok: boolean }>({
       parsedRequest: {
-        url: 'document/create',
+        url: 'note/create',
         method: 'POST',
         payload,
       },

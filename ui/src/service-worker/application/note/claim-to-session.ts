@@ -6,14 +6,14 @@ import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-mes
 
 import { cloudApi } from './cloud.api';
 
-export async function claimDocsToSession() {
+export async function claimNotesToSession() {
   const db = await LocalDB.getConnection();
 
   const session = await authService.getSession();
   if (!session?.current) return;
 
   try {
-    const docs = await db.document.toArray();
+    const docs = await db.note.toArray();
     if (docs?.length) {
       const unclaimed = docs.filter(({ userId }) => !userId);
 
@@ -26,10 +26,9 @@ export async function claimDocsToSession() {
         });
 
         if (created.data?.ok) {
-          db.document.update(doc.id, {
+          db.note.update(doc.id, {
             userId: session.current.id,
           });
-          console.log('AWTASDK');
           swMessageChannel.post(NETWORK_MESSAGES.SAVED_TO_CLOUD);
         }
       }

@@ -26,7 +26,7 @@ model User {
 
   verificationCode VerificationCode?
 
-  documents Document[]
+  notes Note[]
 }
 
 model VerificationCode {
@@ -38,7 +38,7 @@ model VerificationCode {
   code String
 }
 
-model Document {
+model Note {
   id String @id
 
   user   User   @relation(fields: [userId], references: [id])

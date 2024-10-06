@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const DocumentSchema = z.object({
+export const NoteSchema = z.object({
     id: z.string(),
     userId: z.number().nullish(),
     lastUpdatedTime: z.string(),
@@ -8,6 +8,6 @@ export const DocumentSchema = z.object({
     source: z.string(),
 });
 
-export const DocumentStrictSchema = DocumentSchema.omit({ userId: true }).extend({
+export const NoteStrictSchema = NoteSchema.omit({ userId: true }).extend({
     userId: z.string(),
 });

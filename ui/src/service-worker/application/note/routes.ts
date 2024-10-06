@@ -8,18 +8,18 @@ import {
 } from '~/service-worker/infrastructure/router/prepare-response';
 import { authService } from '~/service-worker/services/auth.service';
 
-import { type Document } from 'core/src/domain/document/types';
-import { DocumentSchema } from 'core/src/domain/document/validation';
+import { type Note } from 'core/src/domain/note/types';
+import { NoteSchema } from 'core/src/domain/note/validation';
 import { generateId } from 'core/src/infrastructure/lib/generate-id';
 
 import { cloudApi } from './cloud.api';
 
-export function registerDocumentRoutes() {
+export function registerNoteRoutes() {
   router.register({
-    path: 'document/create',
+    path: 'note/create',
     handler: async (ev, db) => {
       const body = await ev.request.json();
-      const parsedBody = DocumentSchema.pick({ name: true, source: true }).parse(body);
+      const parsedBody = NoteSchema.pick({ name: true, source: true }).parse(body);
 
       const session = await authService.getSession();
       const payload = {
@@ -29,13 +29,13 @@ export function registerDocumentRoutes() {
       };
 
       if (session) {
-        await db.document.add({ ...payload, userId: session.current.id });
+        await db.note.add({ ...payload, userId: session.current.id });
         networkScheduler.post({
           req: ev.request,
           payload: { ...payload, userId: session.current.id },
         });
       } else {
-        await db.document.add(payload);
+        await db.note.add(payload);
       }
 
       return prepareResponse({
@@ -45,13 +45,13 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/remove',
+    path: 'note/remove',
     handler: async (ev, db) => {
       const body = await ev.request.json();
-      const parsedBody = DocumentSchema.pick({ id: true }).parse(body);
+      const parsedBody = NoteSchema.pick({ id: true }).parse(body);
 
       const session = await authService.getSession();
-      await db.document.delete(parsedBody.id);
+      await db.note.delete(parsedBody.id);
 
       if (session?.current.id) {
         networkScheduler.post({ req: ev.request, payload: parsedBody });
@@ -64,15 +64,15 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/rename',
+    path: 'note/rename',
     handler: async (ev, db) => {
       const body = await ev.request.json();
-      const parsedBody = DocumentSchema.pick({ name: true, id: true }).parse(body);
+      const parsedBody = NoteSchema.pick({ name: true, id: true }).parse(body);
 
       const session = await authService.getSession();
       const lastUpdatedTime = dayjs().toString();
 
-      const renamed = await db.document
+      const renamed = await db.note
         .update(parsedBody.id, {
           name: parsedBody.name,
           lastUpdatedTime,
@@ -84,7 +84,7 @@ export function registerDocumentRoutes() {
           id: parsedBody.id,
           name: parsedBody.name,
           lastUpdatedTime,
-        } satisfies Pick<Document, 'id' | 'name' | 'lastUpdatedTime'>;
+        } satisfies Pick<Note, 'id' | 'name' | 'lastUpdatedTime'>;
 
         networkScheduler.post({ req: ev.request, payload: cloudReqPayload });
       }
@@ -96,11 +96,11 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/pull',
+    path: 'note/pull',
     handler: async (_ev, db) => {
       try {
-        const docs = await db.document.toArray();
-        const sorted = docs?.sort((a, b) => {
+        const notes = await db.note.toArray();
+        const sorted = notes?.sort((a, b) => {
           return dayjs(b.lastUpdatedTime).diff(dayjs(a.lastUpdatedTime));
         });
 
@@ -115,7 +115,7 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/pullCloud',
+    path: 'note/pullCloud',
     handler: async (_ev, db) => {
       const authTokens = await authService.getTokens();
       if (!navigator.onLine || !authTokens) {
@@ -128,31 +128,31 @@ export function registerDocumentRoutes() {
 
       if (query.data?.ok) {
         let updated = false;
-        const local = await db.document.toArray();
+        const local = await db.note.toArray();
         const receivedRemotely = query.data.items;
 
-        receivedRemotely.forEach(async (remoteDoc) => {
-          const localDoc = local.find((localDoc) => localDoc.id === remoteDoc.id);
-          if (localDoc) {
-            const upgradeRequired = dayjs(remoteDoc.lastUpdatedTime).isAfter(
-              localDoc.lastUpdatedTime
+        receivedRemotely.forEach(async (remoteNote) => {
+          const localNote = local.find((localNote) => localNote.id === remoteNote.id);
+          if (localNote) {
+            const upgradeRequired = dayjs(remoteNote.lastUpdatedTime).isAfter(
+              localNote.lastUpdatedTime
             );
 
             if (upgradeRequired) {
-              await db.document
-                .update(localDoc.id, remoteDoc)
+              await db.note
+                .update(localNote.id, remoteNote)
                 .then(() => (updated = true))
                 .catch(() => {});
             }
           } else {
-            await db.document
-              .add(remoteDoc)
+            await db.note
+              .add(remoteNote)
               .then(() => (updated = true))
               .catch(() => {});
           }
         });
 
-        const merged = (await db.document.toArray()).sort((a, b) => {
+        const merged = (await db.note.toArray()).sort((a, b) => {
           return dayjs(b.lastUpdatedTime).diff(dayjs(a.lastUpdatedTime));
         });
 
@@ -168,33 +168,33 @@ export function registerDocumentRoutes() {
   });
 
   router.register({
-    path: 'document/getById',
+    path: 'note/getById',
     handler: async (ev, db) => {
       const body = await ev.request.json();
-      const parsedBody = DocumentSchema.pick({ id: true }).parse(body);
-      const doc = await db.document.get(parsedBody.id);
+      const parsedBody = NoteSchema.pick({ id: true }).parse(body);
+      const note = await db.note.get(parsedBody.id);
 
-      if (doc) {
+      if (note) {
         return prepareResponse({
           ok: true,
-          doc,
+          note: note,
         });
       } else {
-        return prepareErrorResponse(new AxiosError('Document is not defined.'));
+        return prepareErrorResponse(new AxiosError('Note was not found.'));
       }
     },
   });
 
   router.register({
-    path: 'document/updateSource',
+    path: 'note/updateSource',
     handler: async (ev, db) => {
       const body = await ev.request.json();
-      const { id, source } = DocumentSchema.pick({ id: true, source: true }).parse(body);
+      const { id, source } = NoteSchema.pick({ id: true, source: true }).parse(body);
 
       const session = await authService.getSession();
 
       const lastUpdatedTime = dayjs().toString();
-      const update = await db.document.update(id, {
+      const update = await db.note.update(id, {
         source,
         lastUpdatedTime,
       });
@@ -208,7 +208,7 @@ export function registerDocumentRoutes() {
           ok: true,
         });
       } else {
-        return prepareErrorResponse(new AxiosError('Document Source is not updated.'));
+        return prepareErrorResponse(new AxiosError('Note Source is not updated.'));
       }
     },
   });

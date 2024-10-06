@@ -4,16 +4,16 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { twJoin } from 'tailwind-merge';
 
-import { Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 
-import { documentManagerModel } from '../manager/model';
+import { notesManagerModel } from '../manager/model';
 
 export const Search = observer(() => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const notes = documentManagerModel.pool;
-
+  const notes = notesManagerModel.pool;
+  console.log('Render: search');
   const [searchValue, setSearchValue] = useState('');
   const searchParts = searchValue.toLowerCase().split(/[ \-._]+/);
 
@@ -27,7 +27,7 @@ export const Search = observer(() => {
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  const openNote = (selected: Document['id'] & string) => {
+  const openNote = (selected: Note['id'] & string) => {
     navigate('/notes/' + selected);
   };
 

@@ -3,27 +3,27 @@ import { useClickOutside } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import { useEffect, type ChangeEvent } from 'react';
 
-import { type Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 
-import { documentRenamingModel } from './model';
+import { noteRenameModel } from './model';
 
-export const Name = observer((doc: Document) => {
-  const process = documentRenamingModel.process;
+export const Name = observer((note: Note) => {
+  const process = noteRenameModel.process;
 
   const inputNodeRef = useClickOutside(() => {
-    documentRenamingModel.apply.run();
+    noteRenameModel.apply.run();
   });
 
   const start = async () => {
     const processing = Boolean(process);
     if (processing) {
-      await documentRenamingModel.apply.run();
+      await noteRenameModel.apply.run();
     }
 
-    documentRenamingModel.start(doc);
+    noteRenameModel.start(note);
   };
   const update = (event: ChangeEvent<HTMLInputElement>) => {
-    documentRenamingModel.update({ name: event.currentTarget.value });
+    noteRenameModel.update({ name: event.currentTarget.value });
   };
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const Name = observer((doc: Document) => {
     }
   }, [process?.id]);
 
-  if (process?.id === doc.id) {
+  if (process?.id === note.id) {
     return (
       <TextInput
         ref={inputNodeRef}
@@ -41,7 +41,7 @@ export const Name = observer((doc: Document) => {
         onChange={update}
         onKeyDown={async (event) => {
           if (event.key === 'Escape' || event.key === 'Enter') {
-            await documentRenamingModel.apply.run();
+            await noteRenameModel.apply.run();
           }
         }}
         classNames={{
@@ -58,7 +58,7 @@ export const Name = observer((doc: Document) => {
         className="text-sm flex items-center h-[1.48rem] w-[15.5rem] max-w-[15.5rem] hover:border-dashed hover:border-spacing-4 hover:border-[1px] border-gray-400/45 box-border rounded-sm truncate px-2 hover:px-[7px]"
         onClick={start}
       >
-        <span className="truncate text-center w-full">{doc.name}</span>
+        <span className="truncate text-center w-full">{note.name}</span>
       </div>
     );
   }

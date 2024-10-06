@@ -4,13 +4,13 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '~/application/auth/auth.module';
 import { RoleGuard } from '~/application/auth/guards/role.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { DocumentModule } from '~/application/document/document.module';
+import { NoteModule } from '~/application/note/note.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     AuthModule,
-    DocumentModule,
+    NoteModule,
   ],
   controllers: [AppController],
   providers: [

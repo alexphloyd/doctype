@@ -7,15 +7,15 @@ import { MOBX_TEMPLATE } from '~/interface/view/editor/templates/mobx.templates'
 import { getNoteTemplate } from '~/interface/view/editor/templates/note.template';
 import { PROPOSAL_TEMPLATE } from '~/interface/view/editor/templates/proposal.template';
 
-import { type Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 import { NETWORK_MESSAGES } from 'core/src/infrastructure/networking/channel-messaging';
 
 import { sessionModel, SessionModelInterface } from '../../session/model';
 import { api } from './api';
 
-class DocumentManagerModel {
-  pool: Document[] = [];
-  lastOpenedDoc: Document['id'] | null = null;
+class NotesManagerModel {
+  pool: Note[] = [];
+  lasOpenedNote: Note['id'] | null = null;
 
   constructor(private sessionModel: SessionModelInterface) {
     makeAutoObservable(this);
@@ -24,7 +24,7 @@ class DocumentManagerModel {
 
   init = createEffect(async () => {
     this.pull.run();
-    this.lastOpenedDoc = localStorage.getItem('last-opened-doc');
+    this.lasOpenedNote = localStorage.getItem('last-opened-note');
 
     reaction(
       () => this.sessionModel.session,
@@ -32,7 +32,7 @@ class DocumentManagerModel {
     );
   });
 
-  create = createEffect(async (payload?: Pick<Document, 'name' | 'source'> | void) => {
+  create = createEffect(async (payload?: Pick<Note, 'name' | 'source'> | void) => {
     const name = payload?.name ?? 'Note: ' + '~' + dayjs().format('ss').toString();
     const query = await api.create({
       data: {
@@ -44,11 +44,11 @@ class DocumentManagerModel {
     if (query.data?.ok) {
       this.pull.run();
     } else {
-      notifications.documentNotCreated();
+      notifications.noteNotCreated();
     }
   });
 
-  remove = createEffect(async (meta: { id: Document['id'] }) => {
+  remove = createEffect(async (meta: { id: Note['id'] }) => {
     const query = await api.remove({
       data: meta,
     });
@@ -56,7 +56,7 @@ class DocumentManagerModel {
     if (query.data?.ok) {
       this.pull.run();
     } else {
-      notifications.documentNotRemoved();
+      notifications.noteNotRemoved();
     }
   });
 
@@ -89,9 +89,9 @@ class DocumentManagerModel {
     }
   });
 
-  setLastOpenedDoc(id: Document['id']) {
-    this.lastOpenedDoc = id;
-    localStorage.setItem('last-opened-doc', id);
+  setLastOpenedNote(id: Note['id']) {
+    this.lasOpenedNote = id;
+    localStorage.setItem('last-opened-note', id);
   }
 
   generateSample = createEffect(async () => {
@@ -101,7 +101,7 @@ class DocumentManagerModel {
   });
 }
 
-export const documentManagerModel = new DocumentManagerModel(sessionModel);
+export const notesManagerModel = new NotesManagerModel(sessionModel);
 
 navigator.serviceWorker.addEventListener('message', ({ data: key }) => {
   if (key === NETWORK_MESSAGES.SAVED_TO_CLOUD) {
@@ -109,4 +109,4 @@ navigator.serviceWorker.addEventListener('message', ({ data: key }) => {
   }
 });
 
-export type DocumentManagerModelInterface = DocumentManagerModel;
+export type NoteManagerModelInterface = NotesManagerModel;

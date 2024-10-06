@@ -1,7 +1,7 @@
 import { type User } from '@prisma/client';
 import Dexie from 'dexie';
 
-import { type Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 
 import { type ParsedRequest } from '../lib/request.parser';
 
@@ -18,7 +18,7 @@ export class LocalDB extends Dexie {
     return LocalDB.self!;
   }
 
-  document!: Dexie.Table<Document, string>;
+  note!: Dexie.Table<Note, string>;
 
   networkSchedulerRequest!: Dexie.Table<{ id: string; req: ParsedRequest }, string>;
   authTokens!: Dexie.Table<{ id: 'singleton'; access: string; refresh: string }, string>;
@@ -29,7 +29,7 @@ export class LocalDB extends Dexie {
     super('main_db');
 
     this.version(1).stores({
-      document: '&id, userId, lastUpdatedTime, name, source',
+      note: '&id, userId, lastUpdatedTime, name, source',
 
       networkSchedulerRequest: '&id, req',
       authTokens: '&id, access, refresh',

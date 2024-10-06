@@ -1,21 +1,17 @@
 import { Divider, Kbd, Paper } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useLayoutEffect } from 'react';
-import { QuickStart } from '~/interface/view/quick-start';
+import { useEffect } from 'react';
 
 import { Search } from '../../search/view';
-import { documentManagerModel } from '../model';
-import { Preview } from './preview';
+import { notesManagerModel } from '../model';
 
-export const DocumentsPool = observer(() => {
-  const pool = documentManagerModel.pool;
-
+export const Toolbar = observer(() => {
   useEffect(() => {
     const handleCreateShortcut = (event: KeyboardEvent) => {
       const triggered = event.altKey && event.code === 'KeyN';
       if (triggered) {
         event.preventDefault();
-        documentManagerModel.create.run();
+        notesManagerModel.create.run();
       }
     };
 
@@ -25,30 +21,6 @@ export const DocumentsPool = observer(() => {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    if (documentManagerModel.pull.meta.status === 'fulfilled') {
-      documentManagerModel.pull.run();
-    }
-  }, []);
-
-  if (!pool.length) {
-    return documentManagerModel.pull.meta.status === 'fulfilled' && <QuickStart />;
-  } else {
-    return (
-      <>
-        <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 w-full gap-y-12 pb-20">
-          {pool?.map((doc) => {
-            return <Preview key={doc.id} {...doc} />;
-          })}
-        </ul>
-
-        <Toolbar />
-      </>
-    );
-  }
-});
-
-function Toolbar() {
   return (
     <Paper
       shadow="sm"
@@ -67,4 +39,4 @@ function Toolbar() {
       </Kbd>
     </Paper>
   );
-}
+});

@@ -12,15 +12,15 @@ import {
 import { RoleGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/guards/roles.decorator';
 import { ZodValidationPipe } from '~/kernel/pipes/zod.validation.pipe';
-import { DocumentStrictSchema } from 'core/dist-cjs/src/domain/document/validation';
+import { NoteStrictSchema } from 'core/dist-cjs/src/domain/note/validation';
 import { z } from 'zod';
 import { DBService } from '~/infrastructure/db/db.service';
 import { AuthService } from '../auth/services/auth.service';
 import { Request } from 'express';
 import dayjs from 'dayjs';
 
-@Controller('document')
-export class DocumentController {
+@Controller('note')
+export class NoteController {
   constructor(
     private db: DBService,
     private authService: AuthService
@@ -29,14 +29,14 @@ export class DocumentController {
   @Post('create')
   @UseGuards(RoleGuard)
   @Roles('USER')
-  @UsePipes(new ZodValidationPipe(DocumentStrictSchema))
-  async create(@Body() body: z.infer<typeof DocumentStrictSchema>) {
-    const created = await this.db.document.create({
+  @UsePipes(new ZodValidationPipe(NoteStrictSchema))
+  async create(@Body() body: z.infer<typeof NoteStrictSchema>) {
+    const created = await this.db.note.create({
       data: body,
     });
     return {
       ok: true,
-      message: 'Document successfully created',
+      message: 'Note successfully created',
       createdId: created.id,
     };
   }
@@ -46,7 +46,7 @@ export class DocumentController {
   @Roles('USER')
   async get(@Req() req: Request) {
     const reqSession = await this.authService.extractReqSession(req);
-    const items = await this.db.document.findMany({
+    const items = await this.db.note.findMany({
       where: {
         userId: reqSession?.sub,
       },
@@ -63,7 +63,7 @@ export class DocumentController {
   @Roles('USER')
   @UsePipes(
     new ZodValidationPipe(
-      DocumentStrictSchema.pick({
+      NoteStrictSchema.pick({
         id: true,
         name: true,
         lastUpdatedTime: true,
@@ -73,13 +73,13 @@ export class DocumentController {
   async rename(
     @Body()
     body: Pick<
-      z.infer<typeof DocumentStrictSchema>,
+      z.infer<typeof NoteStrictSchema>,
       'id' | 'name' | 'lastUpdatedTime'
     >,
     @Req() req: Request
   ) {
     const reqSession = await this.authService.extractReqSession(req);
-    const renamed = await this.db.document
+    const renamed = await this.db.note
       .update({
         where: {
           id: body.id,
@@ -96,7 +96,7 @@ export class DocumentController {
 
     return {
       ok: Boolean(renamed),
-      message: renamed && 'Document successfully renamed',
+      message: renamed && 'Note successfully renamed',
     };
   }
 
@@ -105,7 +105,7 @@ export class DocumentController {
   @Roles('USER')
   @UsePipes(
     new ZodValidationPipe(
-      DocumentStrictSchema.pick({
+      NoteStrictSchema.pick({
         id: true,
         source: true,
         lastUpdatedTime: true,
@@ -115,19 +115,19 @@ export class DocumentController {
   async updateSource(
     @Body()
     body: Pick<
-      z.infer<typeof DocumentStrictSchema>,
+      z.infer<typeof NoteStrictSchema>,
       'id' | 'source' | 'lastUpdatedTime'
     >,
     @Req() req: Request
   ) {
     const reqSession = await this.authService.extractReqSession(req);
-    const existed = await this.db.document.findFirst({
+    const existed = await this.db.note.findFirst({
       where: {
         id: body.id,
       },
     });
     if (!existed) {
-      throw new HttpException('Document not found', HttpStatus.CONFLICT);
+      throw new HttpException('Note not found', HttpStatus.CONFLICT);
     }
 
     const isOutdated = dayjs(existed.lastUpdatedTime).isAfter(
@@ -137,7 +137,7 @@ export class DocumentController {
       throw new HttpException('Outdated payload', HttpStatus.CONFLICT);
     }
 
-    const updated = await this.db.document
+    const updated = await this.db.note
       .update({
         where: {
           id: body.id,
@@ -154,7 +154,7 @@ export class DocumentController {
 
     return {
       ok: Boolean(updated),
-      message: updated && 'Document Source successfully updated',
+      message: updated && 'Note Source successfully updated',
     };
   }
 
@@ -163,18 +163,18 @@ export class DocumentController {
   @Roles('USER')
   @UsePipes(
     new ZodValidationPipe(
-      DocumentStrictSchema.pick({
+      NoteStrictSchema.pick({
         id: true,
       })
     )
   )
   async remove(
     @Body()
-    body: Pick<z.infer<typeof DocumentStrictSchema>, 'id'>,
+    body: Pick<z.infer<typeof NoteStrictSchema>, 'id'>,
     @Req() req: Request
   ) {
     const reqSession = await this.authService.extractReqSession(req);
-    const deleted = await this.db.document.delete({
+    const deleted = await this.db.note.delete({
       where: {
         id: body?.id,
         userId: reqSession?.sub,
@@ -183,7 +183,7 @@ export class DocumentController {
 
     return {
       ok: Boolean(deleted),
-      message: deleted && 'Document deleted',
+      message: deleted && 'Note has been deleted',
     };
   }
 }

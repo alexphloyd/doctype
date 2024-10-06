@@ -3,12 +3,12 @@ import { RocketIcon } from '@radix-ui/react-icons';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { documentManagerModel } from '../application/document/manager/model';
+import { notesManagerModel } from '../application/note/manager/model';
 
 export const QuickStart = observer(() => {
   const navigate = useNavigate();
 
-  const handleGenerate = () => documentManagerModel.generateSample.run();
+  const handleGenerate = () => notesManagerModel.generateSample.run();
   const openAboutPage = () => {
     navigate('/about');
   };

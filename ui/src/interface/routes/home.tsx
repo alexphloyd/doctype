@@ -1,8 +1,10 @@
 import { m } from 'framer-motion';
 
-import { DocumentsPool } from '../application/document/manager/view/pool';
+import { NotesPool } from '../application/note/manager/view/pool';
+import { Toolbar } from '../application/note/manager/view/toolbar';
 
 export const Home = () => {
+  console.log('Render: home');
   return (
     <m.main
       initial={{ opacity: 0 }}
@@ -13,7 +15,8 @@ export const Home = () => {
       }}
       className="w-full relative"
     >
-      <DocumentsPool />
+      <NotesPool />
+      <Toolbar />
     </m.main>
   );
 };

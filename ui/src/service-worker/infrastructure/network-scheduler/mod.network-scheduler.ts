@@ -8,7 +8,7 @@ import { parseRequestInstance } from '../lib/request.parser';
 import { swMessageChannel } from '../message-channel/mod.message-channel';
 import { isNetworkError } from './is-network-error';
 
-const LATEST_ONLY_STRATEGY_ROUTES = ['document/updateSource'];
+const LATEST_ONLY_STRATEGY_ROUTES = ['note/updateSource'];
 
 const storage = {
   get: async () => {

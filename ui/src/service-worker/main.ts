@@ -1,5 +1,5 @@
 import { registerAuthRoutes } from './application/auth/routes';
-import { registerDocumentRoutes } from './application/document/routes';
+import { registerNoteRoutes } from './application/note/routes';
 import { precacheAndServeAssets } from './infrastructure/cache/precache';
 import { networkScheduler } from './infrastructure/network-scheduler/mod.network-scheduler';
 import { router } from './infrastructure/router/mod.router';
@@ -9,7 +9,7 @@ if (import.meta.env.PROD) {
   precacheAndServeAssets();
 }
 
-registerDocumentRoutes();
+registerNoteRoutes();
 registerAuthRoutes();
 
 _self.addEventListener('install', () => {

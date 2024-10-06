@@ -54,37 +54,37 @@ export const notifications = {
     });
   },
 
-  documentNotCreated() {
+  noteNotCreated() {
     _notifications.show({
       title: 'Failed',
-      message: 'Oops, document is not created.',
+      message: 'Oops, note was not created.',
       color: 'red',
       autoClose: 6000,
     });
   },
 
-  documentNotRemoved() {
+  noteNotRemoved() {
     _notifications.show({
       title: 'Failed',
-      message: 'Oops, document is not removed.',
+      message: 'Oops, note was not removed.',
       color: 'red',
       autoClose: 6000,
     });
   },
 
-  documentNotRenamed() {
+  noteNotRenamed() {
     _notifications.show({
       title: 'Failed',
-      message: 'Oops, document is not renamed.',
+      message: 'Oops, note was not renamed.',
       color: 'red',
       autoClose: 6000,
     });
   },
 
-  documentIsNotDefined() {
+  noteNotFound() {
     _notifications.show({
       title: 'Redirected to Home',
-      message: 'Document is not defined.',
+      message: 'Note was not found...',
       color: 'gray',
       autoClose: 7000,
     });

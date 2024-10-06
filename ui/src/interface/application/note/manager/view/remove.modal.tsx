@@ -1,18 +1,18 @@
 import { Button, FocusTrap, Modal } from '@mantine/core';
 
-import { type Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 
-import { documentManagerModel } from '../model';
+import { notesManagerModel } from '../model';
 
 interface Props {
   opened: boolean;
   onClose: () => void;
-  doc: Document;
+  note: Note;
 }
 
 export const RemoveModal = (props: Props) => {
   const removeEffect = () => {
-    documentManagerModel.remove.run({ id: props.doc.id });
+    notesManagerModel.remove.run({ id: props.note.id });
     props.onClose();
   };
 
@@ -39,7 +39,7 @@ export const RemoveModal = (props: Props) => {
       <FocusTrap.InitialFocus />
 
       <p className="text-lg font-medium text-wrap whitespace-pre-wrap">
-        Are you sure you want to delete '{props.doc.name}'?
+        Are you sure you want to delete '{props.note.name}'?
       </p>
       <p className="text-sm mb-2">This action cannot be undone.</p>
 

@@ -12,7 +12,7 @@ import { authService } from '~/service-worker/services/auth.service';
 
 import { type Tokens } from 'core/src/domain/auth/types';
 
-import { claimDocsToSession } from '../document/claim-to-session';
+import { claimNotesToSession } from '../note/claim-to-session';
 
 async function loginHandler(ev: FetchEvent) {
   const clonedReq = ev.request.clone();
@@ -27,7 +27,7 @@ async function loginHandler(ev: FetchEvent) {
     await authService.updateSession({ user: query.data.user });
 
     await networkScheduler.execute();
-    claimDocsToSession();
+    claimNotesToSession();
 
     return prepareResponse(query.data);
   } else {
@@ -60,7 +60,7 @@ export function registerAuthRoutes() {
 
       if (query.data) {
         await authService.updateSession({ user: query.data.user });
-        await claimDocsToSession();
+        await claimNotesToSession();
 
         return prepareResponse(query.data);
       } else {

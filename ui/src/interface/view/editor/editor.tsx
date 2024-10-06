@@ -1,7 +1,7 @@
 import { EditorContent, type EditorEvents, useEditor } from '@tiptap/react';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect } from 'react';
-import { DocumentSourceModel } from '~/interface/application/document/source/model';
+import { NoteSourceModel } from '~/interface/application/note/source/model';
 import { router } from '~/interface/kernel/router/mod.router';
 import { debounce } from '~/interface/shared/lib/debounce';
 
@@ -10,26 +10,26 @@ import './styles.css';
 import { EditorToolbar } from './toolbar';
 
 interface Props {
-  documentSourceModel: DocumentSourceModel;
+  noteSourceModel: NoteSourceModel;
 }
 
-export const EditorView = observer(({ documentSourceModel }: Props) => {
+export const EditorView = observer(({ noteSourceModel }: Props) => {
   const handleUpdate = useCallback(
     debounce((event: EditorEvents['update']) => {
-      documentSourceModel.updateSource.run(event.editor.getHTML());
+      noteSourceModel.updateSource.run(event.editor.getHTML());
     }, 700),
     []
   );
 
   const editor = useEditor({
-    content: documentSourceModel.source,
+    content: noteSourceModel.source,
     extensions: extensions,
     onUpdate: handleUpdate,
   });
 
   useEffect(() => {
-    editor?.commands.setContent(documentSourceModel.source);
-  }, [documentSourceModel.source]);
+    editor?.commands.setContent(noteSourceModel.source);
+  }, [noteSourceModel.source]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -44,7 +44,7 @@ export const EditorView = observer(({ documentSourceModel }: Props) => {
     };
   }, []);
 
-  if (documentSourceModel.init.meta.status !== 'fulfilled') {
+  if (noteSourceModel.init.meta.status !== 'fulfilled') {
     return null;
   }
 

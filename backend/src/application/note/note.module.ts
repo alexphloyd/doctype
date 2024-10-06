@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { DocumentController } from './document.controller';
+import { NoteController } from './note.controller';
 import { AuthModule } from '../auth/auth.module';
 import { DBService } from '~/infrastructure/db/db.service';
 
 @Module({
   imports: [AuthModule],
-  controllers: [DocumentController],
+  controllers: [NoteController],
   providers: [DBService],
 })
-export class DocumentModule {}
+export class NoteModule {}

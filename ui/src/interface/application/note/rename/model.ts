@@ -2,31 +2,31 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { createEffect } from '~/interface/shared/lib/create-effect';
 import { notifications } from '~/interface/shared/lib/notifications';
 
-import { type Document } from 'core/src/domain/document/types';
+import { type Note } from 'core/src/domain/note/types';
 
-import { documentManagerModel, DocumentManagerModelInterface } from '../manager/model';
+import { notesManagerModel, NoteManagerModelInterface } from '../manager/model';
 import { api } from './api';
 
-export class DocumentRenamingModel {
+export class NoteRenameModel {
   process?: {
-    id: Document['id'];
-    input: Document['name'];
-    initial: Document['name'];
+    id: Note['id'];
+    input: Note['name'];
+    initial: Note['name'];
   };
 
-  constructor(private documentManagerModel: DocumentManagerModelInterface) {
+  constructor(private noteManagerModel: NoteManagerModelInterface) {
     makeAutoObservable(this);
   }
 
-  start(doc: Document) {
+  start(note: Note) {
     this.process = {
-      id: doc.id,
-      initial: doc.name,
-      input: doc.name,
+      id: note.id,
+      initial: note.name,
+      input: note.name,
     };
   }
 
-  update(payload: Pick<Document, 'name'>) {
+  update(payload: Pick<Note, 'name'>) {
     const current = this.process;
     if (current) {
       runInAction(() => {
@@ -48,9 +48,9 @@ export class DocumentRenamingModel {
       });
 
       if (renameQuery.data?.ok) {
-        await this.documentManagerModel.pull.run();
+        await this.noteManagerModel.pull.run();
       } else {
-        notifications.documentNotRenamed();
+        notifications.noteNotRenamed();
       }
     }
 
@@ -60,4 +60,4 @@ export class DocumentRenamingModel {
   });
 }
 
-export const documentRenamingModel = new DocumentRenamingModel(documentManagerModel);
+export const noteRenameModel = new NoteRenameModel(notesManagerModel);

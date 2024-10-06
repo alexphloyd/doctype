@@ -1,18 +1,18 @@
 import { m } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 
-import { documentManagerModel } from '../application/document/manager/model';
-import { DocumentSourceModel } from '../application/document/source/model';
+import { notesManagerModel } from '../application/note/manager/model';
+import { NoteSourceModel } from '../application/note/source/model';
 import { router } from '../kernel/router/mod.router';
 import { notifications } from '../shared/lib/notifications';
 import { EditorView } from '../view/editor/editor';
 
 export const Editor = () => {
-  const { docId } = useParams();
+  const { noteId } = useParams();
 
-  if (!docId?.length) {
+  if (!noteId?.length) {
     router.navigate('/');
-    notifications.documentIsNotDefined();
+    notifications.noteNotFound();
 
     return <></>;
   }
@@ -27,9 +27,7 @@ export const Editor = () => {
       }}
       className="flex w-full px-[1%] lg:px-[2%] items-start justify-center relative min-h-[95vh]"
     >
-      <EditorView
-        documentSourceModel={new DocumentSourceModel({ docId }, documentManagerModel)}
-      />
+      <EditorView noteSourceModel={new NoteSourceModel({ id: noteId }, notesManagerModel)} />
     </m.main>
   );
 };
