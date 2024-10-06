@@ -35,9 +35,9 @@ export const Preview = observer((props: Document) => {
         ref={paperRef}
         withBorder={hovered}
         onClick={openNote}
-        shadow="sm"
+        shadow="xs"
         classNames={{
-          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/30 hover:border-borderLight overflow-hidden px-3 pt-2 py-[6px]',
+          root: 'overflow-hidden min-w-[15.6rem] min-h-[11.5rem] h-[11.5rem] max-w-[15.6rem] max-h-[11.5rem] mb-[7px] cursor-pointer relative border-solid border-[1px] border-borderLight/35 hover:border-borderDark/80 overflow-hidden px-3 pt-2 py-[6px]',
         }}
       >
         <div

@@ -36,7 +36,7 @@ export const DocumentsPool = observer(() => {
   } else {
     return (
       <>
-        <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 w-full gap-y-12 pb-20">
+        <ul className="justify-start align-top items-start grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 w-full gap-y-12 pb-20">
           {pool?.map((doc) => {
             return <Preview key={doc.id} {...doc} />;
           })}
