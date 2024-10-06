@@ -4,7 +4,6 @@ import { NotesPool } from '../application/note/manager/view/pool';
 import { Toolbar } from '../application/note/manager/view/toolbar';
 
 export const Home = () => {
-  console.log('Render: home');
   return (
     <m.main
       initial={{ opacity: 0 }}

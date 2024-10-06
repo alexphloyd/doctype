@@ -13,7 +13,7 @@ export const Search = observer(() => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const notes = notesManagerModel.pool;
-  console.log('Render: search');
+
   const [searchValue, setSearchValue] = useState('');
   const searchParts = searchValue.toLowerCase().split(/[ \-._]+/);
 
