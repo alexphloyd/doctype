@@ -20,11 +20,13 @@ export function createEffect<T = void, E = any>(fn: (args: T) => Promise<E>) {
         });
       });
 
-      await fn(args)
-        .then(() => {
+      return fn(args)
+        .then((result) => {
           runInAction(() => {
             meta.status = 'fulfilled';
           });
+
+          return result;
         })
         .catch((error: Error) => {
           runInAction(() => {
@@ -34,7 +36,7 @@ export function createEffect<T = void, E = any>(fn: (args: T) => Promise<E>) {
             };
           });
         })
-        .finally(() => resolver?.());
+        .finally(() => resolver?.()) as Promise<E>;
     },
   };
 }

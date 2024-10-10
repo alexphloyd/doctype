@@ -1,12 +1,13 @@
-import { Divider, Kbd, Paper } from '@mantine/core';
+import { Divider, Kbd, Paper, Portal } from '@mantine/core';
 import {
   CodeIcon,
   TextIcon,
   HeadingIcon,
   ActivityLogIcon,
   CheckboxIcon,
+  ListBulletIcon,
 } from '@radix-ui/react-icons';
-import { Editor, useCurrentEditor } from '@tiptap/react';
+import { Editor } from '@tiptap/react';
 import { ComponentType, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,39 +17,47 @@ export function EditorToolbar({ editor }: { editor: Editor | null }) {
   }
 
   return (
-    <Paper
-      shadow="sm"
-      className="px-3 py-2 fixed bottom-8 left-[50%] transform -translate-x-[50%] space-x-4 flex items-center justify-center z-50 overflow-hidden"
-    >
-      <Kbd className="h-7">
-        <p className="-mt-[5px] text-[18px]">⌥</p>
-      </Kbd>
-      <Divider variant="solid" orientation="vertical" className="h-[22px] m-auto" />
-      <Button
-        action={() => editor.chain().focus().setHeading({ level: 3 }).run()}
-        isActive={editor.isActive('heading', { level: 3 })}
-        IconSlot={HeadingIcon}
-        shortcutKey="Digit1"
-      />
-      <Button
-        action={() => editor.chain().focus().setParagraph().run()}
-        isActive={editor.isActive('paragraph')}
-        IconSlot={TextIcon}
-        shortcutKey="Digit2"
-      />
-      <Button
-        action={() => editor.chain().focus().toggleCodeBlock().run()}
-        isActive={editor.isActive('codeBlock')}
-        IconSlot={CodeIcon}
-        shortcutKey="Digit3"
-      />
-      <Button
-        action={() => editor.chain().focus().toggleTaskList().run()}
-        isActive={editor.isActive('taskList')}
-        IconSlot={CheckboxIcon}
-        shortcutKey="Digit4"
-      />
-    </Paper>
+    <Portal>
+      <Paper
+        shadow="sm"
+        className="px-3 py-2 fixed bottom-8 left-[50%] transform -translate-x-[50%] space-x-4 flex items-center justify-center z-50 overflow-hidden"
+      >
+        <Kbd className="h-7">
+          <p className="-mt-[5px] text-[18px]">⌥</p>
+        </Kbd>
+        <Divider variant="solid" orientation="vertical" className="h-[22px] m-auto" />
+        <Button
+          action={() => editor.chain().focus().setHeading({ level: 3 }).run()}
+          isActive={editor.isActive('heading', { level: 3 })}
+          IconSlot={HeadingIcon}
+          shortcutKey="Digit1"
+        />
+        <Button
+          action={() => editor.chain().focus().setParagraph().run()}
+          isActive={editor.isActive('paragraph')}
+          IconSlot={TextIcon}
+          shortcutKey="Digit2"
+        />
+        <Button
+          action={() => editor.chain().focus().toggleTaskList().run()}
+          isActive={editor.isActive('taskList')}
+          IconSlot={CheckboxIcon}
+          shortcutKey="Digit3"
+        />
+        <Button
+          action={() => editor.chain().focus().toggleCodeBlock().run()}
+          isActive={editor.isActive('codeBlock')}
+          IconSlot={CodeIcon}
+          shortcutKey="Digit4"
+        />
+        <Button
+          action={() => editor.chain().focus().toggleBulletList().run()}
+          isActive={editor.isActive('bulletList')}
+          IconSlot={ListBulletIcon}
+          shortcutKey="Digit5"
+        />
+      </Paper>
+    </Portal>
   );
 }
 

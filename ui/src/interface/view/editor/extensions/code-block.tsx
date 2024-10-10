@@ -38,7 +38,7 @@ function CodeBlockComponent(props: NodeViewProps) {
               color={copied ? 'teal' : 'gray'}
               variant="transparent"
               onClick={copy}
-              className="absolute top-[4px] right-[4px]"
+              className="absolute top-[4px] right-[5px]"
             >
               {copied ? <CheckIcon /> : <CopyIcon />}
             </ActionIcon>

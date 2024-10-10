@@ -1,14 +1,15 @@
 .tiptap {
+  font-family: 'Roboto';
+
   padding-top: 5px;
   padding-bottom: 30vh;
 
   width: 100%;
+  font-size: 17px;
 
   p {
     font-size: 17px;
   }
-
-  font-family: 'Roboto';
 
   ul[data-type='taskList'] {
     display: flex;
@@ -66,6 +67,36 @@
     }
   }
 
+  ol.orderedList {
+    font-size: 17px;
+
+    list-style: numeric;
+
+    margin-top: 4px;
+    padding-left: 22px;
+
+    li {
+      padding: 0.5px 0;
+    }
+  }
+
+  ul.bulletList {
+    font-size: 17px;
+
+    list-style-type: disc;
+
+    &:nth-child(2) {
+      list-style-type: circle;
+    }
+
+    margin-top: 4px;
+    padding-left: 22px;
+
+    li {
+      padding: 0.5px 0;
+    }
+  }
+
   h1,
   h2,
   h3,
@@ -76,17 +107,17 @@
     text-wrap: pretty;
 
     &:first-child {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
   }
 
   h1 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin-bottom: 12px;
   }
 
   h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin-top: 9px;
     margin-bottom: 7px;
   }
@@ -102,31 +133,28 @@
 
   pre {
     background: linear-gradient(to right, #e0fffa, #e0fffa);
-    border-radius: 4px;
+    border-radius: 8px;
     color: #333;
     font-family: 'JetBrainsMono', monospace;
     margin: 1.4rem 0;
     padding: 0.75rem 1.55rem 0.75rem 1rem;
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.06);
     overflow-x: auto;
     code {
       background: none;
       color: inherit;
-      font-size: 0.8rem;
+      font-size: 0.83rem;
       padding: 0;
     }
   }
 
-  blockquote {
-    border-left: 3px solid var(--gray-3);
-    margin: 1.5rem 0;
-    padding-left: 1rem;
-  }
+  a {
+    color: #007aff;
+    cursor: pointer;
 
-  hr {
-    border: none;
-    border-top: 1px solid var(--gray-2);
-    margin: 2rem 0;
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
   }
 }
 

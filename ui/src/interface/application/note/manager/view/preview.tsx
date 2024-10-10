@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { type MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { preparePreview } from '~/interface/shared/lib/prepate-preview';
+import { preparePreview } from '~/interface/shared/lib/prepare-preview';
 import { Icon } from '~/interface/shared/view/icon';
 
 import { type Note } from 'core/src/domain/note/types';

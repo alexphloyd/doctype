@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { makeAutoObservable, reaction, runInAction } from 'mobx';
+import { serviceWorkerState } from '~/interface/kernel/network/sw-state';
 import { createEffect } from '~/interface/shared/lib/create-effect';
 import { notifications } from '~/interface/shared/lib/notifications';
 import { DEVOPS_DEPLOY_TEMPLATE } from '~/interface/view/editor/templates/devops.template';
@@ -23,6 +24,8 @@ class NotesManagerModel {
   }
 
   init = createEffect(async () => {
+    await serviceWorkerState.activated;
+
     this.pull.run();
     this.lasOpenedNote = localStorage.getItem('last-opened-note');
 
