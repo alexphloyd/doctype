@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { extractAuthTokenFromHeader } from '~/application/auth/lib/extract-token';
+import { getBearerToken } from '~/application/auth/lib/extract-token';
 import {
   CanActivate,
   ExecutionContext,
@@ -24,7 +24,7 @@ export class RoleGuard implements CanActivate {
     if (!roles) return true;
 
     const request = context.switchToHttp().getRequest();
-    const bearer = extractAuthTokenFromHeader(request);
+    const bearer = getBearerToken(request);
 
     if (!bearer) return false;
     try {

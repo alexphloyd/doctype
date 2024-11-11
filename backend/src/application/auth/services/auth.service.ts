@@ -1,8 +1,5 @@
 import { User } from '@prisma/client';
-import {
-  extractAuthTokenFromHeader,
-  extractRefreshTokenFromHeader,
-} from '~/application/auth/lib/extract-token';
+import { getBearerToken } from '~/application/auth/lib/extract-token';
 import { HashService } from '~/application/auth/services/hash.service';
 import { UserRepository } from '~/application/user/services/user.repository';
 import { LoginSchema } from '../dto';
@@ -31,7 +28,7 @@ export class AuthService {
       ),
       refresh: this.jwtService.sign(
         { sub: user.id, role: user.role, email: user.email },
-        { expiresIn: '1d' }
+        { expiresIn: '7d' }
       ),
     };
   }
@@ -183,7 +180,7 @@ export class AuthService {
 
     const { sub, role } = verified_token;
     const access = this.jwtService.sign({ sub, role }, { expiresIn: '7m' });
-    const refresh = this.jwtService.sign({ sub, role }, { expiresIn: '1d' });
+    const refresh = this.jwtService.sign({ sub, role }, { expiresIn: '7d' });
 
     return {
       access,
@@ -192,9 +189,10 @@ export class AuthService {
   }
 
   async checkSession(req: Request) {
-    const bearer = extractAuthTokenFromHeader(req);
-    if (!bearer)
+    const bearer = getBearerToken(req);
+    if (!bearer) {
       throw new HttpException('Invalid token', HttpStatusCode.Locked);
+    }
 
     const { sub } = await this.jwtService.verifyAsync(bearer).catch(() => {
       throw new HttpException('Unauthorized', HttpStatusCode.Unauthorized);
@@ -220,7 +218,7 @@ export class AuthService {
   }
 
   async extractReqSession(req: Request) {
-    const bearer = extractAuthTokenFromHeader(req);
+    const bearer = getBearerToken(req);
     if (!bearer) return null;
 
     const session = await this.jwtService.verifyAsync(bearer).catch(() => {

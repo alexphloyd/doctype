@@ -24,10 +24,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import {
-  extractOAuthTokenFromHeader,
-  extractRefreshTokenFromHeader,
-} from '../lib/extract-token';
+import { getOAuthToken, getRefreshToken } from '../lib/extract-token';
 
 @Controller('auth')
 export class AuthController {
@@ -76,7 +73,7 @@ export class AuthController {
 
   @Get('google-login')
   async googleLogin(@Req() req: Request) {
-    const token = extractOAuthTokenFromHeader(req);
+    const token = getOAuthToken(req);
 
     if (!token?.length) {
       throw new HttpException('Unauthorized', HttpStatusCode.Locked);
@@ -92,7 +89,7 @@ export class AuthController {
 
   @Get('refresh')
   async refresh(@Req() req: Request) {
-    return await this.authService.refresh(extractRefreshTokenFromHeader(req));
+    return await this.authService.refresh(getRefreshToken(req));
   }
 
   @Get('callback/github-app')
