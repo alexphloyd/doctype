@@ -1,4 +1,6 @@
 import { VariantProps, cva } from 'class-variance-authority';
+import { m } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const BaseLoader = ({
@@ -6,7 +8,27 @@ export const BaseLoader = ({
   color,
   className,
 }: VariantProps<typeof styles> & { className?: string }) => {
-  return <div className={twMerge(styles({ size, color }), className)} />;
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShow(true);
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <m.div
+      hidden={!show}
+      className={twMerge(styles({ size, color }), className)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.18,
+        ease: 'easeIn',
+      }}
+    />
+  );
 };
 
 const styles = cva(
@@ -22,10 +44,14 @@ const styles = cva(
         md: ['h-4 w-4 border-[2px]'],
         lg: ['h-7 w-7 border-[2px]'],
       },
+      position: {
+        centered: 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[30vh]',
+      },
     },
     defaultVariants: {
       color: 'blue',
       size: 'md',
+      position: null,
     },
   }
 );

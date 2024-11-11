@@ -51,6 +51,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
+      '~': 'src',
       '.prisma/client/index-browser': '../node_modules/.prisma/client/index-browser.js',
     },
   },

@@ -1,11 +1,16 @@
 import { m } from 'framer-motion';
+import { lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { notesManagerModel } from '../application/note/manager/model';
 import { NoteSourceModel } from '../application/note/source/model';
 import { router } from '../kernel/router/mod.router';
 import { notifications } from '../shared/lib/notifications';
-import { EditorView } from '../view/editor/editor';
+import { BaseLoader } from '../shared/view/loader';
+
+const EditorView = lazy(async () =>
+  import('~/interface/view/editor/mod.editor').then((mod) => ({ default: mod.EditorView }))
+);
 
 export const Editor = () => {
   const { noteId } = useParams();
@@ -27,7 +32,9 @@ export const Editor = () => {
       }}
       className="flex w-full px-[1%] lg:px-[2%] items-start justify-center relative min-h-[95vh]"
     >
-      <EditorView noteSourceModel={new NoteSourceModel({ id: noteId }, notesManagerModel)} />
+      <Suspense fallback={<BaseLoader position="centered" className="-mt-[3vh]" />}>
+        <EditorView noteSourceModel={new NoteSourceModel({ id: noteId }, notesManagerModel)} />
+      </Suspense>
     </m.main>
   );
 };
